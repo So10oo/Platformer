@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4f42a26af24434f8b5bcc20397b5bc, type: 3}
+  m_Name: PhysicsSettings
+  m_EditorClassIdentifier: 
+  _speed: 15
+  _jumpSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.00028421357
+      value: 20.001564
+      inSlope: -16.67001
+      outSlope: -16.67001
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.299863
+      value: 14.998107
+      inSlope: -16.67001
+      outSlope: -16.67001
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _delayedJumpTime: 0.1
+  _timeDelayedPressing: 0.1
+  _dashSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.000061035156
+      value: 49.99713
+      inSlope: -250.1035
+      outSlope: -250.1035
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.19996643
+      value: 0.000091552734
+      inSlope: -250.1035
+      outSlope: -250.1035
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _delayedDash: 0.2
+  _horizontalFlyingSpeed: 12
+  _verticalFlyingSpeed: 13
+  _gravityScaleUp: 5
+  _gravityScaleDown: 8
+  _maxSpeedY: 30
