@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4643096986326949531}
   - component: {fileID: 5863789899693569884}
   - component: {fileID: 2617096196131133832}
-  - component: {fileID: 1271057578220761587}
+  - component: {fileID: 1529605490179709872}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -111,8 +111,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lifeTime: 5
-  _hitCheck: {fileID: 1271057578220761587}
---- !u!114 &1271057578220761587
+  _hitCheck: {fileID: 1529605490179709872}
+--- !u!114 &1529605490179709872
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,9 +121,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1452962178013367923}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96f0642e9030d624fbcc85b65615c857, type: 3}
+  m_Script: {fileID: 11500000, guid: 642ba26f6c0eef94a9e81dbf63316eb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCheckEnter: 1
+  isCheckExit: 0
   Layer:
     serializedVersion: 2
     m_Bits: 192

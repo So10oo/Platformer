@@ -29,18 +29,18 @@ public class FreeFallState : MovementDashPossibleState
         }
 
 
-        if (character.IsGround.Value /*|| Mathf.Abs(rb.velocity.y) <= float.Epsilon*/) 
+        if (character.IsGround /*|| Mathf.Abs(rb.velocity.y) <= float.Epsilon*/) 
         {
             if (Mathf.Abs(rb.velocity.x) <= float.Epsilon)
-                stateMachine.ChangeState(character.states["standing"]);
+                stateMachine.ChangeState(character["standing"]);
             else
-                stateMachine.ChangeState(character.states["moving"]);
+                stateMachine.ChangeState(character["moving"]);
         }
         else
         {
             if (_timeToEnter < physicsSettings.delayedJumpTime && stateMachine.PreviousState is GroundedState && inputService.GetButtonJumpDown()/*Input.GetKeyDown(KeyCode.Space)*/)
             {
-                stateMachine.ChangeState(character.states["jumping"]);
+                stateMachine.ChangeState(character["jumping"]);
                 return;
             }
         }

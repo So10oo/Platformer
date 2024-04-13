@@ -27,17 +27,15 @@ public class DashState : LockableState
     {
         base.LogicUpdate();
         _timeToEnter += Time.deltaTime;
-        if (_timeToEnter >= dashTime/*physicsSettings.dashTime*/)
+        if (_timeToEnter >= dashTime)
         {
-            stateMachine.ChangeState(character.states["freeFall"]);
+            stateMachine.ChangeState(character["freeFall"]);
         }
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        //var currentDashSpeed = direction * Mathf.Lerp(physicsSettings.dashStartSpeed, physicsSettings.dashEndSpeed, _timeToEnter / physicsSettings.dashTime);
-        //rb.velocity = new Vector2(currentDashSpeed, 0);
         var currentDashSpeed = direction * physicsSettings.dashSpeedCurve.Evaluate(_timeToEnter);
         rb.velocity = new Vector2(currentDashSpeed, 0);
 
@@ -55,7 +53,7 @@ public class DashState : LockableState
             timeEnter += Time.deltaTime;
             if (timeEnter > physicsSettings.delayedDash)
                 timeEnd = true;
-            if (character.IsGround.Value)
+            if (character.IsGround)
                 ground = true;
             if (ground && timeEnd)
             {

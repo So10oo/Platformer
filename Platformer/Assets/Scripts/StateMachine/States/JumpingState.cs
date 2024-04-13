@@ -44,13 +44,13 @@ public class JumpingState : MovementDashPossibleState
         }
         else if (rb.velocity.y <= 0)
         {
-            stateMachine.ChangeState(character.states["freeFall"]);
+            stateMachine.ChangeState(character["freeFall"]);
             return;
         }
 
-        if (character.IsCeiling.Value)
+        if (character.IsCeiling)
         {
-            stateMachine.ChangeState(character.states["freeFall"]);
+            stateMachine.ChangeState(character["freeFall"]);
             return;
         }
 

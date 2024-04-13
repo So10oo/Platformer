@@ -9,9 +9,9 @@ public class getDash : Interactive
 
     protected override bool? Interaction()
     {
-        if (character.states["dash"] == null)
+        if (character["dash"] == null)
         {
-            character.states["dash"] = new DashState(character, stateMachine, InputService);//выдаем способность персонажу 
+            character["dash"] = new DashState(character, stateMachine, InputService);//выдаем способность персонажу 
             character.Interaction -= null;//запрещаем интерактировать с этим местом
             View();
         } 
@@ -20,7 +20,7 @@ public class getDash : Interactive
 
     protected override void View()
     {
-        if (IsPlayerInObject.Value && character.states["dash"] == null)
+        if (IsPlayerInObject.Value && character["dash"] == null)
             _mes.text = "Get dash";
         else
             _mes.text = "";

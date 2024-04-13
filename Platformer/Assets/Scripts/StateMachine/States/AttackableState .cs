@@ -6,13 +6,11 @@ public class AttackableState : RotatableState
     {
     }
 
-    //int _attack = Animator.StringToHash("attack");
     public override void HandleInput()
     {
         base.HandleInput();
         if (inputService.GetButtonAttackDown())
         {
-            //animator.SetTrigger(_attack);
             character.Attack();
         }
     }

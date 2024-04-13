@@ -1,32 +1,32 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bullet : ElementPool
 {
     [SerializeField] float _lifeTime;
-    [SerializeField] LayerCheck _hitCheck;
+    [SerializeField] HealthPointCheck _hitCheck;
 
 
-    private void HitCheck(bool value)
+    Damaging dmaging = new Damaging(1);
+
+    private void HitCheck(HealthPoint healthPoint)
     {
-        if (value)
-        {
-            StopCoroutine(_life);
-            this.Destroy();
-        } 
+        StopCoroutine(_life);
+        if (healthPoint != null)
+            healthPoint.Value -= dmaging.Value;
+        this.Destroy();
     }
 
     Coroutine _life;
     void OnEnable()
     {
-        _hitCheck.ValueChandge += HitCheck;
+        _hitCheck.EnterComponent += HitCheck;
         _life = StartCoroutine(Life());
     }
 
     private void OnDisable()
     {
-        _hitCheck.ValueChandge -= HitCheck;
+        _hitCheck.EnterComponent -= HitCheck;
     }
 
     IEnumerator Life()
@@ -35,5 +35,6 @@ public class Bullet : ElementPool
         this.Destroy();
     }
 
-  
+ 
+
 }

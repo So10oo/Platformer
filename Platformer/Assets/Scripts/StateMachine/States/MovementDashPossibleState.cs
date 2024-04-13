@@ -12,7 +12,7 @@ public abstract class MovementDashPossibleState : MovementPossibleState
         base.LogicUpdate();
         if (inputService.GetButtonDashDown())
         {
-            stateMachine.ChangeState(character.states["dash"]);
+            stateMachine.ChangeState(character["dash"]);
             return;
         }
     }

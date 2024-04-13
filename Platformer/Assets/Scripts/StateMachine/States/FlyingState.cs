@@ -33,7 +33,7 @@ public class FlyingState : AttackableState
 
         if (inputService.GetButtonInteraction())
         {
-            stateMachine.ChangeState(character.states["freeFall"]);
+            stateMachine.ChangeState(character["freeFall"]);
             return;
         }
     }

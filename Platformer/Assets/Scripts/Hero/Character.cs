@@ -2,16 +2,23 @@ using System;
 using UnityEngine;
 using Zenject;
 
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour 
 {
     [Header("PhysicsSettings")]
-    public PhysicsSettings physicsSettings;
+    public PlayerSettings playerSettings;
 
     [Header("Obstacle")]
-    public LayerCheck IsCeiling;
-    public LayerCheck IsGround; 
+    [SerializeField] LayerCheck _isCeiling;
+    [SerializeField] LayerCheck _isGround;
+    public bool IsCeiling => _isCeiling.Value;
+    public bool IsGround => _isGround.Value;
 
-    public DictionaryStates states;
+    private DictionaryStates states;
+    public BaseCharacterState this[string key]
+    {
+        get => states[key];
+        set => states[key] = value;
+    }
 
     StateMachineEvents<Character> stateMachine;
     [Inject]
@@ -44,6 +51,7 @@ public class Character : MonoBehaviour
         return null;
     }
 
+    #region MonoBehaviourMetod
     private void Awake()
     {
         stateMachine.WhenAttemptingChangeState += OnChangeLockableState;
@@ -69,6 +77,7 @@ public class Character : MonoBehaviour
     {
         stateMachine.CurrentState.LateUpdate();
     }
+    #endregion
 
     [Header("Weapon")]
     [SerializeField] Weapon _weapon;
@@ -87,7 +96,20 @@ public class Character : MonoBehaviour
     public void Attack()
     {
         _weapon?.Attack();
+
     }
+
+    //HealthPoint _healthPoint = new HealthPoint(1000);
+    //public HealthPoint GetValue()
+    //{
+    //    return _healthPoint;
+    //}
+    
+    //HealthPointView _healthPointView;
+    //private void _healthPoint_OnHealthChange(int pHp, int nHp)
+    //{
+    //    _healthPointView.ViewData(nHp / (float)_healthPoint.MaxValue);
+    //}
 }
 
 

@@ -9,13 +9,13 @@ public abstract class BaseCharacterState : State<Character>
 
     protected IInputService inputService;
     protected Rigidbody2D rb;
-    protected PhysicsSettings physicsSettings;
+    protected PlayerSettings physicsSettings;
 
     public BaseCharacterState(Character character, StateMachine<Character> stateMachine, IInputService inputService) : base(character, stateMachine)
     {
         this.inputService = inputService;
         rb = character.gameObject.GetComponent<Rigidbody2D>();
-        physicsSettings = character.physicsSettings;
+        physicsSettings = character.playerSettings;
     }
 
     public override void LateUpdate()
