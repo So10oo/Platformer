@@ -10,6 +10,7 @@ public class LocationInstaller : MonoInstaller
     public override void InstallBindings()
     {
         Container.Bind<IInputService>().To<Input—omputerService>().FromInstance(new Input—omputerService()).AsSingle();
+
         Container.Bind<StateMachineEvents<Character>>().FromInstance(new StateMachineEvents<Character>()).AsSingle();
 
         Container.Bind<HealthPointView>().FromComponentInNewPrefab(HealthPointView).AsSingle();
@@ -19,8 +20,6 @@ public class LocationInstaller : MonoInstaller
 
         var a = hero.gameObject.GetComponent<HealthPoint>();
         a.OnHealthChange += (p,n) => HealthPointView.ViewData(n / (float)a.MaxValue);
-
-
     }
 
 

@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: PatrollerSettings
   m_EditorClassIdentifier: 
   _rangeVision: 10
-  _speed: 5
+  _patrollingSpeed: 3
   _patrollerRadios: 15
   _detectionMask:
     serializedVersion: 2
     m_Bits: 128
+  _pursuingSpeed: 6
+  _timeFailureStatus: 1
+  _timeDetectingStatue: 0.2

@@ -6,7 +6,6 @@ public class Bullet : ElementPool
     [SerializeField] float _lifeTime;
     [SerializeField] HealthPointCheck _hitCheck;
 
-
     Damaging dmaging = new Damaging(1);
 
     private void HitCheck(HealthPoint healthPoint)
@@ -14,7 +13,7 @@ public class Bullet : ElementPool
         StopCoroutine(_life);
         if (healthPoint != null)
             healthPoint.Value -= dmaging.Value;
-        this.Destroy();
+        this.Release();
     }
 
     Coroutine _life;
@@ -32,7 +31,7 @@ public class Bullet : ElementPool
     IEnumerator Life()
     {
         yield return new WaitForSeconds(_lifeTime);
-        this.Destroy();
+        this.Release();
     }
 
  

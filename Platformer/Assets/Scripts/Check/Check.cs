@@ -24,13 +24,9 @@ public abstract class Check : MonoBehaviour
         }
     }
 
-    public bool isCheckEnter = true;
-    public bool isCheckExit = true;
 
     protected virtual void EnterHundler(Collider2D collision)
     {
-        if (!isCheckEnter)
-            return;
 
         if (CheckObject(collision))
             Value = true;
@@ -38,9 +34,6 @@ public abstract class Check : MonoBehaviour
 
     protected virtual void ExitHundler(Collider2D collision)
     {
-        if (!isCheckExit)
-            return;
-
         if (CheckObject(collision))
             Value = CheckAllObject();
     }

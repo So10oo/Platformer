@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -30,16 +29,9 @@ public class Cannon : MonoBehaviour
     private void PlayerInZoneValueChange(bool obj)
     {
         if (obj)
-        {
-
-            //StartCoroutine(Tracking());
             StartCoroutine(Shooting—ycle());
-        }
         else
-        {
-
             StopAllCoroutines();
-        }
     }
 
     WaitForSeconds _timeShooting—ycleTime;
@@ -69,7 +61,7 @@ public class Cannon : MonoBehaviour
             var vx = (_target.position.x + targetVelocityX * t - transform.position.x) / t;
             var vy = (_target.position.y + targetVelocityY * t - transform.position.y - gravity * t * t / 2f) / t;
 
-            var bullet = _pool.Instantiate(transform.position);
+            var bullet = _pool.Get(transform.position);
 
             var bulletRigidbody = bullet.gameObject.GetComponent<Rigidbody2D>();
             bulletRigidbody.velocity = new Vector2(vx, vy);
@@ -82,22 +74,4 @@ public class Cannon : MonoBehaviour
     {
         _timeShooting—ycleTime = new WaitForSeconds(time);
     }
-
-
-    //float[] _velocityMarks = new float[30];
-    //IEnumerator Tracking()
-    //{
-    //    var waitForSeconds = new WaitForSeconds(0.01f);
-    //    int i = 0;
-    //    while (true)
-    //    {
-    //        _velocityMarks[i++] = _targetRigidbody.velocity.x;
-    //        if (i == _velocityMarks.Length)
-    //            i = 0;
-    //        yield return waitForSeconds;
-    //    }
-    //}
-
-
-     
 }

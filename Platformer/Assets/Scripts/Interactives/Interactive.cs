@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-public abstract class Interactive : MonoBehaviour
+public abstract class Interactive : MonoBehaviour, IActionCharacter
 {
     protected LayerCheck IsPlayerInObject;
 
@@ -31,16 +31,19 @@ public abstract class Interactive : MonoBehaviour
     {
         if (obj)
         {
-            character.Interaction += Interaction;
+            character.action = this;
         }
         else
         {
-            character.Interaction -= Interaction;
+            character.action = null;
         }
         View();
     }
 
-    protected abstract bool? Interaction();
+    //protected abstract void Interaction();
     protected abstract void View();
+
+
+    public abstract void Interaction();
 }
 

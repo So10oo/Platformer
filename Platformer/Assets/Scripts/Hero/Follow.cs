@@ -21,12 +21,6 @@ public class Follow : MonoBehaviour
 
     void LateUpdate()
     {
-        //var normalized = (Vector3)rb.velocity.normalized * 5;
-        //var follow = objectToFollow.transform.position;
-        //var a = normalized + follow;
-        //transform.position = Vector3.Lerp(transform.position, a, rb.velocity.magnitude * Time.deltaTime);
-
-
         float interpolation = speed * Time.deltaTime;
         Vector3 position = this.transform.position;
         var follow = objectToFollow.transform.position + new Vector3(offsetX, offsetY);

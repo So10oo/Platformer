@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class Wings : Interactive
+public class Wings : Interactive 
 {
     [SerializeField] TextMeshPro _mes;
 
@@ -31,26 +31,26 @@ public class Wings : Interactive
         if (value)
         {
             stateMachine.OnChangeState += StateMachine_OnChangeState;
-            character.Interaction += Interaction;
+            character.action = this;
         }
         else
         {
-            character.Interaction -= Interaction;
+            character.action = null;
             stateMachine.OnChangeState -= StateMachine_OnChangeState;
         }
         View();
     }
 
     FlyingState flying;
-    protected override bool? Interaction()
+    public override void Interaction()
     {
         if (!flying.isActiveState)
         {
             stateMachine.ChangeState(flying);
             View();
-            return true;
+            //return true;
         }
-        return false;
+        //return false;
     }
 
 

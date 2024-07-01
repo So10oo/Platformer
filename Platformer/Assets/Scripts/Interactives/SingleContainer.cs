@@ -6,12 +6,12 @@ public class SingleContainer : Interactive
     [SerializeField] GameObject Object;
     [SerializeField] TextMeshPro _mes;
 
-    protected override bool? Interaction()
+    public override void Interaction()
     {
         var _Object = Instantiate(Object);
         character.GetWeapon(_Object.GetComponent<Weapon>());
         Object = null;
-        return false;
+       // return false;
     }
 
     protected override void IsPlayerInObjectValueChandge(bool obj)

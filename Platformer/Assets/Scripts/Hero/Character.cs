@@ -13,35 +13,22 @@ public class Character : MonoBehaviour
     public bool IsCeiling => _isCeiling.Value;
     public bool IsGround => _isGround.Value;
 
-    private DictionaryStates states;
+    StateMachineEvents<Character> stateMachine;
+    DictionaryStates states;
     public BaseCharacterState this[string key]
     {
         get => states[key];
         set => states[key] = value;
     }
 
-    StateMachineEvents<Character> stateMachine;
+    public IActionCharacter action;
+
     [Inject]
     void Construct(IInputService _inputService, StateMachineEvents<Character> _stateMachine)
     {
         stateMachine = _stateMachine;
         states = new DictionaryStates(this, _inputService, stateMachine);
     }
-
-    Func<bool?> _interaction;
-    public event Func<bool?> Interaction
-    {
-        add
-        {
-            _interaction = value;
-        }
-        remove
-        {
-            _interaction = null;
-        }
-    }
-    public bool InteractionInvoke() => _interaction?.Invoke() ?? false;
-
     private bool? OnChangeLockableState(State<Character> previousState, State<Character> newState)
     {
         if (newState is LockableState lockableState)
@@ -96,20 +83,7 @@ public class Character : MonoBehaviour
     public void Attack()
     {
         _weapon?.Attack();
-
     }
-
-    //HealthPoint _healthPoint = new HealthPoint(1000);
-    //public HealthPoint GetValue()
-    //{
-    //    return _healthPoint;
-    //}
-    
-    //HealthPointView _healthPointView;
-    //private void _healthPoint_OnHealthChange(int pHp, int nHp)
-    //{
-    //    _healthPointView.ViewData(nHp / (float)_healthPoint.MaxValue);
-    //}
 }
 
 

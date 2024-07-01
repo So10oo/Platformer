@@ -1,4 +1,4 @@
-﻿public class HealthPointCheck : ComponentAndLayerCheck<HealthPoint>
+﻿public class HealthPointCheck : ComponentCheck<HealthPoint>
 {
 }
 

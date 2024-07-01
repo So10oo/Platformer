@@ -1,27 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BranchesTreeState">
-    <expand>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-    </expand>
-    <select>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-    </select>
+    <expand />
+    <select />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3aa6eea9-bf58-42be-a4d6-b31dc30ae32a" name="Default Changelist" comment="" />
@@ -33,10 +14,27 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3B24CC7F-A979-4ED8-AB04-312C53E6DEDD/3e/cdab6a98/Transform.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/96B8A6AF-C003-4A04-8A05-DDA6AEEDE1D8/2c/365d3ddc/Animator.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/821134A1-C0A8-4EDF-890C-4251460C2399/23/e182989a/Physics2D.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/HealthPoint.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Settings/PatrollerSettings.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Enemy/Patroller/States/BasePatrollingState.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Views/CharacterView/RotateView.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Hero/AnimationInitialize.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Enemy/Patroller/States/PatrollingStatus.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Check/Check.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Check/ComponentAndLayerCheck.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Check/ComponentCheck.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Check/PlayerCheck.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Enemy/Patroller/States/MovePatrollerStatus.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Enemy/Patroller/States/PursuingStatus.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Enemy/Patroller/Patroller.cs" />
       </list>
     </option>
   </component>
@@ -49,7 +47,13 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -63,6 +67,11 @@
       <workItem from="1713023943495" duration="1240000" />
       <workItem from="1713026204951" duration="221000" />
       <workItem from="1713026529714" duration="83000" />
+      <workItem from="1713026712955" duration="7000" />
+      <workItem from="1713078107545" duration="6348000" />
+      <workItem from="1713111870963" duration="1354000" />
+      <workItem from="1713374516833" duration="2046000" />
+      <workItem from="1713708121345" duration="1225000" />
     </task>
     <servers />
   </component>
@@ -85,18 +94,19 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="436" y="245" key="SettingsEditor" timestamp="1713026263012">
+    <state x="349" y="59" width="1209" height="864" key="SettingsEditor" timestamp="1713083191211">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="436" y="245" key="SettingsEditor/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1713026263012" />
-    <state x="623" y="239" key="search.everywhere.popup" timestamp="1713024979066">
+    <state x="349" y="59" width="1209" height="864" key="SettingsEditor/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1713083191211" />
+    <state x="623" y="239" width="672" height="678" key="search.everywhere.popup" timestamp="1713084285251">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="239" key="search.everywhere.popup/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1713024979066" />
+    <state x="623" y="239" width="672" height="678" key="search.everywhere.popup/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1713084285251" />
   </component>
 </project>

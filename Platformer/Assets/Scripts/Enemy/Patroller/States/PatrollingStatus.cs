@@ -1,58 +1,50 @@
-﻿using System.Collections;
-using Unity.VisualScripting;
-using UnityEngine; 
+﻿using UnityEngine;
 
-public class PatrollingStatus : BasePatrollingState
+public class PatrollingStatus : AttackedStatus
 {
-    public PatrollingStatus(Patroller patroller, StateMachine<Patroller> stateMachine, PatrollerSettings patrollerSettings) : base(patroller, stateMachine, patrollerSettings)
-    {
-    }
+    bool _isLeftDirectionMovement;
 
-    Coroutine _takeLook;
+    public PatrollingStatus(Patroller patroller, StateMachine<Patroller> stateMachine, PatrollerSettings patrollerSettings,RotateView rotateView) : base(patroller, stateMachine, patrollerSettings, rotateView)
+    {
+         
+    }
 
     public override void Enter()
     {
         base.Enter();
-        _takeLook = character.StartCoroutine(TakeLook());
+        character.Eyes.isVisibleChange += VisibleChange;
+        character.Eyes.SetViewingDate(5, Mathf.PI / 4);
+        _isLeftDirectionMovement = character.transform.localScale.x < 0 ? true : false;
+
+        character.speechWindow.text = "и где же он...";
     }
-     
-    public override void Exit() 
+
+    public override void Exit()
     {
         base.Exit();
-        character.StopCoroutine(_takeLook);
+        character.Eyes.isVisibleChange -= VisibleChange;
     }
 
-    IEnumerator TakeLook()
+    void VisibleChange(bool b)
     {
-        var time = new WaitForSeconds(0.1f);
-        while (true)
+        if (b)
         {
-            Debug.DrawRay(character.gameObject.transform.position, character.gameObject.transform.TransformDirection(Vector3.up) * 30f, Color.yellow , 0.1f);
-            //Debug.DrawRay(character.gameObject.transform.position, character.gameObject.transform Vector3.forward * patrollerSettings.rangeVision, Color.yellow, 0.1f );
-            //if (Physics2D.Raycast(character.gameObject.transform.position, Vector3.forward, patrollerSettings.rangeVision, patrollerSettings.detectionMask) is RaycastHit2D hit) 
-            //{
-            //    Debug.Log(hit);
-            //}
-            yield return time;
-        } 
+            stateMachine.ChangeState(character.detectingStatue);
+        }
     }
 
-    bool _isLeft;
-
-    public override void LogicUpdate()
+    public override void FixedUpdate()
     {
         base.LogicUpdate();
+        if (!character.GroundArea.Value)
+            _isLeftDirectionMovement = !_isLeftDirectionMovement;
 
-        Vector2 targetpos;
-        if (_isLeft)
-            targetpos = new Vector2(character.SpawnPoint.x - patrollerSettings.patrollerRadios, character.SpawnPoint.y);
-        else
-            targetpos = new Vector2(character.SpawnPoint.x + patrollerSettings.patrollerRadios, character.SpawnPoint.y);
-
-        character.transform.position = Vector3.MoveTowards(character.transform.position, targetpos, patrollerSettings.speed * Time.deltaTime);
-        if (targetpos == (Vector2)character.transform.position)
-            _isLeft = !_isLeft;
-        
+        float dir = _isLeftDirectionMovement ? -1 : 1;
+        var x = character.transform.position.x + dir * patrollerSettings.patrollingSpeed * Time.deltaTime;
+        SetX(x);
     }
+
+
 }
 
+ 

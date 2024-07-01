@@ -1310,9 +1310,10 @@
         <e p="Scripts" t="Include">
           <e p="Check" t="Include">
             <e p="Check.cs" t="Include" />
-            <e p="ComponentAndLayerCheck.cs" t="Include" />
+            <e p="ComponentCheck.cs" t="Include" />
             <e p="HealthPointCheck.cs" t="Include" />
             <e p="LayerCheck.cs" t="Include" />
+            <e p="PlayerCheck.cs" t="Include" />
           </e>
           <e p="Damaging.cs" t="Include" />
           <e p="Enemy" t="Include">
@@ -1322,6 +1323,7 @@
               <e p="States" t="Include">
                 <e p="AttackStatus.cs" t="Include" />
                 <e p="BasePatrollingState.cs" t="Include" />
+                <e p="MovePatrollerStatus.cs" t="Include" />
                 <e p="PatrollingStatus.cs" t="Include" />
                 <e p="PursuingStatus.cs" t="Include" />
               </e>

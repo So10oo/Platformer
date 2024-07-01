@@ -11,11 +11,19 @@ public class AnimationInitialize : MonoBehaviour
 
     private void Awake()
     {
-        var anim = gameObject.GetComponent<Animator>();
+        var anim = gameObject.GetComponent<Animator>();//Animator.SetTrigger
         chatacter["standing"].OnEnter += () => anim.SetTrigger(_idle);
+        chatacter["standing"].OnExit += () => anim.ResetTrigger(_idle);
+        
         chatacter["jumping"].OnEnter += () => anim.SetTrigger(_isJump);
+        chatacter["jumping"].OnExit += () => anim.ResetTrigger(_isJump);
+        
         chatacter["freeFall"].OnEnter += () => anim.SetTrigger(_isfall);
+        chatacter["freeFall"].OnExit += () => anim.ResetTrigger(_isfall);
+        
         chatacter["moving"].OnEnter += () => anim.SetTrigger(_run);
+        chatacter["moving"].OnExit += () => anim.ResetTrigger(_run);
+        
     }
 }
 
