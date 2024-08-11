@@ -1,4 +1,5 @@
-﻿public interface IActionCharacter
+﻿
+public interface IActionCharacter
 {
     public void Interaction();
 }

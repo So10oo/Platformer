@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class DashState : LockableState
 {
+    RotateView rotateView;
     float gravityScale;
     float _timeToEnter;
     float direction;
     float dashTime;
 
-    public DashState(Character character, StateMachine<Character> stateMachine, IInputService inputService) : base(character, stateMachine, inputService)
+    public DashState(Character character, StateMachine<Character> stateMachine, InputService inputService) : base(character, stateMachine, inputService)
     {
+        rotateView = character.rotateView;
     }
 
     public override void Enter()
@@ -19,8 +21,9 @@ public class DashState : LockableState
         gravityScale = rb.gravityScale;
         rb.gravityScale = 0;
         _timeToEnter = 0;
-        direction = character.gameObject.transform.localScale.x;
-        dashTime = physicsSettings.dashSpeedCurve.keys.Last().time;
+        rb.SetVelocityY(0);
+        direction = rotateView.GetRotate();//character.gameObject.transform.localScale.x;
+        dashTime = settings.dashSpeedCurve.keys.Last().time;
     }
 
     public override void LogicUpdate()
@@ -29,16 +32,15 @@ public class DashState : LockableState
         _timeToEnter += Time.deltaTime;
         if (_timeToEnter >= dashTime)
         {
-            stateMachine.ChangeState(character["freeFall"]);
+            ChangeState(character["freeFall"]);
         }
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        var currentDashSpeed = direction * physicsSettings.dashSpeedCurve.Evaluate(_timeToEnter);
-        rb.velocity = new Vector2(currentDashSpeed, 0);
-
+        var currentDashSpeed = direction * settings.dashSpeedCurve.Evaluate(_timeToEnter);
+        rb.SetVelocityX(currentDashSpeed);
     }
 
     IEnumerator CoolDownDash()
@@ -51,9 +53,9 @@ public class DashState : LockableState
         {
             yield return null; 
             timeEnter += Time.deltaTime;
-            if (timeEnter > physicsSettings.delayedDash)
+            if (timeEnter > settings.delayedDash)
                 timeEnd = true;
-            if (character.IsGround)
+            if (character.isGround)
                 ground = true;
             if (ground && timeEnd)
             {

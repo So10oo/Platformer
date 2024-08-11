@@ -1,8 +1,7 @@
-using System;
 using UnityEngine;
 using Zenject;
 
-public class Character : MonoBehaviour 
+public class Character : MonoBehaviour
 {
     [Header("PhysicsSettings")]
     public PlayerSettings playerSettings;
@@ -10,11 +9,18 @@ public class Character : MonoBehaviour
     [Header("Obstacle")]
     [SerializeField] LayerCheck _isCeiling;
     [SerializeField] LayerCheck _isGround;
-    public bool IsCeiling => _isCeiling.Value;
-    public bool IsGround => _isGround.Value;
+
+    [Header("Animator")]
+    [SerializeField] Animator _animator;
 
     StateMachineEvents<Character> stateMachine;
     DictionaryStates states;
+    InputService inputService;
+
+    public RotateView rotateView; 
+    public bool isCeiling => _isCeiling.Value;
+    public bool isGround => _isGround.Value;
+    public Animator animator => _animator;
     public BaseCharacterState this[string key]
     {
         get => states[key];
@@ -24,17 +30,18 @@ public class Character : MonoBehaviour
     public IActionCharacter action;
 
     [Inject]
-    void Construct(IInputService _inputService, StateMachineEvents<Character> _stateMachine)
+    void Construct(InputService _inputService, StateMachineEvents<Character> _stateMachine)
     {
         stateMachine = _stateMachine;
+        rotateView = new RotateView(_animator.transform, RotateView.RotateMode.Z);
         states = new DictionaryStates(this, _inputService, stateMachine);
+        inputService = _inputService;
     }
+
     private bool? OnChangeLockableState(State<Character> previousState, State<Character> newState)
     {
         if (newState is LockableState lockableState)
-        {
             return lockableState.LockState;
-        }
         return null;
     }
 
@@ -42,6 +49,10 @@ public class Character : MonoBehaviour
     private void Awake()
     {
         stateMachine.WhenAttemptingChangeState += OnChangeLockableState;
+        //GetComponent<HealthPoint>().OnDeath += () => gameObject.SetActive(false);
+        r = GetComponent<Rigidbody2D>();
+
+        _isGround.ValueChandge += (b) => _animator.SetBool("IsGrounded", b);
     }
 
     void Start()
@@ -64,8 +75,19 @@ public class Character : MonoBehaviour
     {
         stateMachine.CurrentState.LateUpdate();
     }
+
+    private void OnEnable()
+    {
+        inputService.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputService.Disable();
+    }
     #endregion
 
+    #region Weapon
     [Header("Weapon")]
     [SerializeField] Weapon _weapon;
     [SerializeField] Transform _transformWeapon;
@@ -84,6 +106,18 @@ public class Character : MonoBehaviour
     {
         _weapon?.Attack();
     }
+    #endregion
+
+    #region OnGUI
+    Rigidbody2D r;
+    void OnGUI()
+    {
+        // Make a background box
+        GUI.Box(new Rect(10, 10, 200, 20), $"State : {stateMachine.CurrentState}");
+        GUI.Box(new Rect(10, 30, 200, 20), $"Speed : {r.velocity}");
+        GUI.Box(new Rect(10, 50, 200, 20), $"input : {inputService.GamePlay.Move.ReadValue<Vector2>().x}");
+    }
+    #endregion
 }
 
 

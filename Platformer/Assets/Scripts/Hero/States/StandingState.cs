@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class StandingState : GroundedState
 {
-    public StandingState(Character character, StateMachine<Character> stateMachine, IInputService inputService) : base(character, stateMachine, inputService)
+    public StandingState(Character character, StateMachine<Character> stateMachine, InputService inputService) : base(character, stateMachine, inputService)
     {
     }
 

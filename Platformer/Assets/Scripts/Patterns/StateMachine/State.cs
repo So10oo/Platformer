@@ -39,4 +39,10 @@ public abstract class State<TypeCharacter>
     }
 
     public bool isActiveState => this == stateMachine.CurrentState;
+
+    public void ChangeState(State<TypeCharacter> newState)
+    {
+        if (isActiveState)
+            stateMachine.ChangeState(newState);
+    }
 }

@@ -5,22 +5,21 @@ public abstract class BaseCharacterState : State<Character>
 {
     public event Action OnEnter;
     public event Action OnExit;
-    public event Action OnLogicUpdate;
 
-    protected IInputService inputService;
+    protected InputService inputService;
     protected Rigidbody2D rb;
-    protected PlayerSettings physicsSettings;
+    protected PlayerSettings settings;
 
-    public BaseCharacterState(Character character, StateMachine<Character> stateMachine, IInputService inputService) : base(character, stateMachine)
+
+    public BaseCharacterState(Character character, StateMachine<Character> stateMachine, InputService inputService) : base(character, stateMachine)
     {
         this.inputService = inputService;
-        rb = character.gameObject.GetComponent<Rigidbody2D>();
-        physicsSettings = character.playerSettings;
+        rb = character.GetComponent<Rigidbody2D>();
+        settings = character.playerSettings;
     }
 
     public override void LateUpdate()
     {
-        OnLogicUpdate?.Invoke();
         base.LateUpdate();
     }
 

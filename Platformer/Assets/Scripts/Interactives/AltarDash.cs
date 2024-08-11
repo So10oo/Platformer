@@ -5,13 +5,11 @@ public class AltarDash : Interactive
 {
     [SerializeField] TextMeshPro _mes;
 
-    [SerializeField] View<bool> view;
-
     public override void Interaction()
     {
         if (character["dash"] == null)
         {
-            character["dash"] = new DashState(character, stateMachine, InputService);//выдаем способность персонажу 
+            character["dash"] = new DashState(character, stateMachine, inputService);//выдаем способность персонажу 
             character.action = null;//запрещаем интерактировать с этим местом
             View();
         } 

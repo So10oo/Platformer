@@ -3,69 +3,32 @@ using UnityEngine;
 
 public class JumpingState : MovementDashPossibleState
 {
-    float buttonPressedTime;
-    float jumpTime;
-    bool jumping;
+    bool jumpKey;
 
-
-    public JumpingState(Character character, StateMachine<Character> stateMachine, IInputService inputService) : base(character, stateMachine, inputService)
+    public JumpingState(Character character, StateMachine<Character> stateMachine, InputService inputService) : base(character, stateMachine, inputService)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        jumpTime = 0;
-        jumping = true;
-        buttonPressedTime = physicsSettings.jumpSpeedCurve.keys.Last().time;
+        rb.SetVelocityY(0);
+        rb.AddForce(Vector2.up * settings.forceJump, ForceMode2D.Impulse);
     }
 
     public override void HandleInput()
     {
         base.HandleInput();
-
-        if (!inputService.GetButtonJump())
-        {
-            jumping = false;
-        }
-
+        jumpKey = inputService.GamePlay.Jump.IsPressed();
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (jumpTime > buttonPressedTime)
-        {
-            jumping = false;
-        }
-        if (jumping)
-        {
-            jumpTime += Time.deltaTime;
-        }
-        else if (rb.velocity.y <= 0)
-        {
+        if (rb.velocity.y <= 0)
+            ChangeState(character["freeFall"]);//баг возникает при нажатии деша в данном состоянии
+        else if (character.isCeiling)
             stateMachine.ChangeState(character["freeFall"]);
-            return;
-        }
-
-        if (character.IsCeiling)
-        {
-            stateMachine.ChangeState(character["freeFall"]);
-            return;
-        }
-
     }
-
-    public override void FixedUpdate()
-    {
-        base.FixedUpdate();
-        if (jumping)
-        {
-            var currentJumpSpeed = physicsSettings.jumpSpeedCurve.Evaluate(jumpTime);
-            rb.velocity = new Vector2(rb.velocity.x, currentJumpSpeed);
-        }
-    }
-
-
 
 }

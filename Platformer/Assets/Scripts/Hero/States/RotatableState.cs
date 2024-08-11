@@ -5,9 +5,9 @@ public abstract class RotatableState : BaseCharacterState
     protected float horizontalInput;
     private RotateView rotateView;
 
-    public RotatableState(Character character, StateMachine<Character> stateMachine, IInputService inputService) : base(character, stateMachine, inputService)
+    public RotatableState(Character character, StateMachine<Character> stateMachine, InputService inputService) : base(character, stateMachine, inputService)
     {
-        rotateView = new RotateView(character.transform);
+        rotateView = character.rotateView;
     }
 
     public override void LogicUpdate()

@@ -4,16 +4,29 @@ using UnityEngine;
 public class PlayerSettings : ScriptableObject
 {
     [Header("Move")]
-    [SerializeField] float _speed = 15f;
-    public float speed => _speed;
+
+    [SerializeField] float _maxSpeedX = 15f;
+    [SerializeField] float _reverseAcceleration = 50f;
+    [SerializeField] float _directAcceleration = 1f;
+    public float maxSpeedX => _maxSpeedX;
+    public float reverseAcceleration => _reverseAcceleration;
+    public float directAcceleration => _directAcceleration;
+
+
 
     [Header("Jump")]
-    [SerializeField] AnimationCurve _jumpSpeedCurve;
+
+    [SerializeField] float _forceJump = 30;
+    [SerializeField] float _timeDelayedPressin = 0.1f;
+
     [SerializeField] float _delayedJumpTime = 0.12f;
-    [SerializeField] float _timeDelayedPressing = 0.1f;
-    public AnimationCurve jumpSpeedCurve => _jumpSpeedCurve;
-    public float delayedJumpTime => _delayedJumpTime;//врем€ при котором если персонаж начал падать(freeFall состо€ние) можно еще сделать прыжок
-    public float timeDelayedPressin => _timeDelayedPressing;//врем€ при котором можно отложенно прыгать(после состо€ни€ freeFall) 
+
+
+    public float forceJump => _forceJump;
+    public float timeDelayedPressin => _timeDelayedPressin;
+    public float delayedJumpTime => _delayedJumpTime;
+
+
 
     [Header("Dash")]
     [SerializeField] AnimationCurve _dashSpeedCurve;

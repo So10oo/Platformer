@@ -10,7 +10,7 @@ public class WeaponSlot : MonoBehaviour
     {
         if (_weapon != null)
             Destroy(_weapon.gameObject);
-        var w = Instantiate(weapon, transform, true);
+        var w = Instantiate(weapon, transform, false);
         _weapon = w;
     }
 

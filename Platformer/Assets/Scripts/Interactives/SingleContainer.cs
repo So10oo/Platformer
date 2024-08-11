@@ -14,9 +14,9 @@ public class SingleContainer : Interactive
        // return false;
     }
 
-    protected override void IsPlayerInObjectValueChandge(bool obj)
+    protected override void IsPlayerInObjectValueChange(bool obj)
     {
-        base.IsPlayerInObjectValueChandge(obj);
+        base.IsPlayerInObjectValueChange(obj);
     }
 
     protected override void View()

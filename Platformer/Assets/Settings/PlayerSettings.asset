@@ -12,33 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a27538756f7a64dac58e1d845d532e, type: 3}
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
-  _speed: 15
-  _jumpSpeedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 14.985901
-      inSlope: 99.58931
-      outSlope: 99.58931
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.10068239
-      value: 25.01279
-      inSlope: 99.58931
-      outSlope: 99.58931
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _delayedJumpTime: 0.12
-  _timeDelayedPressing: 0.1
+  _maxSpeedX: 12
+  _reverseAcceleration: 150
+  _directAcceleration: 1
+  _forceJump: 30
+  _timeDelayedPressin: 0.1
+  _delayedJumpTime: 0.13
   _dashSpeedCurve:
     serializedVersion: 2
     m_Curve:

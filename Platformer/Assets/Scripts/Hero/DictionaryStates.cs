@@ -3,7 +3,7 @@
 public class DictionaryStates : Dictionary<string, BaseCharacterState>
 {
     Character _character;
-    IInputService _inputService;
+    InputService _inputService;
     StateMachine<Character> _stateMachine;
 
     public new BaseCharacterState this[string key]
@@ -16,7 +16,7 @@ public class DictionaryStates : Dictionary<string, BaseCharacterState>
         set { base[key] = value; }
     }
 
-    public DictionaryStates(Character character, IInputService inputService, StateMachine<Character> stateMachine)
+    public DictionaryStates(Character character, InputService inputService, StateMachine<Character> stateMachine)
     {
         _inputService = inputService;
         _stateMachine = stateMachine;

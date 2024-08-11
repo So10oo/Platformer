@@ -5,7 +5,7 @@ public class FlyingState : AttackableState
     protected float verticalInput;
     float gravityScale;
 
-    public FlyingState(Character character, StateMachine<Character> stateMachine, IInputService inputService) : base(character, stateMachine, inputService)
+    public FlyingState(Character character, StateMachine<Character> stateMachine, InputService inputService) : base(character, stateMachine, inputService)
     {
     }
 
@@ -15,8 +15,8 @@ public class FlyingState : AttackableState
         gravityScale = rb.gravityScale;
         rb.gravityScale = 0;
 
-        horizontalInput = rb.velocity.x / physicsSettings.horizontalFlyingSpeed;
-        horizontalInput = rb.velocity.y / physicsSettings.verticalFlyingSpeed;
+        horizontalInput = rb.velocity.x / settings.horizontalFlyingSpeed;
+        horizontalInput = rb.velocity.y / settings.verticalFlyingSpeed;
     }
 
     public override void Exit()
@@ -28,10 +28,11 @@ public class FlyingState : AttackableState
     public override void HandleInput()
     {
         base.HandleInput();
-        verticalInput = inputService.GetVerticalMove();
-        horizontalInput = inputService.GetHorizontalMove();
+        var move = inputService.GamePlay.Move.ReadValue<Vector2>();
+        verticalInput = move.x;
+        horizontalInput = move.y;
 
-        if (inputService.GetButtonInteraction())
+        if (inputService.GamePlay.Interactive.IsPressed())
         {
             stateMachine.ChangeState(character["freeFall"]);
             return;
@@ -41,10 +42,10 @@ public class FlyingState : AttackableState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        var velocity = rb.velocity;
-        velocity.y = verticalInput * physicsSettings.verticalFlyingSpeed;
-        velocity.x = horizontalInput * physicsSettings.horizontalFlyingSpeed;
-        rb.velocity = velocity;
+        //var velocity = rb.velocity;
+        //velocity.y = verticalInput * physicsSettings.verticalFlyingSpeed;
+        //velocity.x = horizontalInput * physicsSettings.horizontalFlyingSpeed;
+        //rb.velocity = velocity;
     }
 }
 

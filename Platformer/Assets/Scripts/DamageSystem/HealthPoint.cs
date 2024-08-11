@@ -3,17 +3,23 @@ using UnityEngine;
 
 public class HealthPoint : MonoBehaviour
 {
+    [SerializeField] int _maxValue;
+
     public event Action OnDeath;
     public event Action<int, int> OnHealthChange;
-
-    [SerializeField] int _maxValue;
 
     bool _isDead;
     int _value;
 
     private void Start()
     {
+        ResetHealthPoint();
+    }
+
+    public void ResetHealthPoint()
+    {
         _value = _maxValue;
+        _isDead = false;
     }
 
     public int MaxValue => _maxValue;

@@ -7,27 +7,28 @@ public abstract class Interactive : MonoBehaviour, IActionCharacter
 
     protected Character character;
     protected StateMachineEvents<Character> stateMachine;
-    protected IInputService InputService;
+    protected InputService inputService;
+
     [Inject]
-    void Construct(Character _character, IInputService inputService, StateMachineEvents<Character> _stateMachine)
+    void Construct(Character character, InputService inputService, StateMachineEvents<Character> stateMachine)
     {
-        character = _character;
-        InputService = inputService;
-        stateMachine = _stateMachine;
+        this.character = character;
+        this.inputService = inputService;
+        this.stateMachine = stateMachine;
     }
 
-    protected virtual void StartMonoBehaviour()
+    protected virtual void StartMonoBehavior()
     {
         IsPlayerInObject = GetComponent<LayerCheck>();
-        IsPlayerInObject.ValueChandge += IsPlayerInObjectValueChandge;
+        IsPlayerInObject.ValueChandge += IsPlayerInObjectValueChange;
     }
 
     private void Start()
     {
-        StartMonoBehaviour();
+        StartMonoBehavior();
     }
 
-    protected virtual void IsPlayerInObjectValueChandge(bool obj)
+    protected virtual void IsPlayerInObjectValueChange(bool obj)
     {
         if (obj)
         {
@@ -40,7 +41,6 @@ public abstract class Interactive : MonoBehaviour, IActionCharacter
         View();
     }
 
-    //protected abstract void Interaction();
     protected abstract void View();
 
 

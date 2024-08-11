@@ -15,10 +15,10 @@ public class Wings : Interactive
     }
 
 
-    protected override void StartMonoBehaviour()
+    protected override void StartMonoBehavior()
     {
-        base.StartMonoBehaviour();
-        flying = new FlyingState(character, stateMachine, InputService);
+        base.StartMonoBehavior();
+        flying = new FlyingState(character, stateMachine, inputService);
     }
 
     private void StateMachine_OnChangeState(State<Character> ps, State<Character> ns)
@@ -26,7 +26,7 @@ public class Wings : Interactive
         View();
     }
 
-    protected override void IsPlayerInObjectValueChandge(bool value)
+    protected override void IsPlayerInObjectValueChange(bool value)
     {
         if (value)
         {

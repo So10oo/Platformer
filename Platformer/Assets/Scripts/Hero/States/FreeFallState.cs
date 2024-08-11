@@ -6,7 +6,7 @@ public class FreeFallState : MovementDashPossibleState
 
     public (bool,float) DelayedPressing { get; private set; }
 
-    public FreeFallState(Character character, StateMachine<Character> stateMachine, IInputService inputService) : base(character, stateMachine, inputService)
+    public FreeFallState(Character character, StateMachine<Character> stateMachine, InputService inputService) : base(character, stateMachine, inputService)
     {
     }
 
@@ -23,13 +23,13 @@ public class FreeFallState : MovementDashPossibleState
         base.LogicUpdate();
         _timeToEnter += Time.deltaTime;
 
-        if (inputService.GetButtonJumpDown())
+        if (inputService.GamePlay.Jump.WasPressedThisFrame()) 
         {
             DelayedPressing = (true, Time.time);
         }
 
 
-        if (character.IsGround /*|| Mathf.Abs(rb.velocity.y) <= float.Epsilon*/) 
+        if (character.isGround /*|| Mathf.Abs(rb.velocity.y) <= float.Epsilon*/) 
         {
             if (Mathf.Abs(rb.velocity.x) <= float.Epsilon)
                 stateMachine.ChangeState(character["standing"]);
@@ -38,7 +38,7 @@ public class FreeFallState : MovementDashPossibleState
         }
         else
         {
-            if (_timeToEnter < physicsSettings.delayedJumpTime && stateMachine.PreviousState is GroundedState && inputService.GetButtonJumpDown()/*Input.GetKeyDown(KeyCode.Space)*/)
+            if (_timeToEnter < settings.delayedJumpTime && stateMachine.PreviousState is GroundedState && inputService.GamePlay.Jump.WasPressedThisFrame()) 
             {
                 stateMachine.ChangeState(character["jumping"]);
                 return;

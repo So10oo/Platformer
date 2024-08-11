@@ -2,16 +2,17 @@ using UnityEngine;
 
 public abstract class GroundedState : MovementDashPossibleState
 {
-    protected GroundedState(Character character, StateMachine<Character> stateMachine, IInputService inputService) : base(character, stateMachine, inputService)
+    bool jumpKey;
+    protected GroundedState(Character character, StateMachine<Character> stateMachine, InputService inputService) : base(character, stateMachine, inputService)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        if (stateMachine.PreviousState is FreeFallState starte 
-            && starte.DelayedPressing.Item1 
-            && Mathf.Abs(starte.DelayedPressing.Item2 - Time.time) < character.playerSettings.timeDelayedPressin) 
+        if (stateMachine.PreviousState is FreeFallState starte
+            && starte.DelayedPressing.Item1
+            && Mathf.Abs(starte.DelayedPressing.Item2 - Time.time) < character.playerSettings.timeDelayedPressin)
         {
             stateMachine.ChangeState(character["jumping"]);
         }
@@ -21,27 +22,25 @@ public abstract class GroundedState : MovementDashPossibleState
     public override void HandleInput()
     {
         base.HandleInput();
-        var jampKey = inputService.GetButtonJumpDown();
-        if (jampKey)
-        {
-            stateMachine.ChangeState(character["jumping"]);
-            return;
-        }
-             
+        jumpKey = inputService.GamePlay.Jump.WasPressedThisFrame();
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (rb.velocity.y < 0f && !character.IsGround)
+        if (rb.velocity.y != 0f && !character.isGround)
         {
             stateMachine.ChangeState(character["freeFall"]);
             return;
+        }  
+        else if (jumpKey)
+        {
+            stateMachine.ChangeState(character["jumping"]);
+            return;
         }
-        if (inputService.GetButtonInteraction())
-        { 
+        if (inputService.GamePlay.Interactive.IsPressed())
+        {
             character.action?.Interaction();
         }
     }
 }
-
