@@ -1,11 +1,11 @@
 public abstract class State<TypeCharacter>
 {
-    protected TypeCharacter character;
+    protected TypeCharacter _this;
     protected StateMachine<TypeCharacter> stateMachine;
 
-    protected State(TypeCharacter character, StateMachine<TypeCharacter> stateMachine)
+    protected State(TypeCharacter _this, StateMachine<TypeCharacter> stateMachine)
     {
-        this.character = character;
+        this._this = _this;
         this.stateMachine = stateMachine;
     }
 

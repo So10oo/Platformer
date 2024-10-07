@@ -11,7 +11,7 @@ public class AttackableState : RotatableState
         base.HandleInput();
         if (inputService.GamePlay.Attack.WasPressedThisFrame()) 
         {
-            character.Attack();
+            _this.Attack();
         }
     }
 }

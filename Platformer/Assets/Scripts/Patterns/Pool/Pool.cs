@@ -28,9 +28,7 @@ public class Pool
     {
         ElementPool val;
         if (_listReceived.Count == 0)
-        {
             val = Create();
-        }
         else
         {
             int index = _listReceived.Count - 1;

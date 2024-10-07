@@ -12,29 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a27538756f7a64dac58e1d845d532e, type: 3}
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
-  _maxSpeedX: 12
-  _reverseAcceleration: 150
-  _directAcceleration: 1
-  _forceJump: 30
-  _timeDelayedPressin: 0.1
-  _delayedJumpTime: 0.13
-  _dashSpeedCurve:
+  <maxSpeedX>k__BackingField: 8
+  <reverseAcceleration>k__BackingField: 50
+  <directAcceleration>k__BackingField: 4
+  <startDirectAcceleration>k__BackingField: 20
+  <forceJump>k__BackingField: 17
+  <timeDelayedPressin>k__BackingField: 0.1
+  <delayedJumpTime>k__BackingField: 0.12
+  <dashSpeedCurve>k__BackingField:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 49.710358
-      inSlope: -167.78125
-      outSlope: -167.78125
+      value: 39.822052
+      inSlope: -120.91639
+      outSlope: -120.91639
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.20605469
-      value: 15.138245
-      inSlope: -167.78125
-      outSlope: -167.78125
+      time: 0.24643658
+      value: 10.023831
+      inSlope: -120.91639
+      outSlope: -120.91639
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -42,9 +43,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _delayedDash: 0.2
-  _horizontalFlyingSpeed: 10
-  _verticalFlyingSpeed: 10
-  _gravityScaleUp: 5
-  _gravityScaleDown: 8
-  _maxSpeedY: 30
+  <delayedDash>k__BackingField: 0.2
+  <horizontalFlyingSpeed>k__BackingField: 10
+  <verticalFlyingSpeed>k__BackingField: 10
+  <gravityScaleDown>k__BackingField: 7
+  <gravityScaleUp>k__BackingField: 4
+  <maxSpeedY>k__BackingField: 25

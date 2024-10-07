@@ -51,7 +51,6 @@ public class Character : MonoBehaviour
         stateMachine.WhenAttemptingChangeState += OnChangeLockableState;
         //GetComponent<HealthPoint>().OnDeath += () => gameObject.SetActive(false);
         r = GetComponent<Rigidbody2D>();
-
         _isGround.ValueChandge += (b) => _animator.SetBool("IsGrounded", b);
     }
 

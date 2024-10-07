@@ -8,13 +8,13 @@ public class BasePatrollingState : State<Patroller>
     protected SpeechWindow speechWindow;
     protected EnemyEyes eyes;
 
-    protected Vector3 position => character.transform.position;
+    protected Vector3 position => _this.transform.position;
 
     public BasePatrollingState(Patroller patroller, StateMachine<Patroller> stateMachine, PatrollerSettings patrollerSettings) : base(patroller, stateMachine)
     {
         this.patrollerSettings = patrollerSettings;
-        speechWindow = character.speechWindow;
-        eyes = character.Eyes;
+        speechWindow = _this.speechWindow;
+        eyes = _this.Eyes;
     }
 
    

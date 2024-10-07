@@ -12,9 +12,9 @@ public abstract class GroundedState : MovementDashPossibleState
         base.Enter();
         if (stateMachine.PreviousState is FreeFallState starte
             && starte.DelayedPressing.Item1
-            && Mathf.Abs(starte.DelayedPressing.Item2 - Time.time) < character.playerSettings.timeDelayedPressin)
+            && Mathf.Abs(starte.DelayedPressing.Item2 - Time.time) < _this.playerSettings.timeDelayedPressin)
         {
-            stateMachine.ChangeState(character["jumping"]);
+            stateMachine.ChangeState(_this["jumping"]);
         }
 
     }
@@ -28,19 +28,19 @@ public abstract class GroundedState : MovementDashPossibleState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (rb.velocity.y != 0f && !character.isGround)
+        if (rb.velocity.y != 0f && !_this.isGround)
         {
-            stateMachine.ChangeState(character["freeFall"]);
+            stateMachine.ChangeState(_this["freeFall"]);
             return;
         }  
         else if (jumpKey)
         {
-            stateMachine.ChangeState(character["jumping"]);
+            stateMachine.ChangeState(_this["jumping"]);
             return;
         }
         if (inputService.GamePlay.Interactive.IsPressed())
         {
-            character.action?.Interaction();
+            _this.action?.Interaction();
         }
     }
 }

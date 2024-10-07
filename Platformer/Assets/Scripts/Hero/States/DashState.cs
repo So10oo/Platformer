@@ -32,7 +32,7 @@ public class DashState : LockableState
         _timeToEnter += Time.deltaTime;
         if (_timeToEnter >= dashTime)
         {
-            ChangeState(character["freeFall"]);
+            ChangeState(_this["freeFall"]);
         }
     }
 
@@ -55,7 +55,7 @@ public class DashState : LockableState
             timeEnter += Time.deltaTime;
             if (timeEnter > settings.delayedDash)
                 timeEnd = true;
-            if (character.isGround)
+            if (_this.isGround)
                 ground = true;
             if (ground && timeEnd)
             {
@@ -69,7 +69,7 @@ public class DashState : LockableState
     {
         base.Exit();
         rb.gravityScale = gravityScale;
-        character.StartCoroutine(CoolDownDash());
+        _this.StartCoroutine(CoolDownDash());
     }
 }
 

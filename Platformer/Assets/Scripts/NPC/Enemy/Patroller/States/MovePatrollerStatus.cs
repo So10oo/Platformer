@@ -13,9 +13,9 @@ public abstract class MovePatrollerStatus : BasePatrollingState
     {
         rotateView.ViewData(x-position.x);
 
-        var pos = character.transform.position;
+        var pos = _this.transform.position;
         pos.x = x;
-        character.transform.position = pos;
+        _this.transform.position = pos;
     }
 
     protected void RotateX(float dx)

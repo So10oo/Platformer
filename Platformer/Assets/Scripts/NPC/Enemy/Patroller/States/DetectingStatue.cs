@@ -23,7 +23,7 @@ public class DetectingStatue : AttackedStatus
         _timeToEnter += Time.deltaTime;
         if (_timeToEnter > patrollerSettings.timeDetectingStatue) 
         {
-            /*stateMachine.*/ChangeState(character.pursuing);
+            /*stateMachine.*/ChangeState(_this.pursuing);
         }
     }
 }

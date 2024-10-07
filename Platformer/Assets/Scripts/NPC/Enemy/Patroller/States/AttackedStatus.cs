@@ -24,7 +24,7 @@ public abstract class AttackedStatus : MovePatrollerStatus//атакуемый
 
     private void OnHealthChange(int prHp, int newHp)
     {
-        stateMachine.ChangeState(character.pursuing);
+        stateMachine.ChangeState(_this.pursuing);
     }
 
 }

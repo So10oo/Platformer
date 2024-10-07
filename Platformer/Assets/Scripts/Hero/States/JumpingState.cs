@@ -26,9 +26,9 @@ public class JumpingState : MovementDashPossibleState
     {
         base.LogicUpdate();
         if (rb.velocity.y <= 0)
-            ChangeState(character["freeFall"]);//баг возникает при нажатии деша в данном состоянии
-        else if (character.isCeiling)
-            stateMachine.ChangeState(character["freeFall"]);
+            ChangeState(_this["freeFall"]);//баг возникает при нажатии деша в данном состоянии
+        else if (_this.isCeiling)
+            stateMachine.ChangeState(_this["freeFall"]);
     }
 
 }

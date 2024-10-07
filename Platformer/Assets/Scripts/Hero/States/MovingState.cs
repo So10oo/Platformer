@@ -11,14 +11,14 @@ public class MovingState : GroundedState
         base.LogicUpdate();
         if (Mathf.Abs(rb.velocity.x) <= 0.1)
         {
-            stateMachine.ChangeState(character["standing"]);
+            stateMachine.ChangeState(_this["standing"]);
         }
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        character.animator.SetFloat("MovingBlend", Mathf.Abs(rb.velocity.x) / settings.maxSpeedX);
-        character.animator.SetFloat("SpeedVertical", rb.velocity.y);
+        _this.animator.SetFloat("MovingBlend", Mathf.Abs(rb.velocity.x) / settings.maxSpeedX);
+        _this.animator.SetFloat("SpeedVertical", rb.velocity.y);
     }
 }

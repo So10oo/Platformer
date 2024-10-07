@@ -23,8 +23,8 @@ public abstract class MovementPossibleState : AttackableState
     {
         base.FixedUpdate();
         Move();
-        character.animator.SetFloat("MovingBlend", Mathf.Abs(rb.velocity.x) / 12.0f);
-        character.animator.SetFloat("SpeedVertical", rb.velocity.y);
+        _this.animator.SetFloat("MovingBlend", Mathf.Abs(rb.velocity.x) / 12.0f);
+        _this.animator.SetFloat("SpeedVertical", rb.velocity.y);
     }
 
     private void Move()
@@ -36,33 +36,23 @@ public abstract class MovementPossibleState : AttackableState
         }
         else
         {
-            if (horizontalInput != 0 /*&& Mathf.Abs(velocityX) < settings.maxSpeedX*/)
+            var power = Vector2.zero;
+            var absVelocityX = Mathf.Abs(velocityX);
+            if (absVelocityX <= settings.maxSpeedX + settings.directAcceleration)
             {
-                var power = Vector2.zero;
-
-                if (Mathf.Abs(velocityX) < settings.maxSpeedX)
-                {
-                    var adjustedAcceleration = settings.maxSpeedX - Mathf.Abs(velocityX);
-                    if (adjustedAcceleration > settings.directAcceleration)
-                        power.x = horizontalInput * settings.directAcceleration;
-                    else
-                        power.x = horizontalInput * adjustedAcceleration;
-                }
-                //else
-                    //power.x = -Mathf.Sign(velocityX) * settings.directAcceleration;
-
-
-
-                rb.AddForce(power, ForceMode2D.Impulse);
-                Debug.Log(power.x);
+                float directAcceleration = absVelocityX < settings.maxSpeedX / 2f ? settings.startDirectAcceleration : settings.directAcceleration;
+                var adjustedAcceleration = settings.maxSpeedX - absVelocityX;
+                var maxAcceleration = directAcceleration * Time.fixedDeltaTime;
+                if (adjustedAcceleration > maxAcceleration)
+                    adjustedAcceleration = maxAcceleration;
+                power.x = horizontalInput * adjustedAcceleration;
             }
-             
-            //Debug.Log(power.x);
+            else
+                power.x = -Mathf.Sign(velocityX) * settings.directAcceleration;
+
+            rb.AddForce(power, ForceMode2D.Impulse);
+            Debug.Log(power.x);
         }
-
-
     }
-
-
 }
 

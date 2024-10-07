@@ -12,7 +12,7 @@ public abstract class MovementDashPossibleState : MovementPossibleState
         base.LogicUpdate();
         if (inputService.GamePlay.Dash.IsPressed()) 
         {
-            /*stateMachine.*/ChangeState(character["dash"]);
+            /*stateMachine.*/ChangeState(_this["dash"]);
             return;
         }
     }

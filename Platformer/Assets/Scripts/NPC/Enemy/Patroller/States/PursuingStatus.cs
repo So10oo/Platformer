@@ -19,15 +19,15 @@ public class PursuingStatus : AttackedStatus
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        _canMove = character.GroundArea.Value;
+        _canMove = _this.GroundArea.Value;
         if (!eyes.isVisible)
-            /*stateMachine.*/ChangeState(character.failureStatus);
+            /*stateMachine.*/ChangeState(_this.failureStatus);
         RotateX(eyes.targetPosition.x - position.x);
         if (!_canMove) return;
         var x = Mathf.MoveTowards(position.x, eyes.targetPosition.x, patrollerSettings.pursuingSpeed * Time.fixedDeltaTime);
         if (Vector2.Distance(position, eyes.targetPosition) < 1) 
         {
-            character.WeaponSlot?.weapon?.Attack();
+            _this.WeaponSlot?.weapon?.Attack();
         }
         else
             SetAndRotateX(x);

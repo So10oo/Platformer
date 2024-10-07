@@ -22,7 +22,7 @@ public class FailureStatus : AttackedStatus
         _timeToEnter += Time.deltaTime;
         if (_timeToEnter > patrollerSettings.timeFailureStatus)  
         {
-            stateMachine.ChangeState(character.patrolling);
+            stateMachine.ChangeState(_this.patrolling);
         }
     }
 

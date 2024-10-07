@@ -12,35 +12,35 @@ public class PatrollingStatus : AttackedStatus
     public override void Enter()
     {
         base.Enter();
-        character.Eyes.isVisibleChange += VisibleChange;
-        character.Eyes.SetViewingDate(5, Mathf.PI / 4);
-        _isLeftDirectionMovement = character.transform.localScale.x < 0 ? true : false;
+        _this.Eyes.isVisibleChange += VisibleChange;
+        _this.Eyes.SetViewingDate(5, Mathf.PI / 4);
+        _isLeftDirectionMovement = _this.transform.localScale.x < 0 ? true : false;
 
-        character.speechWindow.text = "и где же он...";
+        _this.speechWindow.text = "и где же он...";
     }
 
     public override void Exit()
     {
         base.Exit();
-        character.Eyes.isVisibleChange -= VisibleChange;
+        _this.Eyes.isVisibleChange -= VisibleChange;
     }
 
     void VisibleChange(bool b)
     {
         if (b)
         {
-            stateMachine.ChangeState(character.detectingStatue);
+            stateMachine.ChangeState(_this.detectingStatue);
         }
     }
 
     public override void FixedUpdate()
     {
         base.LogicUpdate();
-        if (!character.GroundArea.Value)
+        if (!_this.GroundArea.Value)
             _isLeftDirectionMovement = !_isLeftDirectionMovement;
 
         float dir = _isLeftDirectionMovement ? -1 : 1;
-        var x = character.transform.position.x + dir * patrollerSettings.patrollingSpeed * Time.deltaTime;
+        var x = _this.transform.position.x + dir * patrollerSettings.patrollingSpeed * Time.deltaTime;
         SetAndRotateX(x);
     }
 

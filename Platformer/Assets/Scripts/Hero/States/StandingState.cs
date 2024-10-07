@@ -11,7 +11,7 @@ public class StandingState : GroundedState
         base.LogicUpdate();
         if (Mathf.Abs(rb.velocity.x) >= 0.1)
         {
-            stateMachine.ChangeState(character["moving"]);
+            stateMachine.ChangeState(_this["moving"]);
         }
     }
 }

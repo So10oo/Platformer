@@ -34,7 +34,7 @@ public class FlyingState : AttackableState
 
         if (inputService.GamePlay.Interactive.IsPressed())
         {
-            stateMachine.ChangeState(character["freeFall"]);
+            stateMachine.ChangeState(_this["freeFall"]);
             return;
         }
     }
