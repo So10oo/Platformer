@@ -9,7 +9,7 @@ namespace DS.Windows
     using Data.Error;
     using Data.Save;
     using Elements;
-    using Enumerations;
+    //using Enumerations;
     using Utilities;
 
     public class DSGraphView : GraphView
@@ -106,29 +106,29 @@ namespace DS.Windows
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
 
-            this.AddManipulator(CreateNodeContextualMenu("Add Node (Single Choice)", DSDialogueType.SingleChoice));
-            this.AddManipulator(CreateNodeContextualMenu("Add Node (Multiple Choice)", DSDialogueType.MultipleChoice));
+            //this.AddManipulator(CreateNodeContextualMenu("Add Node (Single Choice)", DSDialogueType.SingleChoice));
+            //this.AddManipulator(CreateNodeContextualMenu("Add Node (Multiple Choice)", DSDialogueType.MultipleChoice));
 
-            this.AddManipulator(CreateGroupContextualMenu());
+            //this.AddManipulator(CreateGroupContextualMenu());
         }
 
-        private IManipulator CreateNodeContextualMenu(string actionTitle, DSDialogueType dialogueType)
-        {
-            ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction(actionTitle, actionEvent => AddElement(CreateNode("DialogueName", dialogueType, GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))))
-            );
+        //private IManipulator CreateNodeContextualMenu(string actionTitle, DSDialogueType dialogueType)
+        //{
+        //    ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
+        //        menuEvent => menuEvent.menu.AppendAction(actionTitle, actionEvent => AddElement(CreateNode("DialogueName", dialogueType, GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))))
+        //    );
 
-            return contextualMenuManipulator;
-        }
+        //    return contextualMenuManipulator;
+        //}
 
-        private IManipulator CreateGroupContextualMenu()
-        {
-            ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction("Add Group", actionEvent => CreateGroup("DialogueGroup", GetLocalMousePosition(actionEvent.eventInfo.localMousePosition)))
-            );
+        //private IManipulator CreateGroupContextualMenu()
+        //{
+        //    ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
+        //        menuEvent => menuEvent.menu.AppendAction("Add Group", actionEvent => CreateGroup("DialogueGroup", GetLocalMousePosition(actionEvent.eventInfo.localMousePosition)))
+        //    );
 
-            return contextualMenuManipulator;
-        }
+        //    return contextualMenuManipulator;
+        //}
 
         public DSGroup CreateGroup(string title, Vector2 position)
         {
@@ -153,9 +153,9 @@ namespace DS.Windows
             return group;
         }
 
-        public DSNode CreateNode(string nodeName, DSDialogueType dialogueType, Vector2 position, bool shouldDraw = true)
+        public DSNode CreateNode(string nodeName, Type nodeType/*, DSDialogueType dialogueType*/, Vector2 position, bool shouldDraw = true)
         {
-            Type nodeType = Type.GetType($"DS.Elements.DS{dialogueType}Node");
+            //Type nodeType = Type.GetType($"DS.Elements.DS{dialogueType}Node");
 
             DSNode node = (DSNode) Activator.CreateInstance(nodeType);
 

@@ -5,7 +5,8 @@ using UnityEngine;
 namespace DS.Windows
 {
     using Elements;
-    using Enumerations;
+    //using Enumerations;
+    using System;
 
     public class DSSearchWindow : ScriptableObject, ISearchWindowProvider
     {
@@ -29,18 +30,18 @@ namespace DS.Windows
                 new SearchTreeGroupEntry(new GUIContent("Dialogue Nodes"), 1),
                 new SearchTreeEntry(new GUIContent("Single Choice", indentationIcon))
                 {
-                    userData = DSDialogueType.SingleChoice,
+                    userData = typeof(DSSingleChoiceNode)/*DSDialogueType.SingleChoice*/,
                     level = 2
                 },
                 new SearchTreeEntry(new GUIContent("Multiple Choice", indentationIcon))
                 {
-                    userData = DSDialogueType.MultipleChoice,
+                    userData = typeof(DSMultipleChoiceNode)/*DSDialogueType.MultipleChoice*/,
                     level = 2
                 },
                 new SearchTreeGroupEntry(new GUIContent("Dialogue Groups"), 1),
                 new SearchTreeEntry(new GUIContent("Single Group", indentationIcon))
                 {
-                    userData = new Group(),
+                    userData = typeof(Group),
                     level = 2
                 }
             };
@@ -52,37 +53,37 @@ namespace DS.Windows
         {
             Vector2 localMousePosition = graphView.GetLocalMousePosition(context.screenMousePosition, true);
 
-            switch (SearchTreeEntry.userData)
+            switch ((Type)SearchTreeEntry.userData)
             {
-                case DSDialogueType.SingleChoice:
-                {
-                    DSSingleChoiceNode singleChoiceNode = (DSSingleChoiceNode) graphView.CreateNode("DialogueName", DSDialogueType.SingleChoice, localMousePosition);
+                case Type type when type == typeof(DSSingleChoiceNode)/*DSDialogueType.SingleChoice*/:
+                    {
+                        DSSingleChoiceNode singleChoiceNode = (DSSingleChoiceNode)graphView.CreateNode("DialogueName", (Type)SearchTreeEntry.userData/*, DSDialogueType.SingleChoice*/, localMousePosition);
 
-                    graphView.AddElement(singleChoiceNode);
+                        graphView.AddElement(singleChoiceNode);
 
-                    return true;
-                }
+                        return true;
+                    }
+                case Type type when type == typeof(DSMultipleChoiceNode)/*DSDialogueType.MultipleChoice*/:
+                    {
+                        DSMultipleChoiceNode multipleChoiceNode = (DSMultipleChoiceNode)graphView.CreateNode("DialogueName", (Type)SearchTreeEntry.userData/*, DSDialogueType.MultipleChoice*/, localMousePosition);
 
-                case DSDialogueType.MultipleChoice:
-                {
-                    DSMultipleChoiceNode multipleChoiceNode = (DSMultipleChoiceNode) graphView.CreateNode("DialogueName", DSDialogueType.MultipleChoice, localMousePosition);
+                        graphView.AddElement(multipleChoiceNode);
 
-                    graphView.AddElement(multipleChoiceNode);
+                        return true;
+                    }
 
-                    return true;
-                }
+                case Type type when type == typeof(Group):
+                    {
+                        graphView.CreateGroup("DialogueGroup", localMousePosition);
 
-                case Group _:
-                {
-                    graphView.CreateGroup("DialogueGroup", localMousePosition);
-
-                    return true;
-                }
+                        return true;
+                    }
 
                 default:
-                {
-                    return false;
-                }
+                    {
+                        Debug.Log($"Error {SearchTreeEntry.userData}");
+                        return false;
+                    }
             }
         }
     }

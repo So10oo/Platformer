@@ -5,10 +5,11 @@ using UnityEngine.UIElements;
 
 namespace DS.Windows
 {
+    using Sirenix.OdinInspector.Editor;
     using System;
     using Utilities;
 
-    public class DSEditorWindow : EditorWindow
+    public class DSEditorWindow : /*Odin*/EditorWindow
     {
         private DSGraphView graphView;
 
@@ -28,9 +29,19 @@ namespace DS.Windows
         {
             AddGraphView();
             AddToolbar();
-
             AddStyles();
         }
+
+        
+        //protected override void Initialize()
+        //{
+        //    base.Initialize();
+        //    //AddToolbar();
+        //    AddGraphView();
+        //    AddToolbar();
+        //    AddStyles();
+        //}
+
 
         private void AddGraphView()
         {

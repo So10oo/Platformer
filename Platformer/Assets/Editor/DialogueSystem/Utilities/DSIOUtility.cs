@@ -164,7 +164,8 @@ namespace DS.Utilities
                 Choices = choices,
                 Text = node.Text,
                 GroupID = node.Group?.ID,
-                DialogueType = node.DialogueType,
+                Type = node.GetType(),
+                //DialogueType = node.DialogueType,
                 Position = node.GetPosition().position
             };
 
@@ -192,7 +193,7 @@ namespace DS.Utilities
                 node.DialogueName,
                 node.Text,
                 ConvertNodeChoicesToDialogueChoices(node.Choices),
-                node.DialogueType,
+                //node.DialogueType,
                 node.IsStartingNode()
             );
 
@@ -320,7 +321,7 @@ namespace DS.Utilities
             {
                 List<DSChoiceSaveData> choices = CloneNodeChoices(nodeData.Choices);
 
-                DSNode node = graphView.CreateNode(nodeData.Name, nodeData.DialogueType, nodeData.Position, false);
+                DSNode node = graphView.CreateNode(nodeData.Name, nodeData.Type,/* nodeData.DialogueType,*/ nodeData.Position, false);
 
                 node.ID = nodeData.ID;
                 node.Choices = choices;

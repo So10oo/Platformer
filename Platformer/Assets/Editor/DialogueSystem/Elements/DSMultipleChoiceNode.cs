@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 namespace DS.Elements
 {
     using Data.Save;
-    using Enumerations;
+    //using Enumerations;
     using Utilities;
     using Windows;
 
@@ -15,7 +15,7 @@ namespace DS.Elements
         {
             base.Initialize(nodeName, dsGraphView, position);
 
-            DialogueType = DSDialogueType.MultipleChoice;
+            //DialogueType = DSDialogueType.MultipleChoice;
 
             DSChoiceSaveData choiceData = new DSChoiceSaveData()
             {

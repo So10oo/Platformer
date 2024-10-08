@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 namespace DS.Elements
 {
     using Data.Save;
-    using Enumerations;
+    //using Enumerations;
     using Utilities;
     using Windows;
 
@@ -18,7 +18,7 @@ namespace DS.Elements
         public string DialogueName { get; set; }
         public List<DSChoiceSaveData> Choices { get; set; }
         public string Text { get; set; }
-        public DSDialogueType DialogueType { get; set; }
+        //public DSDialogueType DialogueType { get; set; }
         public DSGroup Group { get; set; }
 
         protected DSGraphView graphView;
@@ -175,5 +175,11 @@ namespace DS.Elements
         {
             mainContainer.style.backgroundColor = defaultBackgroundColor;
         }
+
+        //public static DSNode CreateNode(string nodeName/*, DSDialogueType dialogueType*/, Vector2 position/*, bool shouldDraw = true*/)
+        //{
+
+        //    DSNode node = (DSNode)Activator.CreateInstance(nodeType);
+        //}
     }
 }

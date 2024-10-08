@@ -5,12 +5,14 @@ using UnityEngine.UIElements;
 namespace DS.Utilities
 {
     using Elements;
+    using UnityEditor;
+    using UnityEngine;
 
     public static class DSElementUtility
     {
         public static Button CreateButton(string text, Action onClick = null)
         {
-            Button button = new Button(onClick)
+            Button button = new (onClick)
             {
                 text = text
             };
@@ -20,7 +22,7 @@ namespace DS.Utilities
 
         public static Foldout CreateFoldout(string title, bool collapsed = false)
         {
-            Foldout foldout = new Foldout()
+            Foldout foldout = new ()
             {
                 text = title,
                 value = !collapsed
@@ -53,6 +55,11 @@ namespace DS.Utilities
 
             return textField;
         }
+
+        //private static SpriteNameFileIdPair CreateSpriteFile(Sprite value = null, string label = null, EventCallback<ChangeEvent<string>> onValueChanged = null)
+        //{
+        //    //var s = new SpriteNameFileIdPair()
+        //}
 
         public static TextField CreateTextArea(string value = null, string label = null, EventCallback<ChangeEvent<string>> onValueChanged = null)
         {
