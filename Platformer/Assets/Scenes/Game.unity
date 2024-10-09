@@ -747,11 +747,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueContainer: {fileID: 11400000, guid: cf7189d6728e64d41a1c666e3d50d972, type: 2}
   dialogueGroup: {fileID: 11400000, guid: b4e22551c4ac40f498962b3d7180a040, type: 2}
-  dialogue: {fileID: 11400000, guid: 295e988f0239f5d4b88871a2cd88e72c, type: 2}
+  dialogue: {fileID: 11400000, guid: ae34034296128404889b1db4fa3b6796, type: 2}
   groupedDialogues: 0
-  startingDialoguesOnly: 1
+  startingDialoguesOnly: 0
   selectedDialogueGroupIndex: 0
-  selectedDialogueIndex: 0
+  selectedDialogueIndex: 1
 --- !u!4 &473895381
 Transform:
   m_ObjectHideFlags: 0
@@ -1247,7 +1247,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 511
 --- !u!114 &649575892
 MonoBehaviour:
   m_ObjectHideFlags: 0

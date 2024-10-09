@@ -32,17 +32,6 @@ namespace DS.Windows
             AddStyles();
         }
 
-        
-        //protected override void Initialize()
-        //{
-        //    base.Initialize();
-        //    //AddToolbar();
-        //    AddGraphView();
-        //    AddToolbar();
-        //    AddStyles();
-        //}
-
-
         private void AddGraphView()
         {
             graphView = new DSGraphView(this);
@@ -50,6 +39,7 @@ namespace DS.Windows
             graphView.StretchToParentSize();
 
             rootVisualElement.Add(graphView);
+            
         }
 
         private void AddToolbar()

@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 namespace DS.Elements
 {
     using Data.Save;
+    using UnityEditor.UIElements;
     //using Enumerations;
     using Utilities;
     using Windows;
@@ -18,10 +19,10 @@ namespace DS.Elements
         public string DialogueName { get; set; }
         public List<DSChoiceSaveData> Choices { get; set; }
         public string Text { get; set; }
-        //public DSDialogueType DialogueType { get; set; }
         public DSGroup Group { get; set; }
 
         protected DSGraphView graphView;
+
         private Color defaultBackgroundColor;
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -35,7 +36,6 @@ namespace DS.Elements
         public virtual void Initialize(string nodeName, DSGraphView dsGraphView, Vector2 position)
         {
             ID = Guid.NewGuid().ToString();
-
             DialogueName = nodeName;
             Choices = new List<DSChoiceSaveData>();
             Text = "Dialogue text.";
@@ -118,6 +118,7 @@ namespace DS.Elements
 
             TextField textTextField = DSElementUtility.CreateTextArea(Text, null, callback => Text = callback.newValue);
 
+
             textTextField.AddClasses(
                 "ds-node__text-field",
                 "ds-node__quote-text-field"
@@ -126,6 +127,11 @@ namespace DS.Elements
             textFoldout.Add(textTextField);
 
             customDataContainer.Add(textFoldout);
+
+            
+            //ObjectField image = new ObjectField("image");
+            //image.objectType = typeof(Texture/*2DArray*/);
+            //customDataContainer.Add(image);
 
             extensionContainer.Add(customDataContainer);
         }
@@ -176,10 +182,6 @@ namespace DS.Elements
             mainContainer.style.backgroundColor = defaultBackgroundColor;
         }
 
-        //public static DSNode CreateNode(string nodeName/*, DSDialogueType dialogueType*/, Vector2 position/*, bool shouldDraw = true*/)
-        //{
-
-        //    DSNode node = (DSNode)Activator.CreateInstance(nodeType);
-        //}
+        
     }
 }

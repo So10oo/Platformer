@@ -13,33 +13,47 @@ MonoBehaviour:
   m_Name: DialoguesFileNameGraph
   m_EditorClassIdentifier: 
   <FileName>k__BackingField: DialoguesFileName
-  <Groups>k__BackingField:
-  - <ID>k__BackingField: 63ac5428-4f73-4b83-8168-8d2428e3a397
-    <Name>k__BackingField: DialogueGroup
-    <Position>k__BackingField: {x: 237, y: 176}
+  <Groups>k__BackingField: []
   <Nodes>k__BackingField:
-  - <ID>k__BackingField: 001822b2-b7ef-4439-96b7-26c01d82bf7e
+  - <ID>k__BackingField: 785d8f03-1e3a-4636-94a2-e87c789aff74
+    <Name>k__BackingField: eqweqw
+    <Text>k__BackingField: ewew
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: ewq
+      <NodeID>k__BackingField: 666e7045-490a-48cf-bb55-744b0fa7816d
+    - <Text>k__BackingField: eqw
+      <NodeID>k__BackingField: 448de927-e04f-4742-9132-09a32c8607f3
+    <GroupID>k__BackingField: 
+    <Position>k__BackingField: {x: 103, y: 169}
+  - <ID>k__BackingField: 666e7045-490a-48cf-bb55-744b0fa7816d
     <Name>k__BackingField: DialogueName
     <Text>k__BackingField: Dialogue text.
     <Choices>k__BackingField:
-    - <Text>k__BackingField: Next Dialogue
-      <NodeID>k__BackingField: 9d909d23-288d-4dad-a6d9-e9699be50692
-    <GroupID>k__BackingField: 63ac5428-4f73-4b83-8168-8d2428e3a397
-    <Position>k__BackingField: {x: 262, y: 235}
-  - <ID>k__BackingField: 9d909d23-288d-4dad-a6d9-e9699be50692
-    <Name>k__BackingField: DialogueName
+    - <Text>k__BackingField: New Choice
+      <NodeID>k__BackingField: 2d62fcbf-0766-4d1c-a379-dae45fb5d87d
+    <GroupID>k__BackingField: 
+    <Position>k__BackingField: {x: 536, y: 86}
+  - <ID>k__BackingField: 448de927-e04f-4742-9132-09a32c8607f3
+    <Name>k__BackingField: dasda2
+    <Text>k__BackingField: Dialogue text.
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: New Choice
+      <NodeID>k__BackingField: 2d62fcbf-0766-4d1c-a379-dae45fb5d87d
+    <GroupID>k__BackingField: 
+    <Position>k__BackingField: {x: 536, y: 346}
+  - <ID>k__BackingField: 2d62fcbf-0766-4d1c-a379-dae45fb5d87d
+    <Name>k__BackingField: 321daads
     <Text>k__BackingField: Dialogue text.
     <Choices>k__BackingField:
     - <Text>k__BackingField: Next Dialogue
       <NodeID>k__BackingField: 
     <GroupID>k__BackingField: 
-    <Position>k__BackingField: {x: 629, y: 332}
-  <OldGroupNames>k__BackingField:
-  - DialogueGroup
+    <Position>k__BackingField: {x: 995, y: 297}
+  <OldGroupNames>k__BackingField: []
   <OldUngroupedNodeNames>k__BackingField:
+  - eqweqw
   - DialogueName
+  - dasda2
+  - 321daads
   <OldGroupedNodeNames>k__BackingField:
-    list:
-    - Key: DialogueGroup
-      Value:
-      - DialogueName
+    list: []

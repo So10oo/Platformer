@@ -9,6 +9,7 @@ namespace DS.Windows
     using Data.Error;
     using Data.Save;
     using Elements;
+    using UnityEditor.UIElements;
     //using Enumerations;
     using Utilities;
 
@@ -74,24 +75,10 @@ namespace DS.Windows
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
             List<Port> compatiblePorts = new List<Port>();
-
             ports.ForEach(port =>
             {
-                if (startPort == port)
-                {
+                if (startPort.node == port.node || startPort.direction == port.direction)
                     return;
-                }
-
-                if (startPort.node == port.node)
-                {
-                    return;
-                }
-
-                if (startPort.direction == port.direction)
-                {
-                    return;
-                }
-
                 compatiblePorts.Add(port);
             });
 
@@ -100,35 +87,13 @@ namespace DS.Windows
 
         private void AddManipulators()
         {
-            SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
-
+            SetupZoom(0.1f /*ContentZoomer.DefaultMinScale*/, 10/*ContentZoomer.DefaultMaxScale*/);
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
-
-            //this.AddManipulator(CreateNodeContextualMenu("Add Node (Single Choice)", DSDialogueType.SingleChoice));
-            //this.AddManipulator(CreateNodeContextualMenu("Add Node (Multiple Choice)", DSDialogueType.MultipleChoice));
-
-            //this.AddManipulator(CreateGroupContextualMenu());
         }
 
-        //private IManipulator CreateNodeContextualMenu(string actionTitle, DSDialogueType dialogueType)
-        //{
-        //    ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-        //        menuEvent => menuEvent.menu.AppendAction(actionTitle, actionEvent => AddElement(CreateNode("DialogueName", dialogueType, GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))))
-        //    );
-
-        //    return contextualMenuManipulator;
-        //}
-
-        //private IManipulator CreateGroupContextualMenu()
-        //{
-        //    ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-        //        menuEvent => menuEvent.menu.AppendAction("Add Group", actionEvent => CreateGroup("DialogueGroup", GetLocalMousePosition(actionEvent.eventInfo.localMousePosition)))
-        //    );
-
-        //    return contextualMenuManipulator;
-        //}
+       
 
         public DSGroup CreateGroup(string title, Vector2 position)
         {
@@ -153,10 +118,8 @@ namespace DS.Windows
             return group;
         }
 
-        public DSNode CreateNode(string nodeName, Type nodeType/*, DSDialogueType dialogueType*/, Vector2 position, bool shouldDraw = true)
+        public DSNode CreateNode(string nodeName, Type nodeType, Vector2 position, bool shouldDraw = true)
         {
-            //Type nodeType = Type.GetType($"DS.Elements.DS{dialogueType}Node");
-
             DSNode node = (DSNode) Activator.CreateInstance(nodeType);
 
             node.Initialize(nodeName, this, position);
@@ -257,16 +220,11 @@ namespace DS.Windows
             {
                 foreach (GraphElement element in elements)
                 {
-                    if (!(element is DSNode))
+                    if (element is DSNode node)
                     {
-                        continue;
+                        RemoveUngroupedNode(node);
+                        AddGroupedNode(node, (DSGroup)group);
                     }
-
-                    DSGroup dsGroup = (DSGroup) group;
-                    DSNode node = (DSNode) element;
-
-                    RemoveUngroupedNode(node);
-                    AddGroupedNode(node, dsGroup);
                 }
             };
         }
@@ -277,16 +235,11 @@ namespace DS.Windows
             {
                 foreach (GraphElement element in elements)
                 {
-                    if (!(element is DSNode))
+                    if (element is DSNode node)
                     {
-                        continue;
-                    }
-
-                    DSGroup dsGroup = (DSGroup) group;
-                    DSNode node = (DSNode) element;
-
-                    RemoveGroupedNode(node, dsGroup);
-                    AddUngroupedNode(node);
+                        RemoveGroupedNode(node, (DSGroup)group);
+                        AddUngroupedNode(node);
+                    }  
                 }
             };
         }
@@ -340,20 +293,13 @@ namespace DS.Windows
 
                 if (changes.elementsToRemove != null)
                 {
-                    Type edgeType = typeof(Edge);
-
                     foreach (GraphElement element in changes.elementsToRemove)
                     {
-                        if (element.GetType() != edgeType)
+                        if (element is Edge edge)
                         {
-                            continue;
+                            DSChoiceSaveData choiceData = (DSChoiceSaveData)edge.output.userData;
+                            choiceData.NodeID = "";
                         }
-
-                        Edge edge = (Edge) element;
-
-                        DSChoiceSaveData choiceData = (DSChoiceSaveData) edge.output.userData;
-
-                        choiceData.NodeID = "";
                     }
                 }
 
