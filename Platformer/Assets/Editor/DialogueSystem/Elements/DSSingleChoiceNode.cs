@@ -4,7 +4,6 @@ using UnityEngine;
 namespace DS.Elements
 {
     using Data.Save;
-    //using Enumerations;
     using Utilities;
     using Windows;
 
@@ -13,8 +12,6 @@ namespace DS.Elements
         public override void Initialize(string nodeName, DSGraphView dsGraphView, Vector2 position)
         {
             base.Initialize(nodeName, dsGraphView, position);
-
-            //DialogueType = DSDialogueType.SingleChoice;
 
             DSChoiceSaveData choiceData = new DSChoiceSaveData()
             {

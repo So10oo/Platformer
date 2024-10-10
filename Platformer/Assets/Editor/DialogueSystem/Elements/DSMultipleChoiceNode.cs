@@ -5,7 +5,6 @@ using UnityEngine.UIElements;
 namespace DS.Elements
 {
     using Data.Save;
-    //using Enumerations;
     using Utilities;
     using Windows;
 
@@ -64,26 +63,17 @@ namespace DS.Elements
         private Port CreateChoicePort(object userData)
         {
             Port choicePort = this.CreatePort();
-
             choicePort.userData = userData;
-
-            DSChoiceSaveData choiceData = (DSChoiceSaveData) userData;
-
+            DSChoiceSaveData choiceData = (DSChoiceSaveData)choicePort.userData;
             Button deleteChoiceButton = DSElementUtility.CreateButton("X", () =>
             {
                 if (Choices.Count == 1)
-                {
                     return;
-                }
-
                 if (choicePort.connected)
-                {
-                    graphView.DeleteElements(choicePort.connections);
-                }
-
+                    DisconnectPorts(choicePort.connections);
                 Choices.Remove(choiceData);
-
-                graphView.RemoveElement(choicePort);
+                //graphView.RemoveElement(choicePort);
+                outputContainer.Remove(choicePort);
             });
 
             deleteChoiceButton.AddToClassList("ds-node__button");

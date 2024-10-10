@@ -7,13 +7,12 @@ using UnityEngine.UIElements;
 
 namespace DS.Elements
 {
+    using Assets.Editor.DialogueSystem.Interface;
     using Data.Save;
-    using UnityEditor.UIElements;
-    //using Enumerations;
     using Utilities;
     using Windows;
 
-    public class DSNode : Node
+    public class DSNode : Node, ISetStyleError
     {
         public string ID { get; set; }
         public string DialogueName { get; set; }
@@ -25,11 +24,15 @@ namespace DS.Elements
 
         private Color defaultBackgroundColor;
 
+        public event Action<DSNode> BeforeRename;//перед
+        public event Action<DSNode> AfterRename;//после
+
+        
+
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             evt.menu.AppendAction("Disconnect Input Ports", actionEvent => DisconnectInputPorts());
             evt.menu.AppendAction("Disconnect Output Ports", actionEvent => DisconnectOutputPorts());
-
             base.BuildContextualMenu(evt);
         }
 
@@ -52,46 +55,15 @@ namespace DS.Elements
         public virtual void Draw()
         {
             /* TITLE CONTAINER */
-
             TextField dialogueNameTextField = DSElementUtility.CreateTextField(DialogueName, null, callback =>
             {
+                BeforeRename?.Invoke(this);
+
                 TextField target = (TextField) callback.target;
-
                 target.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
-
-                if (string.IsNullOrEmpty(target.value))
-                {
-                    if (!string.IsNullOrEmpty(DialogueName))
-                    {
-                        ++graphView.NameErrorsAmount;
-                    }
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(DialogueName))
-                    {
-                        --graphView.NameErrorsAmount;
-                    }
-                }
-
-                if (Group == null)
-                {
-                    graphView.RemoveUngroupedNode(this);
-
-                    DialogueName = target.value;
-
-                    graphView.AddUngroupedNode(this);
-
-                    return;
-                }
-
-                DSGroup currentGroup = Group;
-
-                graphView.RemoveGroupedNode(this, Group);
-
                 DialogueName = target.value;
 
-                graphView.AddGroupedNode(this, currentGroup);
+                AfterRename?.Invoke(this);
             });
 
             dialogueNameTextField.AddClasses(
@@ -136,6 +108,13 @@ namespace DS.Elements
             extensionContainer.Add(customDataContainer);
         }
 
+        #region DisconnectPorts
+        public event Action<IEnumerable<Edge>> OnDisconnectPorts;
+        protected void DisconnectPorts(IEnumerable<Edge> edges)
+        {
+            OnDisconnectPorts?.Invoke(edges);
+        }
+
         public void DisconnectAllPorts()
         {
             DisconnectInputPorts();
@@ -156,14 +135,11 @@ namespace DS.Elements
         {
             foreach (Port port in container.Children())
             {
-                if (!port.connected)
-                {
-                    continue;
-                }
-
-                graphView.DeleteElements(port.connections);
+                if (port.connected)
+                    DisconnectPorts(port.connections);
             }
         }
+        #endregion
 
         public bool IsStartingNode()
         {
@@ -177,11 +153,10 @@ namespace DS.Elements
             mainContainer.style.backgroundColor = color;
         }
 
-        public void ResetStyle()
+        public void SetDefaultStyle()
         {
             mainContainer.style.backgroundColor = defaultBackgroundColor;
         }
 
-        
     }
 }

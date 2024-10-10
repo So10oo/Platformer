@@ -5,21 +5,22 @@ using UnityEngine;
 namespace DS.Windows
 {
     using Elements;
-    //using Enumerations;
     using System;
 
     public class DSSearchWindow : ScriptableObject, ISearchWindowProvider
     {
-        private DSGraphView graphView;
         private Texture2D indentationIcon;
+        public event Action<Type, Vector2> OnSelectedDSNode;
+        public event Action<Vector2> OnSelectedGroup;
 
-        public void Initialize(DSGraphView dsGraphView)
+        private void OnEnable()
         {
-            graphView = dsGraphView;
-
-            indentationIcon = new Texture2D(1, 1);
-            indentationIcon.SetPixel(0, 0, Color.clear);
-            indentationIcon.Apply();
+            if (indentationIcon == null)
+            {
+                indentationIcon = new Texture2D(1, 1);
+                indentationIcon.SetPixel(0, 0, Color.clear);
+                indentationIcon.Apply();
+            }
         }
 
         public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
@@ -30,55 +31,39 @@ namespace DS.Windows
                 new SearchTreeGroupEntry(new GUIContent("Dialogue Nodes"), 1),
                 new SearchTreeEntry(new GUIContent("Single Choice", indentationIcon))
                 {
-                    userData = typeof(DSSingleChoiceNode)/*DSDialogueType.SingleChoice*/,
+                    userData = typeof(DSSingleChoiceNode),
                     level = 2
                 },
                 new SearchTreeEntry(new GUIContent("Multiple Choice", indentationIcon))
                 {
-                    userData = typeof(DSMultipleChoiceNode)/*DSDialogueType.MultipleChoice*/,
+                    userData = typeof(DSMultipleChoiceNode),
                     level = 2
                 },
                 new SearchTreeGroupEntry(new GUIContent("Dialogue Groups"), 1),
                 new SearchTreeEntry(new GUIContent("Single Group", indentationIcon))
                 {
-                    userData = typeof(Group),
+                    userData = typeof(DSGroup),
                     level = 2
                 }
             };
-
             return searchTreeEntries;
         }
 
         public bool OnSelectEntry(SearchTreeEntry SearchTreeEntry, SearchWindowContext context)
         {
-            Vector2 localMousePosition = graphView.GetLocalMousePosition(context.screenMousePosition, true);
-
-            switch ((Type)SearchTreeEntry.userData)
+            Vector2 screenMousePosition = context.screenMousePosition;
+            switch (SearchTreeEntry.userData)
             {
-                case Type type when type == typeof(DSSingleChoiceNode)/*DSDialogueType.SingleChoice*/:
+                case Type type when type.IsSubclassOf(typeof(DSNode)):
                     {
-                        DSSingleChoiceNode singleChoiceNode = (DSSingleChoiceNode)graphView.CreateNode("DialogueName", (Type)SearchTreeEntry.userData/*, DSDialogueType.SingleChoice*/, localMousePosition);
-
-                        graphView.AddElement(singleChoiceNode);
-
+                        OnSelectedDSNode?.Invoke(type, screenMousePosition);
                         return true;
                     }
-                case Type type when type == typeof(DSMultipleChoiceNode)/*DSDialogueType.MultipleChoice*/:
+                case Type type when type == typeof(DSGroup):
                     {
-                        DSMultipleChoiceNode multipleChoiceNode = (DSMultipleChoiceNode)graphView.CreateNode("DialogueName", (Type)SearchTreeEntry.userData/*, DSDialogueType.MultipleChoice*/, localMousePosition);
-
-                        graphView.AddElement(multipleChoiceNode);
-
+                        OnSelectedGroup?.Invoke(screenMousePosition);
                         return true;
                     }
-
-                case Type type when type == typeof(Group):
-                    {
-                        graphView.CreateGroup("DialogueGroup", localMousePosition);
-
-                        return true;
-                    }
-
                 default:
                     {
                         Debug.Log($"Error {SearchTreeEntry.userData}");

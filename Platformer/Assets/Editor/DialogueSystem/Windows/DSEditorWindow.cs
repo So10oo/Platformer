@@ -5,17 +5,15 @@ using UnityEngine.UIElements;
 
 namespace DS.Windows
 {
-    using Sirenix.OdinInspector.Editor;
-    using System;
     using Utilities;
 
-    public class DSEditorWindow : /*Odin*/EditorWindow
+    public class DSEditorWindow : EditorWindow
     {
         private DSGraphView graphView;
 
-        private readonly string defaultFileName = "DialoguesFileName";
+        private const string defaultFileName = "DialoguesFileName";
 
-        private static TextField fileNameTextField;
+        private TextField fileNameTextField;
         private Button saveButton;
         private Button miniMapButton;
 
@@ -30,16 +28,21 @@ namespace DS.Windows
             AddGraphView();
             AddToolbar();
             AddStyles();
+            
         }
 
         private void AddGraphView()
         {
             graphView = new DSGraphView(this);
-
             graphView.StretchToParentSize();
-
             rootVisualElement.Add(graphView);
-            
+
+            graphView.globalCounterErrors.StateErrorChange += ActiveSaveButton;
+        }
+
+        private void ActiveSaveButton(bool IsError)
+        {
+            saveButton.SetEnabled(!IsError);
         }
 
         private void AddToolbar()
@@ -56,7 +59,6 @@ namespace DS.Windows
             Button loadButton = DSElementUtility.CreateButton("Load", () => Load());
             Button clearButton = DSElementUtility.CreateButton("Clear", () => Clear());
             Button resetButton = DSElementUtility.CreateButton("Reset", () => ResetGraph());
-
             miniMapButton = DSElementUtility.CreateButton("Minimap", () => ToggleMiniMap());
 
             toolbar.Add(fileNameTextField);
@@ -65,9 +67,7 @@ namespace DS.Windows
             toolbar.Add(clearButton);
             toolbar.Add(resetButton);
             toolbar.Add(miniMapButton);
-
             toolbar.AddStyleSheets("DialogueSystem/DSToolbarStyles.uss");
-
             rootVisualElement.Add(toolbar);
         }
 
@@ -81,10 +81,8 @@ namespace DS.Windows
             if (string.IsNullOrEmpty(fileNameTextField.value))
             {
                 EditorUtility.DisplayDialog("Invalid file name.", "Please ensure the file name you've typed in is valid.", "Roger!");
-
                 return;
             }
-
             DSIOUtility.Initialize(graphView, fileNameTextField.value);
             DSIOUtility.Save();
         }
@@ -94,10 +92,8 @@ namespace DS.Windows
             string filePath = EditorUtility.OpenFilePanel("Dialogue Graphs", "Assets/Editor/DialogueSystem/Graphs", "asset");
 
             if (string.IsNullOrEmpty(filePath))
-            {
                 return;
-            }
-
+            
             Clear();
 
             DSIOUtility.Initialize(graphView, Path.GetFileNameWithoutExtension(filePath));
@@ -112,30 +108,19 @@ namespace DS.Windows
         private void ResetGraph()
         {
             Clear();
-
-            UpdateFileName(defaultFileName);
+            //UpdateFileName(defaultFileName);
         }
 
         private void ToggleMiniMap()
         {
             graphView.ToggleMiniMap();
-
             miniMapButton.ToggleInClassList("ds-toolbar__button__selected");
         }
 
-        public static void UpdateFileName(string newFileName)
-        {
-            fileNameTextField.value = newFileName;
-        }
+        //public static void UpdateFileName(string newFileName)
+        //{
+        //    fileNameTextField.value = newFileName;
+        //}
 
-        public void EnableSaving()
-        {
-            saveButton.SetEnabled(true);
-        }
-
-        public void DisableSaving()
-        {
-            saveButton.SetEnabled(false);
-        }
     }
 }

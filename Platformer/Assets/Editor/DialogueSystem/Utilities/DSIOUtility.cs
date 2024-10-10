@@ -296,7 +296,7 @@ namespace DS.Utilities
                 return;
             }
 
-            DSEditorWindow.UpdateFileName(graphData.FileName);
+            //DSEditorWindow.UpdateFileName(graphData.FileName);
 
             LoadGroups(graphData.Groups);
             LoadNodes(graphData.Nodes);
@@ -307,43 +307,43 @@ namespace DS.Utilities
         {
             foreach (DSGroupSaveData groupData in groups)
             {
-                DSGroup group = graphView.CreateGroup(groupData.Name, groupData.Position);
+                //DSGroup group = graphView.CreateGroup(groupData.Name, groupData.Position);
 
-                group.ID = groupData.ID;
+                //group.ID = groupData.ID;
 
-                loadedGroups.Add(group.ID, group);
+                //loadedGroups.Add(group.ID, group);
             }
         }
 
         private static void LoadNodes(List<DSNodeSaveData> nodes)
         {
-            foreach (DSNodeSaveData nodeData in nodes)
-            {
-                List<DSChoiceSaveData> choices = CloneNodeChoices(nodeData.Choices);
+            //foreach (DSNodeSaveData nodeData in nodes)
+            //{
+            //    List<DSChoiceSaveData> choices = CloneNodeChoices(nodeData.Choices);
 
-                DSNode node = graphView.CreateNode(nodeData.Name, nodeData.Type,/* nodeData.DialogueType,*/ nodeData.Position, false);
+            //    DSNode node = graphView.CreateNode(nodeData.Name, nodeData.Type,/* nodeData.DialogueType,*/ nodeData.Position, false);
 
-                node.ID = nodeData.ID;
-                node.Choices = choices;
-                node.Text = nodeData.Text;
+            //    node.ID = nodeData.ID;
+            //    node.Choices = choices;
+            //    node.Text = nodeData.Text;
 
-                node.Draw();
+            //    node.Draw();
 
-                graphView.AddElement(node);
+            //    graphView.AddElement(node);
 
-                loadedNodes.Add(node.ID, node);
+            //    loadedNodes.Add(node.ID, node);
 
-                if (string.IsNullOrEmpty(nodeData.GroupID))
-                {
-                    continue;
-                }
+            //    if (string.IsNullOrEmpty(nodeData.GroupID))
+            //    {
+            //        continue;
+            //    }
 
-                DSGroup group = loadedGroups[nodeData.GroupID];
+            //    DSGroup group = loadedGroups[nodeData.GroupID];
 
-                node.Group = group;
+            //    node.Group = group;
 
-                group.AddElement(node);
-            }
+            //    group.AddElement(node);
+            //}
         }
 
         private static void LoadNodesConnections()
