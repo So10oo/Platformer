@@ -11,6 +11,7 @@ namespace DS.Utilities
     using Data.Save;
     using Elements;
     using ScriptableObjects;
+    using Unity.VisualScripting;
     using Windows;
 
     public static class DSIOUtility
@@ -46,11 +47,12 @@ namespace DS.Utilities
             loadedNodes = new Dictionary<string, DSNode>();
         }
 
-        public static void Save()
+        public static void Save(DSGraphView dsGraphView, string graphFileName)
         {
-            CreateDefaultFolders();
+            string containerFolderPath = $"Assets/DialogueSystem/Dialogues/{graphFileName}";
+            CreateDefaultFolders(graphFileName, containerFolderPath);
 
-            GetElementsFromGraphView();
+            var (nodes,groups) = GetElementsFromGraphView(dsGraphView);
 
             DSGraphSaveDataSO graphData = CreateAsset<DSGraphSaveDataSO>("Assets/Editor/DialogueSystem/Graphs", $"{graphFileName}Graph");
 
@@ -60,22 +62,21 @@ namespace DS.Utilities
 
             dialogueContainer.Initialize(graphFileName);
 
-            SaveGroups(graphData, dialogueContainer);
-            SaveNodes(graphData, dialogueContainer);
+            SaveGroups(graphData, dialogueContainer, groups,containerFolderPath);
+            SaveNodes(graphData, dialogueContainer, containerFolderPath);
 
             SaveAsset(graphData);
             SaveAsset(dialogueContainer);
         }
 
-        private static void SaveGroups(DSGraphSaveDataSO graphData, DSDialogueContainerSO dialogueContainer)
+        private static void SaveGroups(DSGraphSaveDataSO graphData, DSDialogueContainerSO dialogueContainer, List<DSGroup> groups,string containerFolderPath)
         {
             List<string> groupNames = new List<string>();
 
             foreach (DSGroup group in groups)
             {
                 SaveGroupToGraph(group, graphData);
-                SaveGroupToScriptableObject(group, dialogueContainer);
-
+                SaveGroupToScriptableObject(group, dialogueContainer, containerFolderPath);
                 groupNames.Add(group.title);
             }
 
@@ -84,17 +85,10 @@ namespace DS.Utilities
 
         private static void SaveGroupToGraph(DSGroup group, DSGraphSaveDataSO graphData)
         {
-            DSGroupSaveData groupData = new DSGroupSaveData()
-            {
-                ID = group.ID,
-                Name = group.title,
-                Position = group.GetPosition().position
-            };
-
-            graphData.Groups.Add(groupData);
+            graphData.Groups.Add(new DSGroupSaveData(group));
         }
 
-        private static void SaveGroupToScriptableObject(DSGroup group, DSDialogueContainerSO dialogueContainer)
+        private static void SaveGroupToScriptableObject(DSGroup group, DSDialogueContainerSO dialogueContainer,string containerFolderPath)
         {
             string groupName = group.title;
 
@@ -127,7 +121,7 @@ namespace DS.Utilities
             graphData.OldGroupNames = new List<string>(currentGroupNames);
         }
 
-        private static void SaveNodes(DSGraphSaveDataSO graphData, DSDialogueContainerSO dialogueContainer)
+        private static void SaveNodes(DSGraphSaveDataSO graphData, DSDialogueContainerSO dialogueContainer, string containerFolderPath)
         {
             SerializableDictionary<string, List<string>> groupedNodeNames = new SerializableDictionary<string, List<string>>();
             List<string> ungroupedNodeNames = new List<string>();
@@ -135,7 +129,7 @@ namespace DS.Utilities
             foreach (DSNode node in nodes)
             {
                 SaveNodeToGraph(node, graphData);
-                SaveNodeToScriptableObject(node, dialogueContainer);
+                SaveNodeToScriptableObject(node, dialogueContainer, containerFolderPath);
 
                 if (node.Group != null)
                 {
@@ -155,24 +149,10 @@ namespace DS.Utilities
 
         private static void SaveNodeToGraph(DSNode node, DSGraphSaveDataSO graphData)
         {
-            List<DSChoiceSaveData> choices = CloneNodeChoices(node.Choices);
-
-            DSNodeSaveData nodeData = new DSNodeSaveData()
-            {
-                ID = node.ID,
-                Name = node.DialogueName,
-                Choices = choices,
-                Text = node.Text,
-                GroupID = node.Group?.ID,
-                Type = node.GetType(),
-                //DialogueType = node.DialogueType,
-                Position = node.GetPosition().position
-            };
-
-            graphData.Nodes.Add(nodeData);
+            graphData.Nodes.Add(new DSNodeSaveData(node));
         }
 
-        private static void SaveNodeToScriptableObject(DSNode node, DSDialogueContainerSO dialogueContainer)
+        private static void SaveNodeToScriptableObject(DSNode node, DSDialogueContainerSO dialogueContainer,string containerFolderPath)
         {
             DSDialogueSO dialogue;
 
@@ -193,7 +173,6 @@ namespace DS.Utilities
                 node.DialogueName,
                 node.Text,
                 ConvertNodeChoicesToDialogueChoices(node.Choices),
-                //node.DialogueType,
                 node.IsStartingNode()
             );
 
@@ -352,7 +331,7 @@ namespace DS.Utilities
             {
                 foreach (Port choicePort in loadedNode.Value.outputContainer.Children())
                 {
-                    DSChoiceSaveData choiceData = (DSChoiceSaveData) choicePort.userData;
+                    DSChoiceSaveData choiceData = (DSChoiceSaveData)choicePort.userData;
 
                     if (string.IsNullOrEmpty(choiceData.NodeID))
                     {
@@ -361,52 +340,48 @@ namespace DS.Utilities
 
                     DSNode nextNode = loadedNodes[choiceData.NodeID];
 
-                    Port nextNodeInputPort = (Port) nextNode.inputContainer.Children().First();
+                    Port nextNodeInputPort = (Port)nextNode.inputContainer.Children().First();
 
-                    Edge edge = choicePort.ConnectTo(nextNodeInputPort);
+                    //Edge edge = choicePort.ConnectTo(nextNodeInputPort);
 
-                    graphView.AddElement(edge);
+                    //graphView.AddElement(edge);
 
                     loadedNode.Value.RefreshPorts();
                 }
             }
         }
 
-        private static void CreateDefaultFolders()
+        private static void CreateDefaultFolders(string graphFileName, string containerFolderPath)
         {
             CreateFolder("Assets/Editor/DialogueSystem", "Graphs");
-
             CreateFolder("Assets", "DialogueSystem");
             CreateFolder("Assets/DialogueSystem", "Dialogues");
-
             CreateFolder("Assets/DialogueSystem/Dialogues", graphFileName);
             CreateFolder(containerFolderPath, "Global");
             CreateFolder(containerFolderPath, "Groups");
             CreateFolder($"{containerFolderPath}/Global", "Dialogues");
         }
 
-        private static void GetElementsFromGraphView()
+        private static (List<DSNode>, List<DSGroup>) GetElementsFromGraphView(DSGraphView graphView)
         {
-            Type groupType = typeof(DSGroup);
-
+            List<DSNode> nodes = new();
+            List<DSGroup> groups = new();
             graphView.graphElements.ForEach(graphElement =>
             {
-                if (graphElement is DSNode node)
+                switch (graphElement)
                 {
-                    nodes.Add(node);
-
-                    return;
-                }
-
-                if (graphElement.GetType() == groupType)
-                {
-                    DSGroup group = (DSGroup) graphElement;
-
-                    groups.Add(group);
-
-                    return;
+                    case DSNode node:
+                        nodes.Add(node);
+                        break;
+                    case DSGroup dsGroup:
+                        groups.Add(dsGroup);
+                        break;
+                    default:
+                        break;
                 }
             });
+
+            return (nodes, groups);
         }
 
         public static void CreateFolder(string parentFolderPath, string newFolderName)

@@ -14,8 +14,6 @@ namespace DS.Elements
         {
             base.Initialize(nodeName, dsGraphView, position);
 
-            //DialogueType = DSDialogueType.MultipleChoice;
-
             DSChoiceSaveData choiceData = new DSChoiceSaveData()
             {
                 Text = "New Choice"

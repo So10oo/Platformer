@@ -9,6 +9,7 @@ namespace DS.Elements
 {
     using Assets.Editor.DialogueSystem.Interface;
     using Data.Save;
+    using Unity.Collections.LowLevel.Unsafe;
     using Utilities;
     using Windows;
 
@@ -24,10 +25,7 @@ namespace DS.Elements
 
         private Color defaultBackgroundColor;
 
-        public event Action<DSNode> BeforeRename;//перед
-        public event Action<DSNode> AfterRename;//после
-
-        
+        public event Action<DSNode, string, string> OnRename;
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
@@ -57,13 +55,11 @@ namespace DS.Elements
             /* TITLE CONTAINER */
             TextField dialogueNameTextField = DSElementUtility.CreateTextField(DialogueName, null, callback =>
             {
-                BeforeRename?.Invoke(this);
-
-                TextField target = (TextField) callback.target;
+                TextField target = (TextField)callback.target;
                 target.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
+                OnRename?.Invoke(this, DialogueName, target.value);
                 DialogueName = target.value;
 
-                AfterRename?.Invoke(this);
             });
 
             dialogueNameTextField.AddClasses(
@@ -100,7 +96,7 @@ namespace DS.Elements
 
             customDataContainer.Add(textFoldout);
 
-            
+
             //ObjectField image = new ObjectField("image");
             //image.objectType = typeof(Texture/*2DArray*/);
             //customDataContainer.Add(image);
@@ -143,7 +139,7 @@ namespace DS.Elements
 
         public bool IsStartingNode()
         {
-            Port inputPort = (Port) inputContainer.Children().First();
+            Port inputPort = (Port)inputContainer.Children().First();
 
             return !inputPort.connected;
         }

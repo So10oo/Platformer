@@ -44,15 +44,23 @@ namespace DS.Windows
         private void AddGroupedNodeFromDictionary(DSNode node, DSGroup group)
         {
             string nodeName = node.DialogueName.ToLower();
+            AddGroupedNodeFromDictionary(node, group, nodeName);
+        }
+        private void AddGroupedNodeFromDictionary(DSNode node, DSGroup group, string nodeName)
+        {
+            nodeName = nodeName.ToLower();
             if (!groupedNodes.ContainsKey(group))
-            {
                 groupedNodes.Add(group, new Dictionary<string, DSErrorData<DSNode>>());
-            }
             AddElementFromDictionary(groupedNodes[group], node, nodeName);
         }
         private void RemoveGroupedNodeFromDictionary(DSNode node, DSGroup group)
         {
             string nodeName = node.DialogueName.ToLower();
+            RemoveGroupedNodeFromDictionary(node, group, nodeName);
+        }
+        private void RemoveGroupedNodeFromDictionary(DSNode node, DSGroup group, string nodeName)
+        {
+            nodeName = nodeName.ToLower();
             groupedNodes[group][nodeName].Remove(node);
             if (groupedNodes[group][nodeName].isEmpty)
             {
@@ -76,20 +84,6 @@ namespace DS.Windows
         private void RemoveGroupFromDictionary(DSGroup group, string currentNameInDictionary)
         {
             RemoveElementFromDictionary(groups, group, currentNameInDictionary);
-        }
-        private void BeforeRenameNode(DSNode node)
-        {
-            if (node.Group == null)
-                RemoveUngroupedNodeFromDictionary(node);
-            else
-                RemoveGroupedNodeFromDictionary(node, node.Group);
-        }
-        private void AfterRenameNode(DSNode node)
-        {
-            if (node.Group == null)
-                AddUngroupedNodeFromDictionary(node);
-            else
-                AddGroupedNodeFromDictionary(node, node.Group);
         }
         private void OnRenameGroup(DSGroup group, string oldName, string newName)
         {
@@ -171,9 +165,8 @@ namespace DS.Windows
         }
         private void OnNodeDeleted(DSNode node)
         {
-            node.AfterRename -= AfterRenameNode;
-            node.BeforeRename -= BeforeRenameNode;
-            
+            node.OnRename -= OnRenameNode;
+
             if (node.Group != null)
                 node.Group.RemoveElement(node);
             RemoveUngroupedNodeFromDictionary(node);
@@ -185,11 +178,23 @@ namespace DS.Windows
         }
         private void OnNodeCreate(DSNode node)
         {
-            node.BeforeRename += BeforeRenameNode;
-            node.AfterRename += AfterRenameNode;
+            node.OnRename += OnRenameNode;
         }
 
+        private void OnRenameNode(DSNode node, string oldValue, string newValue)
+        {
+            if (node.Group == null)
+            {
+                RemoveElementFromDictionary(ungroupedNodes, node, oldValue);
+                AddElementFromDictionary(ungroupedNodes, node, newValue);
+            }
+            else
+            {
+                RemoveGroupedNodeFromDictionary(node, node.Group,oldValue);
+                AddGroupedNodeFromDictionary(node, node.Group);
+            }
+                 
+        }
         #endregion
-
     }
 }

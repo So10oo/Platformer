@@ -84,7 +84,7 @@ namespace DS.Windows
                 return;
             }
             DSIOUtility.Initialize(graphView, fileNameTextField.value);
-            DSIOUtility.Save();
+            //DSIOUtility.Save();
         }
 
         private void Load()

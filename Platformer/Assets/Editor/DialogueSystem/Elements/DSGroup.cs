@@ -8,7 +8,7 @@ namespace DS.Elements
     public class DSGroup : Group, ISetStyleError
     {
         public string ID { get;private set; }
-        public event Action<DSGroup,string, string> OnRename;
+        public event Action<DSGroup, string, string> OnRename;
 
         private Color defaultBorderColor;
         private float defaultBorderWidth;

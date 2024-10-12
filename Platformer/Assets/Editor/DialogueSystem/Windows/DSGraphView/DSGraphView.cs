@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 namespace DS.Windows
 {
+    using DS.Data.Save;
     using Elements;
     using Utilities;
 
@@ -32,6 +33,7 @@ namespace DS.Windows
             OnGroupElementsAdded();
             OnElementsDeleted();
             OnGroupElementRemoved();
+            OnGraphViewChanged();
 
             OnAddNewDSNode += AddUngroupedNodeFromDictionary;//подписываемся на событие добавления ноды через SearchWindow(а есть еще варианты?нет...)
             OnAddNewGroup += AddGroupFromDictionary;//подписываемся на событие добавления групп через SearchWindow
@@ -116,6 +118,33 @@ namespace DS.Windows
             };
         }
 
+        private void OnGraphViewChanged()
+        {
+            graphViewChanged = (changes) =>
+            {
+                if (changes.edgesToCreate != null)
+                {
+                    foreach (var edge in changes.edgesToCreate)
+                    {
+                        DSNode nextNode = (DSNode)edge.input.node;
+                        var choiceData = (DSChoiceSaveData)edge.output.userData;
+                        choiceData.NodeID = nextNode.ID;
+                    }
+                    if (changes.elementsToRemove!=null)
+                    {
+                        foreach (GraphElement element in changes.elementsToRemove)
+                        {
+                            if (element is Edge edge)
+                            {
+                                var choiceData = (DSChoiceSaveData)edge.output.userData;
+                                choiceData.NodeID = "";
+                            }
+                        }
+                    }
+                }
+                return changes;
+            };
+        }
 
         #endregion
 
