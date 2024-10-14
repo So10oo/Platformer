@@ -8,55 +8,52 @@ namespace DialogueSystem.Realtime
     public class DSDialogue : MonoBehaviour
     {
         [SerializeField]
-        private DSDialogueContainerSO dialogueContainer;
+        private DSDialogueContainerSO _dialogueContainer;
 
-        [SerializeField, ShowIf("_dialogueContainerIsNotNull")]
+        [SerializeField, ShowIf("@_dialogueContainer!=null")]
         private bool groupedDialogues;
 
-        [SerializeField, ShowIf("_dialogueContainerIsNotNull")]
+        [SerializeField, ShowIf("@_dialogueContainer!=null")]
         private bool startingDialoguesOnly;
 
-        [/*field: SerializeField*/ShowInInspector, ShowIf("dialogueContainerIsNotNull"), ValueDropdown(nameof(GetDialogue))/*, HideLabel*/]
-        public DSDialogueSO FirstDialogue { get; /*private*/ set; }
+        [ShowInInspector, ShowIf("@_dialogueContainer!=null"), ValueDropdown(nameof(GetDialogue))]
+        public DSDialogueSO FirstDialogue { get; private set; }
          
-        private bool _dialogueContainerIsNotNull => dialogueContainer != null;
-
 #if UNITY_EDITOR
         private ValueDropdownList<DSDialogueSO> GetDialogue()
         {
             ValueDropdownList<DSDialogueSO> result = new();
             IEnumerable<DSDialogueSO> resultList = new List<DSDialogueSO>();
-
-            var listAllDialogues = GetAllDialogueForGroup();
-            if (!groupedDialogues && dialogueContainer.UngroupedDialogues != null) 
-                listAllDialogues.AddRange(dialogueContainer.UngroupedDialogues);
-            if (startingDialoguesOnly)
+            if (_dialogueContainer != null)
             {
-                resultList = from d in listAllDialogues
-                             where d.IsStartingDialogue = true
-                             select d;
+                var listAllDialogues = GetAllDialogueForGroup();
+                if (!groupedDialogues && _dialogueContainer.UngroupedDialogues != null)
+                    listAllDialogues.AddRange(_dialogueContainer.UngroupedDialogues);
+                if (startingDialoguesOnly)
+                {
+                    resultList = from d in listAllDialogues
+                                 where d.IsStartingDialogue == true
+                                 select d;
+                }
+                else
+                {
+                    resultList = listAllDialogues;
+                }
+                foreach (var dialogue in resultList)
+                {
+                    //если одинаковые имена диалогов то высвечиваются только 1 
+                    result.Add(dialogue.DialogueName, dialogue);
+                }
             }
-            else
-            {
-                resultList = listAllDialogues;
-            }
-
-
-            foreach (var dialogue in resultList)
-            {//если одинаковые имена диалогов то высвечиваются только 1 
-                result.Add(dialogue.DialogueName, dialogue);
-            }
-               
-
             return result;
         }
 
         List<DSDialogueSO> GetAllDialogueForGroup()
         {
-            if (dialogueContainer.DialogueGroups != null)
+            if (_dialogueContainer.DialogueGroups != null)
             {
                 var list = new List<DSDialogueSO>();
-                foreach (var group in dialogueContainer.DialogueGroups)
+                foreach (var group in _dialogueContainer.DialogueGroups)
                     list.AddRange(group.Value);
                 return list;
             }

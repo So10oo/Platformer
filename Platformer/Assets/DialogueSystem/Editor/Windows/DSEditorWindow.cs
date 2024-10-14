@@ -43,7 +43,7 @@ namespace DialogueSystem.Editor
 
         private void AddToolbar()
         {
-            Toolbar toolbar = new ();
+            Toolbar toolbar = new();
 
             fileNameTextField = DSElementUtility.CreateTextField(defaultFileName, "File Name:", callback =>
             {
@@ -75,14 +75,14 @@ namespace DialogueSystem.Editor
 
         private void SaveAs()
         {
-            var pathFolder = EditorUtility.OpenFolderPanel("Save", "Asset", "");
+            var pathFolder = EditorUtility.OpenFolderPanel("Save", Application.dataPath, "");
             string relativePath = "Assets" + pathFolder.Substring(Application.dataPath.Length);
             graphView.Save(relativePath, fileNameTextField.value);
         }
 
         private void Load()
         {
-            var fullPath = EditorUtility.OpenFilePanel("Dialogue Graphs", "Assets", "asset");
+            var fullPath = EditorUtility.OpenFilePanel("Dialogue Graphs Load", Application.dataPath, "asset");
 
             if (string.IsNullOrEmpty(fullPath))
             {

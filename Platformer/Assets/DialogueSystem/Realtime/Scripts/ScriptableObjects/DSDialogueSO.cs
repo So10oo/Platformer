@@ -11,16 +11,16 @@ namespace DialogueSystem.Realtime
     public class DSDialogueSO : ScriptableObject
     {
         [field: SerializeField, ReadOnly]
-        public string DialogueName { get; set; }
+        public string DialogueName { get; private set; }
 
         [field: TextArea(), SerializeField,ReadOnly]
-        public string Text { get; set; }
+        public string Text { get; private set; }
 
         [field: SerializeField, ReadOnly, TableList(AlwaysExpanded = true, DrawScrollView = false)]
-        public List<DSDialogueChoiceData> Choices { get; set; }
+        public List<DSDialogueChoiceData> Choices { get; private set; }
 
         [field: SerializeField, ReadOnly]
-        public bool IsStartingDialogue { get; set; }
+        public bool IsStartingDialogue { get; private set; }
 
 #if UNITY_EDITOR  
         private static List<DSDialogueChoiceData> ConvertNodeChoicesToDialogueChoices(List<DSChoiceSaveData> nodeChoices)

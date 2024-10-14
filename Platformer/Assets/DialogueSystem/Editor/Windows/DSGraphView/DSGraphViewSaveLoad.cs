@@ -35,7 +35,7 @@ namespace DialogueSystem.Editor
                 AssetDatabase.CreateAsset(dialogueContainer, $"{path}/{name}DialogueContainer.asset");
 
                 foreach (var dialogues in createdDialogues.Values)
-                {
+                { 
                     EditorUtility.SetDirty(dialogues);
                     dialogues.name = dialogues.DialogueName;
                     AssetDatabase.AddObjectToAsset(dialogues, dialogueContainer);
@@ -43,7 +43,6 @@ namespace DialogueSystem.Editor
 
                 EditorUtility.SetDirty(graphData);
                 EditorUtility.SetDirty(dialogueContainer);
-
                 AssetDatabase.SaveAssets();
             }
             catch (Exception ex)

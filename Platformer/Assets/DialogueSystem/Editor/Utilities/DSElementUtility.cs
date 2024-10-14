@@ -52,11 +52,6 @@ namespace DialogueSystem.Editor
             return textField;
         }
 
-        //private static SpriteNameFileIdPair CreateSpriteFile(Sprite value = null, string label = null, EventCallback<ChangeEvent<string>> onValueChanged = null)
-        //{
-        //    //var s = new SpriteNameFileIdPair()
-        //}
-
         public static TextField CreateTextArea(string value = null, string label = null, EventCallback<ChangeEvent<string>> onValueChanged = null)
         {
             TextField textArea = CreateTextField(value, label, onValueChanged);
