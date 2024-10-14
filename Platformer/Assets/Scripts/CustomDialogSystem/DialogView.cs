@@ -1,4 +1,4 @@
-using DS.ScriptableObjects;
+using DialogueSystem.Realtime;
 using System;
 using TMPro;
 using UnityEngine;

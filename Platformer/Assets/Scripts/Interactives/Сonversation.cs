@@ -1,5 +1,4 @@
-﻿using DS;
-using DS.ScriptableObjects;
+﻿using DialogueSystem.Realtime;
 using TMPro;
 using UnityEngine;
 using Zenject;

@@ -745,13 +745,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f70cf55b2086fe4e916735c1b64ee09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueContainer: {fileID: 11400000, guid: cf7189d6728e64d41a1c666e3d50d972, type: 2}
-  dialogueGroup: {fileID: 11400000, guid: b4e22551c4ac40f498962b3d7180a040, type: 2}
-  dialogue: {fileID: 11400000, guid: ae34034296128404889b1db4fa3b6796, type: 2}
-  groupedDialogues: 0
+  dialogueContainer: {fileID: 0}
+  groupedDialogues: 1
   startingDialoguesOnly: 0
-  selectedDialogueGroupIndex: 0
-  selectedDialogueIndex: 1
 --- !u!4 &473895381
 Transform:
   m_ObjectHideFlags: 0
@@ -1937,7 +1933,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1033884937}
   m_HandleRect: {fileID: 1033884936}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -17134,6 +17130,51 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1809254000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1809254002}
+  - component: {fileID: 1809254001}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1809254001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809254000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce190cc6371256f42ac708965f37b7e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Choices>k__BackingField: []
+--- !u!4 &1809254002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809254000}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.2524257, y: 9.399556, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1818363129
 GameObject:
   m_ObjectHideFlags: 0
@@ -18173,3 +18214,4 @@ SceneRoots:
   - {fileID: 1678128431}
   - {fileID: 51910474}
   - {fileID: 1099037610}
+  - {fileID: 1809254002}

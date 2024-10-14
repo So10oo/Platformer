@@ -1,5 +1,6 @@
-using DS.ScriptableObjects;
+using DialogueSystem.Realtime;
 using UnityEngine;
+using Zenject;
 
 public class DialogPanel : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class DialogPanel : MonoBehaviour
     Character _character;
     StateMachineEvents<Character> _stateMachine;
 
+    [Inject]
     void Construct(Character character, StateMachineEvents<Character> stateMachine)
     {
         _character = character;

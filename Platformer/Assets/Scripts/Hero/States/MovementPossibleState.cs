@@ -51,7 +51,7 @@ public abstract class MovementPossibleState : AttackableState
                 power.x = -Mathf.Sign(velocityX) * settings.directAcceleration;
 
             rb.AddForce(power, ForceMode2D.Impulse);
-            Debug.Log(power.x);
+            //Debug.Log(power.x);
         }
     }
 }
