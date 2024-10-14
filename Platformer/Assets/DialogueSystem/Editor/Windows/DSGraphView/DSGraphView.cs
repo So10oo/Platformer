@@ -8,7 +8,7 @@ namespace DialogueSystem.Editor
 {
     public partial class DSGraphView : GraphView
     {
-        private DSEditorWindow editorWindow;
+        private readonly DSEditorWindow editorWindow;
 
         private MiniMap miniMap;
 
@@ -63,21 +63,19 @@ namespace DialogueSystem.Editor
         #region CreateMetod
         private DSGroup CreateGroup(string title, Rect position)
         {
-            DSGroup group = new DSGroup(title, position);
+            var group = new DSGroup(title, position);
             OnCreateDSGroup?.Invoke(group);
             return group;
         }
 
-        private DSNode CreateNode(string nodeName, Type nodeType, Vector2 position,bool showDraw = true)
+        private DSNode CreateNode(string nodeName, Type nodeType, Vector2 position, bool showDraw = true)
         {
             DSNode node = (DSNode)Activator.CreateInstance(nodeType);
             node.Initialize(nodeName, this, position);
-
             if (showDraw)
             {
                 node.Draw();
             }
-            
             node.OnDisconnectPorts += DeleteElements;
             OnCreateDSNode?.Invoke(node);
             return node;
@@ -96,19 +94,14 @@ namespace DialogueSystem.Editor
                     switch (select)
                     {
                         case DSNode node:
-                            OnNodeDeleted(node); 
+                            OnNodeDeleted(node);
                             node.OnDisconnectPorts -= DeleteElements;
-                            //RemoveElement(node);
                             goto Deleted;
                         case DSGroup group:
                             OnGroupDeleted(group);
                             goto Deleted;
-                        //RemoveElement(group);
-                        //break;
                         case Edge edge:
                             goto Deleted;
-                        //RemoveElement(edge);
-                        //break;
                         Deleted:
                             if (select is GraphElement graphElement)
                                 RemoveElement(graphElement);
@@ -119,9 +112,9 @@ namespace DialogueSystem.Editor
                     }
                     var deleteElements = oldSelectionCount - selection.Count;
                     var subtractI = Mathf.Max(1, deleteElements);
-                    i-= subtractI;
+                    i -= subtractI;
                 }
-               
+
             };
         }
 
@@ -133,11 +126,11 @@ namespace DialogueSystem.Editor
                 {
                     foreach (var edge in changes.edgesToCreate)
                     {
-                        DSNode nextNode = (DSNode)edge.input.node;
+                        var nextNode = (DSNode)edge.input.node;
                         var choiceData = (DSChoiceSaveData)edge.output.userData;
                         choiceData.NodeID = nextNode.ID;
                     }
-                    if (changes.elementsToRemove!=null)
+                    if (changes.elementsToRemove != null)
                     {
                         foreach (GraphElement element in changes.elementsToRemove)
                         {
@@ -166,7 +159,7 @@ namespace DialogueSystem.Editor
 
         private void SearchWindow_OnSelectedGroup(Vector2 position)
         {
-            DSGroup group = CreateGroup("DialogueGroup", new Rect(GetLocalMousePosition(position, true),Vector2.zero));
+            DSGroup group = CreateGroup("DialogueGroup", new Rect(GetLocalMousePosition(position, true), Vector2.zero));
             AddElement(group);
             OnAddNewGroup?.Invoke(group);
             foreach (GraphElement selectedElement in selection)
@@ -182,25 +175,22 @@ namespace DialogueSystem.Editor
         }
         #endregion
 
-
         #region MiniMap
         private void AddMiniMap()
         {
             miniMap = new MiniMap()
             {
-                anchored = true
+                anchored = true,
             };
-
-            miniMap.SetPosition(new Rect(15, 50, 200, 180));
-
+            miniMap.SetPosition(new Rect(20, 50, 200, 180));
             Add(miniMap);
-
             miniMap.visible = false;
         }
+
         private void AddMiniMapStyles()
         {
-            StyleColor backgroundColor = new StyleColor(new Color32(29, 29, 30, 255));
-            StyleColor borderColor = new StyleColor(new Color32(51, 51, 51, 255));
+            StyleColor backgroundColor = new(new Color32(29, 29, 30, 255));
+            StyleColor borderColor = new(new Color32(51, 51, 51, 255));
 
             miniMap.style.backgroundColor = backgroundColor;
             miniMap.style.borderTopColor = borderColor;
@@ -208,10 +198,9 @@ namespace DialogueSystem.Editor
             miniMap.style.borderBottomColor = borderColor;
             miniMap.style.borderLeftColor = borderColor;
         }
-        public void ToggleMiniMap()
-        {
-            miniMap.visible = !miniMap.visible;
-        }
+
+        public void ToggleMiniMap() => miniMap.visible = !miniMap.visible;
+
         #endregion
 
         private void AddStyles()
@@ -224,32 +213,24 @@ namespace DialogueSystem.Editor
         public Vector2 GetLocalMousePosition(Vector2 mousePosition, bool isSearchWindow = false)
         {
             Vector2 worldMousePosition = mousePosition;
-
             if (isSearchWindow)
-            {
                 worldMousePosition = editorWindow.rootVisualElement.ChangeCoordinatesTo(editorWindow.rootVisualElement.parent, mousePosition - editorWindow.position.position);
-
-            }
-
-            Vector2 localMousePosition = contentViewContainer.WorldToLocal(worldMousePosition);
-
-            return localMousePosition;
+            return contentViewContainer.WorldToLocal(worldMousePosition);
         }
 
-        public void ClearGraph() 
-        { 
+        public void ClearGraph()
+        {
             graphElements.ForEach(graphElement => RemoveElement(graphElement));
             groups.Clear();
             groupedNodes.Clear();
             ungroupedNodes.Clear();
             globalCounterErrors.ResetErrors();
         }
+
         private void AddGridBackground()
         {
-            GridBackground gridBackground = new GridBackground();
-
+            var gridBackground = new GridBackground();
             gridBackground.StretchToParentSize();
-
             Insert(0, gridBackground);
         }
 

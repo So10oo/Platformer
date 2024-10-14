@@ -10,16 +10,16 @@ namespace DialogueSystem.Realtime
         [SerializeField]
         private DSDialogueContainerSO dialogueContainer;
 
-        [SerializeField, ShowIf("dialogueContainerIsNotNull")]
+        [SerializeField, ShowIf("_dialogueContainerIsNotNull")]
         private bool groupedDialogues;
 
-        [SerializeField, ShowIf("dialogueContainerIsNotNull")]
+        [SerializeField, ShowIf("_dialogueContainerIsNotNull")]
         private bool startingDialoguesOnly;
 
         [/*field: SerializeField*/ShowInInspector, ShowIf("dialogueContainerIsNotNull"), ValueDropdown(nameof(GetDialogue))/*, HideLabel*/]
         public DSDialogueSO FirstDialogue { get; /*private*/ set; }
          
-        private bool dialogueContainerIsNotNull => dialogueContainer != null;
+        private bool _dialogueContainerIsNotNull => dialogueContainer != null;
 
 #if UNITY_EDITOR
         private ValueDropdownList<DSDialogueSO> GetDialogue()
@@ -62,8 +62,6 @@ namespace DialogueSystem.Realtime
             }
             return new List<DSDialogueSO>();
         }
-
-
 #endif
     }
 }

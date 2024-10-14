@@ -745,8 +745,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f70cf55b2086fe4e916735c1b64ee09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueContainer: {fileID: 0}
-  groupedDialogues: 1
+  dialogueContainer: {fileID: 11400000, guid: 564664b06d356184cba7efbcb56866c5, type: 2}
+  groupedDialogues: 0
   startingDialoguesOnly: 0
 --- !u!4 &473895381
 Transform:

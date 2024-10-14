@@ -2,7 +2,6 @@ using DialogSystem.Editor;
 using DialogueSystem.Realtime;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -12,7 +11,9 @@ namespace DialogueSystem.Editor
 {
     public partial class DSGraphView
     {
-        public void Save()
+        string pathToGraph;
+
+        public void Save(string path, string name)
         {
             try
             {
@@ -22,6 +23,7 @@ namespace DialogueSystem.Editor
                 //создаем два объекта один для графа воссоздания графа другой для хранения диалогов
                 DSGraphSaveDataSO graphData = DSGraphSaveDataSO.CreateInstance();
                 DSDialogueContainerSO dialogueContainer = DSDialogueContainerSO.CreateInstance();
+                graphData.FileName = name;
 
                 var createdGroups = new Dictionary<string, DSDialogueGroupSO>();
                 var createdDialogues = new Dictionary<string, DSDialogueSO>();
@@ -29,8 +31,8 @@ namespace DialogueSystem.Editor
                 SaveGroups(graphData, dialogueContainer, groups, createdGroups);
                 SaveNodes(graphData, dialogueContainer, nodes, createdDialogues, createdGroups);
 
-                AssetDatabase.CreateAsset(graphData, $"Assets/graphData.asset");
-                AssetDatabase.CreateAsset(dialogueContainer, $"Assets/dialogueContainer.asset");
+                AssetDatabase.CreateAsset(graphData, $"{path}/{name}Graph.asset");
+                AssetDatabase.CreateAsset(dialogueContainer, $"{path}/{name}DialogueContainer.asset");
 
                 foreach (var dialogues in createdDialogues.Values)
                 {
@@ -39,8 +41,9 @@ namespace DialogueSystem.Editor
                     AssetDatabase.AddObjectToAsset(dialogues, dialogueContainer);
                 }
 
-                EditorUtility.SetDirty(graphData); 
+                EditorUtility.SetDirty(graphData);
                 EditorUtility.SetDirty(dialogueContainer);
+
                 AssetDatabase.SaveAssets();
             }
             catch (Exception ex)
@@ -135,19 +138,15 @@ namespace DialogueSystem.Editor
 
         private void SaveGroupToScriptableObject(DSGroup group, DSDialogueContainerSO dialogueContainer, Dictionary<string, DSDialogueGroupSO> createdGroups)
         {
-            DSDialogueGroupSO dialogueGroup = new DSDialogueGroupSO(group);
+            var dialogueGroup = new DSDialogueGroupSO(group);
             dialogueContainer.DialogueGroups.Add(dialogueGroup, new List<DSDialogueSO>());
             createdGroups.Add(group.ID, dialogueGroup);
         }
 
-        public void Load()
+        public void Load(DSGraphSaveDataSO graphData)
         {
             try
             {
-                var f = EditorUtility.OpenFilePanel("Dialogue Graphs", "Assets", "asset");
-                var p = Path.GetFileNameWithoutExtension(f);
-
-                var graphData = LoadAsset<DSGraphSaveDataSO>("Assets", "graphData");
                 Dictionary<string, DSGroup> loadedGroups = new();
                 Dictionary<string, DSNode> loadedNodes = new();
                 LoadGroups(graphData, loadedGroups);
@@ -156,15 +155,14 @@ namespace DialogueSystem.Editor
             }
             catch (Exception e)
             {
+                //this.ClearGraph();
                 Debug.LogException(e);
             }
              
         }
-        public static T LoadAsset<T>(string path, string assetName) where T : ScriptableObject
+        public T LoadAsset<T>(string path, string assetName) where T : ScriptableObject
         {
-            string fullPath = $"{path}/{assetName}.asset";
-
-            return AssetDatabase.LoadAssetAtPath<T>(fullPath);
+            return AssetDatabase.LoadAssetAtPath<T>($"{path}/{assetName}.asset");
         }
 
         private void LoadGroups(DSGraphSaveDataSO graphData, Dictionary<string, DSGroup> loadedGroups)

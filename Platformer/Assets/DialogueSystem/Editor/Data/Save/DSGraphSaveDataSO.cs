@@ -1,4 +1,3 @@
-using DialogueSystem.Realtime;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,5 +17,13 @@ namespace DialogueSystem.Editor
             instance.Nodes = new();
             return instance;
         }
+
+        [Button()]
+        void OpenGroup()
+        {
+            var window = DSEditorWindow.Open();
+            window.Load(this);
+        }
+
     }
 }

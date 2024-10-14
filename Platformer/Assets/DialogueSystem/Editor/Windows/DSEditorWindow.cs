@@ -1,6 +1,6 @@
-using System.IO;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace DialogueSystem.Editor
@@ -12,13 +12,13 @@ namespace DialogueSystem.Editor
         private const string defaultFileName = "DialoguesFileName";
 
         private TextField fileNameTextField;
-        private Button saveButton;
+        private Button saveAsButton;
         private Button miniMapButton;
 
         [MenuItem("Window/DS/Dialogue Graph")]
-        public static void Open()
+        public static DSEditorWindow Open()
         {
-            GetWindow<DSEditorWindow>("Dialogue Graph");
+            return GetWindow<DSEditorWindow>("Dialogue Graph");
         }
 
         private void OnEnable()
@@ -26,7 +26,6 @@ namespace DialogueSystem.Editor
             AddGraphView();
             AddToolbar();
             AddStyles();
-            
         }
 
         private void AddGraphView()
@@ -34,34 +33,33 @@ namespace DialogueSystem.Editor
             graphView = new DSGraphView(this);
             graphView.StretchToParentSize();
             rootVisualElement.Add(graphView);
-
             graphView.globalCounterErrors.StateErrorChange += ActiveSaveButton;
         }
 
         private void ActiveSaveButton(bool IsError)
         {
-            saveButton.SetEnabled(!IsError);
+            saveAsButton.SetEnabled(!IsError);
         }
 
         private void AddToolbar()
         {
-            Toolbar toolbar = new Toolbar();
+            Toolbar toolbar = new ();
 
             fileNameTextField = DSElementUtility.CreateTextField(defaultFileName, "File Name:", callback =>
             {
                 fileNameTextField.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
             });
 
-            saveButton = DSElementUtility.CreateButton("Save", graphView.Save);
+            saveAsButton = DSElementUtility.CreateButton("SaveAs", SaveAs);
 
-            Button loadButton = DSElementUtility.CreateButton("Load", () => graphView.Load());
+            Button loadButton = DSElementUtility.CreateButton("Load", Load);
 
-            Button clearButton = DSElementUtility.CreateButton("Clear", () => Clear());
-            Button resetButton = DSElementUtility.CreateButton("Reset", () => ResetGraph());
-            miniMapButton = DSElementUtility.CreateButton("Minimap", () => ToggleMiniMap());
+            Button clearButton = DSElementUtility.CreateButton("Clear", Clear);
+            Button resetButton = DSElementUtility.CreateButton("Reset", ResetGraph);
+            miniMapButton = DSElementUtility.CreateButton("Minimap", ToggleMiniMap);
 
             toolbar.Add(fileNameTextField);
-            toolbar.Add(saveButton);
+            toolbar.Add(saveAsButton);
             toolbar.Add(loadButton);
             toolbar.Add(clearButton);
             toolbar.Add(resetButton);
@@ -75,28 +73,39 @@ namespace DialogueSystem.Editor
             rootVisualElement.AddStyleSheets(PathToStyle.DSVariables);
         }
 
-        //private void Save()
-        //{
-        //    if (string.IsNullOrEmpty(fileNameTextField.value))
-        //    {
-        //        EditorUtility.DisplayDialog("Invalid file name.", "Please ensure the file name you've typed in is valid.", "Roger!");
-        //        return;
-        //    }
-        //    //DSIOUtility.Initialize(graphView, fileNameTextField.value);
-        //    //DSIOUtility.Save();
-        //}
+        private void SaveAs()
+        {
+            var pathFolder = EditorUtility.OpenFolderPanel("Save", "Asset", "");
+            string relativePath = "Assets" + pathFolder.Substring(Application.dataPath.Length);
+            graphView.Save(relativePath, fileNameTextField.value);
+        }
 
         private void Load()
         {
-            //string filePath = EditorUtility.OpenFilePanel("Dialogue Graphs", "Assets/Editor/DialogueSystem/Graphs", "asset");
+            var fullPath = EditorUtility.OpenFilePanel("Dialogue Graphs", "Assets", "asset");
 
-            //if (string.IsNullOrEmpty(filePath))
-            //    return;
-            
-            //Clear();
+            if (string.IsNullOrEmpty(fullPath))
+            {
+                Debug.Log("File was not selected");
+                return;
+            }
+            string relativePath = "Assets" + fullPath.Substring(Application.dataPath.Length);
+            var graphData = AssetDatabase.LoadAssetAtPath<DSGraphSaveDataSO>(relativePath);
+            if (graphData == null)
+            {
+                Debug.LogWarning("Selected file is not a graph");
+                return;
+            }
+            ResetGraph();
+            fileNameTextField.value = graphData.FileName;
+            graphView.Load(graphData);
+        }
 
-            //DSIOUtility.Initialize(graphView, Path.GetFileNameWithoutExtension(filePath));
-            //DSIOUtility.Load();
+        public void Load(DSGraphSaveDataSO graphData)
+        {
+            ResetGraph();
+            fileNameTextField.value = graphData.FileName;
+            graphView.Load(graphData);
         }
 
         private void Clear()
@@ -107,7 +116,7 @@ namespace DialogueSystem.Editor
         private void ResetGraph()
         {
             Clear();
-            //UpdateFileName(defaultFileName);
+            UpdateFileName(defaultFileName);
         }
 
         private void ToggleMiniMap()
@@ -116,10 +125,10 @@ namespace DialogueSystem.Editor
             miniMapButton.ToggleInClassList("ds-toolbar__button__selected");
         }
 
-        //public static void UpdateFileName(string newFileName)
-        //{
-        //    fileNameTextField.value = newFileName;
-        //}
+        private void UpdateFileName(string newFileName)
+        {
+            fileNameTextField.value = newFileName;
+        }
 
     }
 }

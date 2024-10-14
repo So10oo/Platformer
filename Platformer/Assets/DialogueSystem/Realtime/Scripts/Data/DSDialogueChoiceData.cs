@@ -11,7 +11,7 @@ namespace DialogueSystem.Realtime
         public string Text { get; set; }
          
         [HideInInspector]
-        //[field: NonSerialized] //SerializeField = fatal error :)
+        [field: SerializeField]
         public DSDialogueSO NextDialogue { get; set; }
     }
 } 
