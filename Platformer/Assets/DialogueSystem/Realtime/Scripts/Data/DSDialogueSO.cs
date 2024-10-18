@@ -13,7 +13,10 @@ namespace DialogueSystem.Realtime
         [field: SerializeField, ReadOnly]
         public string DialogueName { get; private set; }
 
-        [field: TextArea(), SerializeField,ReadOnly]
+        [field: SerializeField, ReadOnly]
+        public CharacterData Character { get; private set; }
+
+        [field: TextArea(), SerializeField, ReadOnly]
         public string Text { get; private set; }
 
         [field: SerializeField, ReadOnly, TableList(AlwaysExpanded = true, DrawScrollView = false)]
@@ -37,13 +40,15 @@ namespace DialogueSystem.Realtime
             return dialogueChoices;
         }
 
-        public static DSDialogueSO CreateInstance(DSNode node)
+        public static DSDialogueSO CreateInstance(DSNode node, List<CharacterData> datas)
         {
             var instance = ScriptableObject.CreateInstance<DSDialogueSO>();
+            instance.name = node.DialogueName;
             instance.DialogueName = node.DialogueName;
             instance.Text = node.Text;
             instance.Choices = ConvertNodeChoicesToDialogueChoices(node.Choices);
             instance.IsStartingDialogue = node.IsStartingNode();
+            instance.Character = datas.Find(x => x.ID == node.Character.ID);//CharacterData.CreateInstance(node.Character);
             return instance;
         }
 #endif

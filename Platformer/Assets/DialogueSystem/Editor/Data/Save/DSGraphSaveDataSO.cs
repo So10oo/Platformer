@@ -19,7 +19,7 @@ namespace DialogueSystem.Editor
         }
 
         [Button()]
-        void OpenGroup()
+        void OpenGraph()
         {
             var window = DSEditorWindow.Open();
             window.Load(this);

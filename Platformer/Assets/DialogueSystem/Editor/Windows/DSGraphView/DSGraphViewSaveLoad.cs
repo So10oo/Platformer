@@ -28,16 +28,23 @@ namespace DialogueSystem.Editor
                 var createdGroups = new Dictionary<string, DSDialogueGroupSO>();
                 var createdDialogues = new Dictionary<string, DSDialogueSO>();
 
-                SaveGroups(graphData, dialogueContainer, groups, createdGroups);
-                SaveNodes(graphData, dialogueContainer, nodes, createdDialogues, createdGroups);
+                var characters = GetCharacters(dialogueContainer);
 
+                SaveGroups(graphData, dialogueContainer, groups, createdGroups);
+                SaveNodes(graphData, dialogueContainer, nodes, createdDialogues, createdGroups, characters);
+                 
                 AssetDatabase.CreateAsset(graphData, $"{path}/{name}Graph.asset");
                 AssetDatabase.CreateAsset(dialogueContainer, $"{path}/{name}DialogueContainer.asset");
+
+                foreach (var character in characters) 
+                {
+                    AssetDatabase.AddObjectToAsset(character, dialogueContainer);
+                }
 
                 foreach (var dialogues in createdDialogues.Values)
                 { 
                     EditorUtility.SetDirty(dialogues);
-                    dialogues.name = dialogues.DialogueName;
+                    //dialogues.name = dialogues.DialogueName;
                     AssetDatabase.AddObjectToAsset(dialogues, dialogueContainer);
                 }
 
@@ -52,6 +59,19 @@ namespace DialogueSystem.Editor
 
         }
 
+        List<CharacterData> GetCharacters(DSDialogueContainerSO dialogueContainer)
+        {
+            List<CharacterData> resultList = new();
+            foreach (var character in this.characters)
+            {
+                var characterData = CharacterData.CreateInstance(character);
+                EditorUtility.SetDirty(characterData);
+                resultList.Add(characterData);
+                dialogueContainer.Characters.Add(characterData);
+            }
+            return resultList;
+        }
+
         private void SaveGroups(DSGraphSaveDataSO graphData, DSDialogueContainerSO dialogueContainer, List<DSGroup> groups,
             Dictionary<string, DSDialogueGroupSO> createdGroups)
         {
@@ -63,12 +83,12 @@ namespace DialogueSystem.Editor
         }
 
         private void SaveNodes(DSGraphSaveDataSO graphData, DSDialogueContainerSO dialogueContainer, List<DSNode> nodes,
-            Dictionary<string, DSDialogueSO> createdDialogues, Dictionary<string, DSDialogueGroupSO> createdGroups)
+            Dictionary<string, DSDialogueSO> createdDialogues, Dictionary<string, DSDialogueGroupSO> createdGroups, List<CharacterData> characterDatas)
         {
             foreach (DSNode node in nodes)
             {
                 SaveNodeToGraph(node, graphData);
-                SaveNodeToScriptableObject(node, dialogueContainer, createdGroups, createdDialogues);
+                SaveNodeToScriptableObject(node, dialogueContainer, createdGroups, createdDialogues, characterDatas);
             }
             UpdateDialoguesChoicesConnections(dialogueContainer, createdDialogues);
         }
@@ -90,9 +110,9 @@ namespace DialogueSystem.Editor
         }
 
         private void SaveNodeToScriptableObject(DSNode node, DSDialogueContainerSO dialogueContainer,
-            Dictionary<string, DSDialogueGroupSO> createdGroups, Dictionary<string, DSDialogueSO> createdDialogues)
+            Dictionary<string, DSDialogueGroupSO> createdGroups, Dictionary<string, DSDialogueSO> createdDialogues, List<CharacterData> characterDatas)
         {
-            DSDialogueSO dialogue = DSDialogueSO.CreateInstance(node);
+            DSDialogueSO dialogue = DSDialogueSO.CreateInstance(node, characterDatas);
             if (node.Group != null)
             {
                 var dialogGroups = createdGroups[node.Group.ID];
@@ -173,7 +193,7 @@ namespace DialogueSystem.Editor
                 group.ID = groupData.ID;
 
                 loadedGroups.Add(group.ID, group);
-                this.AddElement(group);
+                AddElement(group);
                 OnAddNewGroup?.Invoke(group);
             }
         }
@@ -184,7 +204,7 @@ namespace DialogueSystem.Editor
             {
                 List<DSChoiceSaveData> choices = nodeData.Choices.Clone();
 
-                DSNode node = this.CreateNode(nodeData.Name, nodeData.Type,/* nodeData.DialogueType,*/ nodeData.Position, false);
+                DSNode node = CreateNode(nodeData.Name, nodeData.Type,/* nodeData.DialogueType,*/ nodeData.Position, false);
 
                 node.ID = nodeData.ID;
                 node.Choices = choices;
@@ -192,7 +212,7 @@ namespace DialogueSystem.Editor
 
                 node.Draw();
 
-                this.AddElement(node);
+                AddElement(node);
                 OnAddNewDSNode?.Invoke(node);
 
                 loadedNodes.Add(node.ID, node);

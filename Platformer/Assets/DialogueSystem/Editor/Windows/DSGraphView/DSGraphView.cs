@@ -9,9 +9,8 @@ namespace DialogueSystem.Editor
     public partial class DSGraphView : GraphView
     {
         private readonly DSEditorWindow editorWindow;
-
-        private MiniMap miniMap;
-
+        private MiniMap _miniMap;
+       
         public event Action<DSNode> OnAddNewDSNode;
         public event Action<DSGroup> OnAddNewGroup;
         public event Action<DSNode> OnCreateDSNode;
@@ -25,6 +24,7 @@ namespace DialogueSystem.Editor
             AddGridBackground();
             AddSearchWindow();
             AddMiniMap();
+            AddBlackboard();
 
             OnGroupElementsAdded();
             OnElementsDeleted();
@@ -38,6 +38,14 @@ namespace DialogueSystem.Editor
 
             AddStyles();
             AddMiniMapStyles();
+        }
+
+        ~DSGraphView()
+        {
+            OnAddNewDSNode -= AddUngroupedNodeFromDictionary;
+            OnAddNewGroup -= AddGroupFromDictionary;
+            OnCreateDSNode -= SubscriberRenameNode;
+            OnCreateDSGroup -= SubscriberRenameGroup;
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -80,6 +88,7 @@ namespace DialogueSystem.Editor
             OnCreateDSNode?.Invoke(node);
             return node;
         }
+
         #endregion
 
         #region Callbacks GraphView
@@ -102,6 +111,11 @@ namespace DialogueSystem.Editor
                             goto Deleted;
                         case Edge edge:
                             goto Deleted;
+                        case BlackboardField blackboardField:
+                            var characterField = (CharacterField)blackboardField.userData;
+                            _blackboard.Remove(characterField);
+                            characters.Remove(characterField);
+                            break;
                         Deleted:
                             if (select is GraphElement graphElement)
                                 RemoveElement(graphElement);
@@ -148,43 +162,17 @@ namespace DialogueSystem.Editor
 
         #endregion
 
-        #region SearchWindow
-        private void AddSearchWindow()
-        {
-            var searchWindow = ScriptableObject.CreateInstance<DSSearchWindow>();
-            searchWindow.OnSelectedDSNode += SearchWindow_OnSelectedDSNode;
-            searchWindow.OnSelectedGroup += SearchWindow_OnSelectedGroup;
-            nodeCreationRequest = context => SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), searchWindow);
-        }
-
-        private void SearchWindow_OnSelectedGroup(Vector2 position)
-        {
-            DSGroup group = CreateGroup("DialogueGroup", new Rect(GetLocalMousePosition(position, true), Vector2.zero));
-            AddElement(group);
-            OnAddNewGroup?.Invoke(group);
-            foreach (GraphElement selectedElement in selection)
-                if (selectedElement is DSNode node)
-                    group.AddElement(node);
-        }
-
-        private void SearchWindow_OnSelectedDSNode(Type type, Vector2 position)
-        {
-            DSNode node = CreateNode("DialogueName", type, GetLocalMousePosition(position, true));
-            AddElement(node);
-            OnAddNewDSNode?.Invoke(node);
-        }
-        #endregion
-
         #region MiniMap
         private void AddMiniMap()
         {
-            miniMap = new MiniMap()
+            _miniMap = new MiniMap()
             {
                 anchored = true,
             };
-            miniMap.SetPosition(new Rect(20, 50, 200, 180));
-            Add(miniMap);
-            miniMap.visible = false;
+            //miniMap.style.unityTextOverflowPosition = PositionType.
+            _miniMap.SetPosition(new Rect(20, 50, 200, 180));
+            Add(_miniMap);
+            _miniMap.visible = false;
         }
 
         private void AddMiniMapStyles()
@@ -192,17 +180,17 @@ namespace DialogueSystem.Editor
             StyleColor backgroundColor = new(new Color32(29, 29, 30, 255));
             StyleColor borderColor = new(new Color32(51, 51, 51, 255));
 
-            miniMap.style.backgroundColor = backgroundColor;
-            miniMap.style.borderTopColor = borderColor;
-            miniMap.style.borderRightColor = borderColor;
-            miniMap.style.borderBottomColor = borderColor;
-            miniMap.style.borderLeftColor = borderColor;
+            _miniMap.style.backgroundColor = backgroundColor;
+            _miniMap.style.borderTopColor = borderColor;
+            _miniMap.style.borderRightColor = borderColor;
+            _miniMap.style.borderBottomColor = borderColor;
+            _miniMap.style.borderLeftColor = borderColor;
         }
 
-        public void ToggleMiniMap() => miniMap.visible = !miniMap.visible;
+        public void ToggleMiniMap() => _miniMap.visible = !_miniMap.visible;
 
         #endregion
-
+ 
         private void AddStyles()
         {
             this.AddStyleSheets(
@@ -210,6 +198,7 @@ namespace DialogueSystem.Editor
                 PathToStyle.DSNodeStyles
             );
         }
+
         public Vector2 GetLocalMousePosition(Vector2 mousePosition, bool isSearchWindow = false)
         {
             Vector2 worldMousePosition = mousePosition;
@@ -233,6 +222,5 @@ namespace DialogueSystem.Editor
             gridBackground.StretchToParentSize();
             Insert(0, gridBackground);
         }
-
     }
 }

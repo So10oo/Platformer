@@ -9,7 +9,7 @@ namespace DialogueSystem.Editor
         {
             base.Initialize(nodeName, dsGraphView, position);
 
-            DSChoiceSaveData choiceData = new DSChoiceSaveData()
+            var choiceData = new DSChoiceSaveData()
             {
                 Text = "Next Dialogue"
             };

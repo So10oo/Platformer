@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DialogueSystem.Realtime
 {
-    public class DSDialogue : MonoBehaviour
+    public class DSInspectorInitialDialogue : MonoBehaviour
     {
         [SerializeField]
         private DSDialogueContainerSO _dialogueContainer;

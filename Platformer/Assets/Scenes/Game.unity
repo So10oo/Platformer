@@ -745,7 +745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f70cf55b2086fe4e916735c1b64ee09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueContainer: {fileID: 11400000, guid: 564664b06d356184cba7efbcb56866c5, type: 2}
+  _dialogueContainer: {fileID: 11400000, guid: 733b7c4b6c92fa348a0b35601e23940e, type: 2}
   groupedDialogues: 0
   startingDialoguesOnly: 0
 --- !u!4 &473895381
@@ -1934,7 +1934,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1033884936}
   m_Direction: 0
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

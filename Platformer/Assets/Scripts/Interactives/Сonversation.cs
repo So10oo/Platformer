@@ -14,7 +14,7 @@ public class Conversation : Interactive
     void Construct(DialogPanel progressDialog)
     {
         _progressDialog = progressDialog;
-        _firstDialogue = GetComponent<DSDialogue>().FirstDialogue;
+        _firstDialogue = GetComponent<DSInspectorInitialDialogue>().FirstDialogue;
     }
 
     public override void Interaction()

@@ -10,7 +10,7 @@ namespace DialogueSystem.Editor
         {
             base.Initialize(nodeName, dsGraphView, position);
 
-            DSChoiceSaveData choiceData = new DSChoiceSaveData()
+            var choiceData = new DSChoiceSaveData()
             {
                 Text = "New Choice"
             };
@@ -26,7 +26,7 @@ namespace DialogueSystem.Editor
 
             Button addChoiceButton = DSElementUtility.CreateButton("Add Choice", () =>
             {
-                DSChoiceSaveData choiceData = new DSChoiceSaveData()
+                var choiceData = new DSChoiceSaveData()
                 {
                     Text = "New Choice"
                 };

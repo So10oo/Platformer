@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0202a3095b7477a4091d56344f0af6b3, type: 3}
+  m_Name: testGraph
+  m_EditorClassIdentifier: 
+  <FileName>k__BackingField: test
+  <Groups>k__BackingField:
+  - <ID>k__BackingField: 1e0c6848-2656-4313-824c-88d243ded88e
+    <Name>k__BackingField: DialogueGroup
+    <Position>k__BackingField:
+      serializedVersion: 2
+      x: 777.99994
+      y: -138
+      width: 322
+      height: 274
+  <Nodes>k__BackingField:
+  - <ID>k__BackingField: 9173338b-5d9e-4199-a088-0126ff29feea
+    <Name>k__BackingField: ger
+    <Text>k__BackingField: Dialogue text.
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: 1e0c6848-2656-4313-824c-88d243ded88e
+    <StringType>k__BackingField: DialogueSystem.Editor.DSSingleChoiceNode
+    <Position>k__BackingField: {x: 803, y: -79}
+  - <ID>k__BackingField: 364944bb-34b4-4ec7-800d-42b70e1b8ab9
+    <Name>k__BackingField: DialogueName
+    <Text>k__BackingField: Dialogue text.
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 0bc64a91-cb86-4b8c-a63b-5f4542a0927b
+    <GroupID>k__BackingField: 
+    <StringType>k__BackingField: DialogueSystem.Editor.DSSingleChoiceNode
+    <Position>k__BackingField: {x: 759, y: 207}
+  - <ID>k__BackingField: 0bc64a91-cb86-4b8c-a63b-5f4542a0927b
+    <Name>k__BackingField: 2
+    <Text>k__BackingField: Dialogue text.
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 436c5acf-6a1b-459c-8d13-68f0fadcd275
+    <GroupID>k__BackingField: 
+    <StringType>k__BackingField: DialogueSystem.Editor.DSSingleChoiceNode
+    <Position>k__BackingField: {x: 1083, y: 207}
+  - <ID>k__BackingField: 436c5acf-6a1b-459c-8d13-68f0fadcd275
+    <Name>k__BackingField: 321
+    <Text>k__BackingField: Dialogue text.
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: 
+    <StringType>k__BackingField: DialogueSystem.Editor.DSSingleChoiceNode
+    <Position>k__BackingField: {x: 1393, y: 207}
+  - <ID>k__BackingField: f29196e7-b01f-45b5-82c2-69de69af6e4b
+    <Name>k__BackingField: 321ed
+    <Text>k__BackingField: ' wer wer rwe dsc'
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: 1
+      <NodeID>k__BackingField: 9173338b-5d9e-4199-a088-0126ff29feea
+    - <Text>k__BackingField: 2
+      <NodeID>k__BackingField: 364944bb-34b4-4ec7-800d-42b70e1b8ab9
+    - <Text>k__BackingField: 231
+      <NodeID>k__BackingField: 38c4fd0f-52b9-4106-9229-00c7b5fea8c9
+    <GroupID>k__BackingField: 
+    <StringType>k__BackingField: DialogueSystem.Editor.DSMultipleChoiceNode
+    <Position>k__BackingField: {x: 358, y: 56}
+  - <ID>k__BackingField: 38c4fd0f-52b9-4106-9229-00c7b5fea8c9
+    <Name>k__BackingField: eqw
+    <Text>k__BackingField: dsad d as das da
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: 
+    <StringType>k__BackingField: DialogueSystem.Editor.DSSingleChoiceNode
+    <Position>k__BackingField: {x: 756, y: 472}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UIElements;
 
 namespace DialogueSystem.Editor
@@ -14,12 +15,15 @@ namespace DialogueSystem.Editor
         public List<DSChoiceSaveData> Choices { get; set; }
         public string Text { get; set; }
         public DSGroup Group { get; set; }
+        public CharacterField Character => popupField?.value;
 
         protected DSGraphView graphView;
-
+                           
         private Color defaultBackgroundColor;
 
         public event Action<DSNode, string, string> OnRename;
+
+        PopupField<CharacterField> popupField;
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
@@ -28,6 +32,7 @@ namespace DialogueSystem.Editor
             base.BuildContextualMenu(evt);
         }
 
+        List<CharacterField> _characters;
         public virtual void Initialize(string nodeName, DSGraphView dsGraphView, Vector2 position)
         {
             ID = Guid.NewGuid().ToString();
@@ -36,6 +41,8 @@ namespace DialogueSystem.Editor
             Text = "Dialogue text.";
 
             SetPosition(new Rect(position, Vector2.zero));
+
+            _characters = dsGraphView.characters;
 
             graphView = dsGraphView;
             defaultBackgroundColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
@@ -64,6 +71,14 @@ namespace DialogueSystem.Editor
 
             titleContainer.Insert(0, dialogueNameTextField);
 
+            popupField = new PopupField<CharacterField>(_characters, 0);
+            if (popupField.value != null)
+            {
+                popupField.value.OnNameChanged += Value_OnNameChanged;
+            } 
+            popupField.RegisterValueChangedCallback(ChangePopupField);
+            titleContainer.Insert(1, popupField);
+
             /* INPUT CONTAINER */
 
             Port inputPort = this.CreatePort("Dialogue Connection", Orientation.Horizontal, Direction.Input, Port.Capacity.Multi);
@@ -73,29 +88,32 @@ namespace DialogueSystem.Editor
             /* EXTENSION CONTAINER */
 
             VisualElement customDataContainer = new VisualElement();
-
             customDataContainer.AddToClassList("ds-node__custom-data-container");
-
             Foldout textFoldout = DSElementUtility.CreateFoldout("Dialogue Text");
-
             TextField textTextField = DSElementUtility.CreateTextArea(Text, null, callback => Text = callback.newValue);
-
-
             textTextField.AddClasses(
                 "ds-node__text-field",
                 "ds-node__quote-text-field"
             );
 
             textFoldout.Add(textTextField);
-
             customDataContainer.Add(textFoldout);
-
-            //ObjectField image = new ObjectField("image");
-            //image.objectType = typeof(Texture/*2DArray*/);
-            //customDataContainer.Add(image);
-
             extensionContainer.Add(customDataContainer);
         }
+
+        private void Value_OnNameChanged(CharacterField character)
+        {
+            popupField.SetValueWithoutNotify(character);
+        }
+
+        private void ChangePopupField(ChangeEvent<CharacterField> callback)
+        {
+            Debug.Log("ChangePopupField");
+            if (callback.previousValue != null) 
+                callback.previousValue.OnNameChanged -= Value_OnNameChanged;
+            callback.newValue.OnNameChanged += Value_OnNameChanged;
+        }
+
 
         #region DisconnectPorts
         public event Action<IEnumerable<Edge>> OnDisconnectPorts;

@@ -9,7 +9,6 @@ namespace DialogueSystem.Realtime
     {
         [field: SerializeField] public string GroupName { get; set; }
 
-      
 #if UNITY_EDITOR
         public DSDialogueGroupSO(DSGroup group)
         {

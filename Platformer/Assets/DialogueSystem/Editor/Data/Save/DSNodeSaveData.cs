@@ -14,6 +14,8 @@ namespace DialogueSystem.Editor
         [field: SerializeField] public string GroupID { get; set; }
         [field: SerializeField] public string StringType { private get; set; }
         [field: SerializeField] public Vector2 Position { get; set; }
+
+        //[field: SerializeField] public CharacterField character { get; set; }
         public Type Type => System.Type.GetType(StringType);
 
         public DSNodeSaveData(DSNode node)
