@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -6,9 +7,9 @@ namespace DialogueSystem.Editor
 {
     public class DSMultipleChoiceNode : DSNode
     {
-        public override void Initialize(string nodeName, DSGraphView dsGraphView, Vector2 position)
+        public override void Initialize(string nodeName, Vector2 position,List<CharacterField> characterFields)
         {
-            base.Initialize(nodeName, dsGraphView, position);
+            base.Initialize(nodeName, position, characterFields);
 
             var choiceData = new DSChoiceSaveData()
             {

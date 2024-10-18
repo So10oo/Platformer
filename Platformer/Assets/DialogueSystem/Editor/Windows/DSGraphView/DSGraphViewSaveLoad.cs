@@ -28,23 +28,24 @@ namespace DialogueSystem.Editor
                 var createdGroups = new Dictionary<string, DSDialogueGroupSO>();
                 var createdDialogues = new Dictionary<string, DSDialogueSO>();
 
-                var characters = GetCharacters(dialogueContainer);
+                var createCharacters = SaveCharacters(graphData, dialogueContainer);
 
                 SaveGroups(graphData, dialogueContainer, groups, createdGroups);
-                SaveNodes(graphData, dialogueContainer, nodes, createdDialogues, createdGroups, characters);
+                SaveNodes(graphData, dialogueContainer, nodes, createdDialogues, createdGroups, createCharacters);
                  
-                AssetDatabase.CreateAsset(graphData, $"{path}/{name}Graph.asset");
                 AssetDatabase.CreateAsset(dialogueContainer, $"{path}/{name}DialogueContainer.asset");
+                graphData.name = $"{name}Graph";
+                AssetDatabase.AddObjectToAsset(graphData, dialogueContainer);
 
-                foreach (var character in characters) 
+                foreach (var character in createCharacters) 
                 {
+                    EditorUtility.SetDirty(character);
                     AssetDatabase.AddObjectToAsset(character, dialogueContainer);
                 }
 
                 foreach (var dialogues in createdDialogues.Values)
                 { 
                     EditorUtility.SetDirty(dialogues);
-                    //dialogues.name = dialogues.DialogueName;
                     AssetDatabase.AddObjectToAsset(dialogues, dialogueContainer);
                 }
 
@@ -59,7 +60,7 @@ namespace DialogueSystem.Editor
 
         }
 
-        List<CharacterData> GetCharacters(DSDialogueContainerSO dialogueContainer)
+        List<CharacterData> SaveCharacters(DSGraphSaveDataSO graphData, DSDialogueContainerSO dialogueContainer)
         {
             List<CharacterData> resultList = new();
             foreach (var character in this.characters)
@@ -68,6 +69,8 @@ namespace DialogueSystem.Editor
                 EditorUtility.SetDirty(characterData);
                 resultList.Add(characterData);
                 dialogueContainer.Characters.Add(characterData);
+
+                graphData.Characters.Add(new CharacterSaveData(character));
             }
             return resultList;
         }
@@ -77,23 +80,25 @@ namespace DialogueSystem.Editor
         {
             foreach (DSGroup group in groups)
             {
-                SaveGroupToGraph(group, graphData);
+                graphData.Groups.Add(new DSGroupSaveData(group));
                 SaveGroupToScriptableObject(group, dialogueContainer, createdGroups);
             }
         }
 
         private void SaveNodes(DSGraphSaveDataSO graphData, DSDialogueContainerSO dialogueContainer, List<DSNode> nodes,
-            Dictionary<string, DSDialogueSO> createdDialogues, Dictionary<string, DSDialogueGroupSO> createdGroups, List<CharacterData> characterDatas)
+            Dictionary<string, DSDialogueSO> createdDialogues, Dictionary<string, DSDialogueGroupSO> createdGroups, 
+            List<CharacterData> characterDatas)
         {
             foreach (DSNode node in nodes)
             {
-                SaveNodeToGraph(node, graphData);
+                graphData.Nodes.Add(new DSNodeSaveData(node));
                 SaveNodeToScriptableObject(node, dialogueContainer, createdGroups, createdDialogues, characterDatas);
             }
             UpdateDialoguesChoicesConnections(dialogueContainer, createdDialogues);
         }
 
-        private void UpdateDialoguesChoicesConnections(DSDialogueContainerSO dialogueContainer, Dictionary<string, DSDialogueSO> createdDialogues)
+        private void UpdateDialoguesChoicesConnections(DSDialogueContainerSO dialogueContainer, Dictionary<string,
+            DSDialogueSO> createdDialogues)
         {
             foreach (DSNode node in nodes)
             {
@@ -110,7 +115,8 @@ namespace DialogueSystem.Editor
         }
 
         private void SaveNodeToScriptableObject(DSNode node, DSDialogueContainerSO dialogueContainer,
-            Dictionary<string, DSDialogueGroupSO> createdGroups, Dictionary<string, DSDialogueSO> createdDialogues, List<CharacterData> characterDatas)
+            Dictionary<string, DSDialogueGroupSO> createdGroups, Dictionary<string, DSDialogueSO> createdDialogues, 
+            List<CharacterData> characterDatas)
         {
             DSDialogueSO dialogue = DSDialogueSO.CreateInstance(node, characterDatas);
             if (node.Group != null)
@@ -123,10 +129,6 @@ namespace DialogueSystem.Editor
             createdDialogues.Add(node.ID, dialogue);
         }
 
-        private void SaveNodeToGraph(DSNode node, DSGraphSaveDataSO graphData)
-        {
-            graphData.Nodes.Add(new DSNodeSaveData(node));
-        }
 
         private (List<DSNode>, List<DSGroup>) GetElementsFromGraphView()
         {
@@ -150,12 +152,8 @@ namespace DialogueSystem.Editor
             return (nodes, groups);
         }
 
-        private void SaveGroupToGraph(DSGroup group, DSGraphSaveDataSO graphData)
-        {
-            graphData.Groups.Add(new DSGroupSaveData(group));
-        }
-
-        private void SaveGroupToScriptableObject(DSGroup group, DSDialogueContainerSO dialogueContainer, Dictionary<string, DSDialogueGroupSO> createdGroups)
+        private void SaveGroupToScriptableObject(DSGroup group, DSDialogueContainerSO dialogueContainer,
+            Dictionary<string, DSDialogueGroupSO> createdGroups)
         {
             var dialogueGroup = new DSDialogueGroupSO(group);
             dialogueContainer.DialogueGroups.Add(dialogueGroup, new List<DSDialogueSO>());
@@ -168,8 +166,10 @@ namespace DialogueSystem.Editor
             {
                 Dictionary<string, DSGroup> loadedGroups = new();
                 Dictionary<string, DSNode> loadedNodes = new();
+                //Dictionary<string, CharacterField> loadedCharacters = new();
                 LoadGroups(graphData, loadedGroups);
-                LoadNodes(graphData.Nodes, loadedNodes, loadedGroups);
+                LoadCharacters(graphData);
+                LoadNodes(graphData.Nodes, loadedNodes, loadedGroups, characters);
                 LoadNodesConnections(loadedNodes);
             }
             catch (Exception e)
@@ -177,11 +177,15 @@ namespace DialogueSystem.Editor
                 //this.ClearGraph();
                 Debug.LogException(e);
             }
-             
         }
-        public T LoadAsset<T>(string path, string assetName) where T : ScriptableObject
+
+        private void LoadCharacters(DSGraphSaveDataSO graphData)
         {
-            return AssetDatabase.LoadAssetAtPath<T>($"{path}/{assetName}.asset");
+            foreach (var character in graphData.Characters)
+            {
+                var cf = new CharacterField(character.Name, character.Icon, character.ID);
+                AddCharacterField(_blackboard, cf);
+            }
         }
 
         private void LoadGroups(DSGraphSaveDataSO graphData, Dictionary<string, DSGroup> loadedGroups)
@@ -189,28 +193,19 @@ namespace DialogueSystem.Editor
             foreach (DSGroupSaveData groupData in graphData.Groups)
             {
                 DSGroup group = this.CreateGroup(groupData.Name, groupData.Position);
-
                 group.ID = groupData.ID;
-
                 loadedGroups.Add(group.ID, group);
                 AddElement(group);
                 OnAddNewGroup?.Invoke(group);
             }
         }
 
-        private void LoadNodes(List<DSNodeSaveData> nodes, Dictionary<string, DSNode> loadedNodes, Dictionary<string, DSGroup> loadedGroups)
+        private void LoadNodes(List<DSNodeSaveData> nodes, Dictionary<string, DSNode> loadedNodes, 
+            Dictionary<string, DSGroup> loadedGroups,  List<CharacterField> loadedCharacters)
         {
             foreach (DSNodeSaveData nodeData in nodes)
             {
-                List<DSChoiceSaveData> choices = nodeData.Choices.Clone();
-
-                DSNode node = CreateNode(nodeData.Name, nodeData.Type,/* nodeData.DialogueType,*/ nodeData.Position, false);
-
-                node.ID = nodeData.ID;
-                node.Choices = choices;
-                node.Text = nodeData.Text;
-
-                node.Draw();
+                DSNode node = CreateNode(nodeData, loadedCharacters);
 
                 AddElement(node);
                 OnAddNewDSNode?.Invoke(node);

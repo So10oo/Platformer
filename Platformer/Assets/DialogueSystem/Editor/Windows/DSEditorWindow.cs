@@ -116,6 +116,7 @@ namespace DialogueSystem.Editor
         private void ResetGraph()
         {
             Clear();
+
             UpdateFileName(defaultFileName);
         }
 

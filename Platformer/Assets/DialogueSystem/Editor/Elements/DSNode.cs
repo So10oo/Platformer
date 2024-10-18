@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UIElements;
 
 namespace DialogueSystem.Editor
@@ -16,9 +15,7 @@ namespace DialogueSystem.Editor
         public string Text { get; set; }
         public DSGroup Group { get; set; }
         public CharacterField Character => popupField?.value;
-
-        protected DSGraphView graphView;
-                           
+            
         private Color defaultBackgroundColor;
 
         public event Action<DSNode, string, string> OnRename;
@@ -32,21 +29,34 @@ namespace DialogueSystem.Editor
             base.BuildContextualMenu(evt);
         }
 
-        List<CharacterField> _characters;
-        public virtual void Initialize(string nodeName, DSGraphView dsGraphView, Vector2 position)
+        //List<CharacterField> _characters;
+        public virtual void Initialize(string nodeName, Vector2 position, List<CharacterField> characters)
         {
             ID = Guid.NewGuid().ToString();
             DialogueName = nodeName;
             Choices = new List<DSChoiceSaveData>();
             Text = "Dialogue text.";
-
             SetPosition(new Rect(position, Vector2.zero));
 
-            _characters = dsGraphView.characters;
+            popupField = new PopupField<CharacterField>(characters, 0);
 
-            graphView = dsGraphView;
             defaultBackgroundColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
+            mainContainer.AddToClassList("ds-node__main-container");
+            extensionContainer.AddToClassList("ds-node__extension-container");
+        }
 
+        public virtual void Initialize(DSNodeSaveData node, List<CharacterField> characters)
+        {
+            ID = node.ID;
+            DialogueName = node.Name;
+            Choices = node.Choices.Clone();
+            Text = node.Text;
+            SetPosition(new Rect(node.Position, Vector2.zero));
+            //_characters = characters;
+            popupField = new PopupField<CharacterField>(characters, 0);
+
+            popupField.value = characters.Find(cf => cf.ID == node.CharacterID);
+            defaultBackgroundColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
             mainContainer.AddToClassList("ds-node__main-container");
             extensionContainer.AddToClassList("ds-node__extension-container");
         }
@@ -71,11 +81,9 @@ namespace DialogueSystem.Editor
 
             titleContainer.Insert(0, dialogueNameTextField);
 
-            popupField = new PopupField<CharacterField>(_characters, 0);
+             
             if (popupField.value != null)
-            {
-                popupField.value.OnNameChanged += Value_OnNameChanged;
-            } 
+                popupField.value.OnNameChanged += OnNameChanged;
             popupField.RegisterValueChangedCallback(ChangePopupField);
             titleContainer.Insert(1, popupField);
 
@@ -101,17 +109,16 @@ namespace DialogueSystem.Editor
             extensionContainer.Add(customDataContainer);
         }
 
-        private void Value_OnNameChanged(CharacterField character)
+        private void OnNameChanged(CharacterField character)
         {
             popupField.SetValueWithoutNotify(character);
         }
 
         private void ChangePopupField(ChangeEvent<CharacterField> callback)
         {
-            Debug.Log("ChangePopupField");
             if (callback.previousValue != null) 
-                callback.previousValue.OnNameChanged -= Value_OnNameChanged;
-            callback.newValue.OnNameChanged += Value_OnNameChanged;
+                callback.previousValue.OnNameChanged -= OnNameChanged;
+            callback.newValue.OnNameChanged += OnNameChanged;
         }
 
 

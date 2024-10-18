@@ -6,6 +6,7 @@ namespace DialogueSystem.Realtime
     using Sirenix.OdinInspector;
 #if UNITY_EDITOR
     using DialogueSystem.Editor;
+    using System.Linq;
 #endif
 
     public class DSDialogueSO : ScriptableObject
@@ -28,15 +29,9 @@ namespace DialogueSystem.Realtime
 #if UNITY_EDITOR  
         private static List<DSDialogueChoiceData> ConvertNodeChoicesToDialogueChoices(List<DSChoiceSaveData> nodeChoices)
         {
-            var dialogueChoices = new List<DSDialogueChoiceData>();
-            foreach (DSChoiceSaveData nodeChoice in nodeChoices)
-            {
-                var choiceData = new DSDialogueChoiceData()
-                {
-                    Text = nodeChoice.Text
-                };
-                dialogueChoices.Add(choiceData);
-            }
+            var dialogueChoices = (from node in nodeChoices
+                     select new DSDialogueChoiceData() { Text = node.Text })
+                     .ToList();
             return dialogueChoices;
         }
 

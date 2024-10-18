@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -10,7 +11,7 @@ namespace DialogueSystem.Editor
     {
         private readonly DSEditorWindow editorWindow;
         private MiniMap _miniMap;
-       
+
         public event Action<DSNode> OnAddNewDSNode;
         public event Action<DSGroup> OnAddNewGroup;
         public event Action<DSNode> OnCreateDSNode;
@@ -76,14 +77,21 @@ namespace DialogueSystem.Editor
             return group;
         }
 
-        private DSNode CreateNode(string nodeName, Type nodeType, Vector2 position, bool showDraw = true)
+        private DSNode CreateNode(string nodeName, Type nodeType, Vector2 position)
         {
             DSNode node = (DSNode)Activator.CreateInstance(nodeType);
-            node.Initialize(nodeName, this, position);
-            if (showDraw)
-            {
-                node.Draw();
-            }
+            node.Initialize(nodeName, position, characters);
+            node.Draw();
+            node.OnDisconnectPorts += DeleteElements;
+            OnCreateDSNode?.Invoke(node);
+            return node;
+        }
+
+        private DSNode CreateNode(DSNodeSaveData data, List<CharacterField> characterFields)
+        {
+            DSNode node = (DSNode)Activator.CreateInstance(data.Type);
+            node.Initialize(data, characterFields);
+            node.Draw();
             node.OnDisconnectPorts += DeleteElements;
             OnCreateDSNode?.Invoke(node);
             return node;
@@ -190,7 +198,7 @@ namespace DialogueSystem.Editor
         public void ToggleMiniMap() => _miniMap.visible = !_miniMap.visible;
 
         #endregion
- 
+
         private void AddStyles()
         {
             this.AddStyleSheets(
@@ -214,6 +222,7 @@ namespace DialogueSystem.Editor
             groupedNodes.Clear();
             ungroupedNodes.Clear();
             globalCounterErrors.ResetErrors();
+            ClearCharacters();
         }
 
         private void AddGridBackground()

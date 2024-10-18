@@ -1,3 +1,4 @@
+using DialogueSystem.Realtime;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,8 +15,8 @@ namespace DialogueSystem.Editor
         [field: SerializeField] public string GroupID { get; set; }
         [field: SerializeField] public string StringType { private get; set; }
         [field: SerializeField] public Vector2 Position { get; set; }
+        [field: SerializeField] public string CharacterID { get; set; }
 
-        //[field: SerializeField] public CharacterField character { get; set; }
         public Type Type => System.Type.GetType(StringType);
 
         public DSNodeSaveData(DSNode node)
@@ -27,6 +28,7 @@ namespace DialogueSystem.Editor
             GroupID = node.Group?.ID;
             StringType = node.GetType().ToString();
             Position = node.GetPosition().position;
+            CharacterID = node.Character.ID;
         }
     }
 }

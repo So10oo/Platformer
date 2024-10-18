@@ -1,5 +1,7 @@
+using DialogueSystem.Editor;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace DialogueSystem.Realtime
@@ -20,5 +22,18 @@ namespace DialogueSystem.Realtime
             return instance;
         }
 
+        [Button()]
+        void OpenGraph()
+        {
+            var window = DSEditorWindow.Open();
+            foreach (var child in AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(this)))
+            {
+                if (child is DSGraphSaveDataSO graph)
+                {
+                    window.Load(graph);
+                    return;
+                }
+            }
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -19,9 +18,9 @@ namespace DialogueSystem.Editor
         ObjectField propertyValueImage;
         public event Action<CharacterField> OnNameChanged;
 
-        public CharacterField(string nameCharacter)
+        public CharacterField(string nameCharacter, Texture2D icon = null, string id = null)
         {
-            ID = Guid.NewGuid().ToString();
+            ID = id ?? Guid.NewGuid().ToString();
             field = new BlackboardField() 
             { 
                 text = nameCharacter, 
@@ -39,13 +38,15 @@ namespace DialogueSystem.Editor
             propertyValueTextField.RegisterValueChangedCallback(NameChangedPropertyValueTextField);
             propertyValueImage = new ObjectField("Icon:")
             {
-                objectType = typeof(Texture)
+                objectType = typeof(Texture),
+                value = icon,
             };
             container.Add(propertyValueTextField);
             container.Add(propertyValueImage);
             var blackboardRow = new BlackboardRow(field, container);
             this.Add(blackboardRow);
         }
+
 
         ~CharacterField()
         {

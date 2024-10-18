@@ -1,3 +1,4 @@
+using DialogueSystem.Realtime;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace DialogueSystem.Editor
         [field: SerializeField,ReadOnly] public string FileName { get; set; }
         [field: SerializeField,ReadOnly] public List<DSGroupSaveData> Groups { get; set; } = new();
         [field: SerializeField,ReadOnly] public List<DSNodeSaveData> Nodes { get; set; } = new();
-
+        [field: SerializeField, ReadOnly] public List<CharacterSaveData> Characters { get; set; } = new();
         public static DSGraphSaveDataSO CreateInstance()
         {
             var instance = ScriptableObject.CreateInstance<DSGraphSaveDataSO>();
@@ -24,6 +25,5 @@ namespace DialogueSystem.Editor
             var window = DSEditorWindow.Open();
             window.Load(this);
         }
-
     }
 }
