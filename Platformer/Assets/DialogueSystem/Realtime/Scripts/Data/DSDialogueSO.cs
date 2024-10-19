@@ -15,7 +15,7 @@ namespace DialogueSystem.Realtime
         public string DialogueName { get; private set; }
 
         [field: SerializeField, ReadOnly]
-        public CharacterData Character { get; private set; }
+        public CharacterDataSO Character { get; private set; }
 
         [field: TextArea(), SerializeField, ReadOnly]
         public string Text { get; private set; }
@@ -35,7 +35,7 @@ namespace DialogueSystem.Realtime
             return dialogueChoices;
         }
 
-        public static DSDialogueSO CreateInstance(DSNode node, List<CharacterData> datas)
+        public static DSDialogueSO CreateInstance(DSNode node, List<CharacterDataSO> datas)
         {
             var instance = ScriptableObject.CreateInstance<DSDialogueSO>();
             instance.name = node.DialogueName;

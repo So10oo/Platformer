@@ -16,7 +16,7 @@ namespace DialogueSystem.Editor
 
         private void OnSelectedGroup(Vector2 position)
         {
-            DSGroup group = CreateGroup("DialogueGroup", new Rect(GetLocalMousePosition(position, true), Vector2.zero));
+            DSGroup group = CreateGroup("DialogueGroup", new Rect(GetLocalMousePosition(position), Vector2.zero));
             AddElement(group);
             OnAddNewGroup?.Invoke(group);
             foreach (GraphElement selectedElement in selection)
@@ -26,7 +26,7 @@ namespace DialogueSystem.Editor
 
         private void OnSelectedDSNode(Type type, Vector2 position)
         {
-            DSNode node = CreateNode("DialogueName", type, GetLocalMousePosition(position, true));
+            DSNode node = CreateNode("DialogueName", type, GetLocalMousePosition(position));
             AddElement(node);
             OnAddNewDSNode?.Invoke(node);
         }

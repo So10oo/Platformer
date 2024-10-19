@@ -60,12 +60,12 @@ namespace DialogueSystem.Editor
 
         }
 
-        List<CharacterData> SaveCharacters(DSGraphSaveDataSO graphData, DSDialogueContainerSO dialogueContainer)
+        List<CharacterDataSO> SaveCharacters(DSGraphSaveDataSO graphData, DSDialogueContainerSO dialogueContainer)
         {
-            List<CharacterData> resultList = new();
+            List<CharacterDataSO> resultList = new();
             foreach (var character in this.characters)
             {
-                var characterData = CharacterData.CreateInstance(character);
+                var characterData = CharacterDataSO.CreateInstance(character);
                 EditorUtility.SetDirty(characterData);
                 resultList.Add(characterData);
                 dialogueContainer.Characters.Add(characterData);
@@ -87,7 +87,7 @@ namespace DialogueSystem.Editor
 
         private void SaveNodes(DSGraphSaveDataSO graphData, DSDialogueContainerSO dialogueContainer, List<DSNode> nodes,
             Dictionary<string, DSDialogueSO> createdDialogues, Dictionary<string, DSDialogueGroupSO> createdGroups, 
-            List<CharacterData> characterDatas)
+            List<CharacterDataSO> characterDatas)
         {
             foreach (DSNode node in nodes)
             {
@@ -116,7 +116,7 @@ namespace DialogueSystem.Editor
 
         private void SaveNodeToScriptableObject(DSNode node, DSDialogueContainerSO dialogueContainer,
             Dictionary<string, DSDialogueGroupSO> createdGroups, Dictionary<string, DSDialogueSO> createdDialogues, 
-            List<CharacterData> characterDatas)
+            List<CharacterDataSO> characterDatas)
         {
             DSDialogueSO dialogue = DSDialogueSO.CreateInstance(node, characterDatas);
             if (node.Group != null)

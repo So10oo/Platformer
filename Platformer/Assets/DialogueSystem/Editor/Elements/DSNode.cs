@@ -52,7 +52,7 @@ namespace DialogueSystem.Editor
             Choices = node.Choices.Clone();
             Text = node.Text;
             SetPosition(new Rect(node.Position, Vector2.zero));
-            //_characters = characters;
+
             popupField = new PopupField<CharacterField>(characters, 0);
 
             popupField.value = characters.Find(cf => cf.ID == node.CharacterID);

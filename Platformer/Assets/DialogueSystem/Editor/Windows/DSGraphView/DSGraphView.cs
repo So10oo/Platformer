@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -10,7 +9,8 @@ namespace DialogueSystem.Editor
     public partial class DSGraphView : GraphView
     {
         private readonly DSEditorWindow editorWindow;
-        private MiniMap _miniMap;
+        private DSMiniMap _miniMap;
+        private DSCharacterBlackboard _blackboard;
 
         public event Action<DSNode> OnAddNewDSNode;
         public event Action<DSGroup> OnAddNewGroup;
@@ -24,6 +24,7 @@ namespace DialogueSystem.Editor
             AddManipulators();
             AddGridBackground();
             AddSearchWindow();
+
             AddMiniMap();
             AddBlackboard();
 
@@ -38,8 +39,17 @@ namespace DialogueSystem.Editor
             OnCreateDSGroup += SubscriberRenameGroup;
 
             AddStyles();
-            AddMiniMapStyles();
         }
+
+        private void AddBlackboard() => _blackboard = new DSCharacterBlackboard();
+        
+        private void AddMiniMap()
+        {
+            _miniMap = new DSMiniMap();
+            Add(_miniMap);
+        }
+
+        public void ToggleMiniMap() => _miniMap.Toggle();
 
         ~DSGraphView()
         {
@@ -80,7 +90,7 @@ namespace DialogueSystem.Editor
         private DSNode CreateNode(string nodeName, Type nodeType, Vector2 position)
         {
             DSNode node = (DSNode)Activator.CreateInstance(nodeType);
-            node.Initialize(nodeName, position, characters);
+            node.Initialize(nodeName, position, _blackboard.characters/*characters*/);
             node.Draw();
             node.OnDisconnectPorts += DeleteElements;
             OnCreateDSNode?.Invoke(node);
@@ -122,7 +132,6 @@ namespace DialogueSystem.Editor
                         case BlackboardField blackboardField:
                             var characterField = (CharacterField)blackboardField.userData;
                             _blackboard.Remove(characterField);
-                            characters.Remove(characterField);
                             break;
                         Deleted:
                             if (select is GraphElement graphElement)
@@ -170,35 +179,6 @@ namespace DialogueSystem.Editor
 
         #endregion
 
-        #region MiniMap
-        private void AddMiniMap()
-        {
-            _miniMap = new MiniMap()
-            {
-                anchored = true,
-            };
-            //miniMap.style.unityTextOverflowPosition = PositionType.
-            _miniMap.SetPosition(new Rect(20, 50, 200, 180));
-            Add(_miniMap);
-            _miniMap.visible = false;
-        }
-
-        private void AddMiniMapStyles()
-        {
-            StyleColor backgroundColor = new(new Color32(29, 29, 30, 255));
-            StyleColor borderColor = new(new Color32(51, 51, 51, 255));
-
-            _miniMap.style.backgroundColor = backgroundColor;
-            _miniMap.style.borderTopColor = borderColor;
-            _miniMap.style.borderRightColor = borderColor;
-            _miniMap.style.borderBottomColor = borderColor;
-            _miniMap.style.borderLeftColor = borderColor;
-        }
-
-        public void ToggleMiniMap() => _miniMap.visible = !_miniMap.visible;
-
-        #endregion
-
         private void AddStyles()
         {
             this.AddStyleSheets(
@@ -207,11 +187,10 @@ namespace DialogueSystem.Editor
             );
         }
 
-        public Vector2 GetLocalMousePosition(Vector2 mousePosition, bool isSearchWindow = false)
+        public Vector2 GetLocalMousePosition(Vector2 mousePosition)
         {
             Vector2 worldMousePosition = mousePosition;
-            if (isSearchWindow)
-                worldMousePosition = editorWindow.rootVisualElement.ChangeCoordinatesTo(editorWindow.rootVisualElement.parent, mousePosition - editorWindow.position.position);
+            worldMousePosition = editorWindow.rootVisualElement.ChangeCoordinatesTo(editorWindow.rootVisualElement.parent, mousePosition - editorWindow.position.position);
             return contentViewContainer.WorldToLocal(worldMousePosition);
         }
 
@@ -222,7 +201,7 @@ namespace DialogueSystem.Editor
             groupedNodes.Clear();
             ungroupedNodes.Clear();
             globalCounterErrors.ResetErrors();
-            ClearCharacters();
+            _blackboard.ClearCharacters();
         }
 
         private void AddGridBackground()

@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6863441742615674629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bf238dc5f20ee749b66fe5fb8203234, type: 3}
+  m_Name: DialogueName1
+  m_EditorClassIdentifier: 
+  <DialogueName>k__BackingField: DialogueName1
+  <Character>k__BackingField: {fileID: 3410172019426612189}
+  <Text>k__BackingField: Dialogue text.
+  <Choices>k__BackingField:
+  - <Text>k__BackingField: Next Dialogue
+    <NextDialogue>k__BackingField: {fileID: 0}
+  <IsStartingDialogue>k__BackingField: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58ce809eca7324f4792221b3f7a18d0a, type: 3}
+  m_Name: DialoguesFileNameDialogueContainer
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: <DialogueGroups>k__BackingField
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[DialogueSystem.Realtime.DSDialogueGroupSO,
+        DialogueSystem],[System.Collections.Generic.List`1[[DialogueSystem.Realtime.DSDialogueSO,
+        DialogueSystem]], mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[DialogueSystem.Realtime.DSDialogueGroupSO,
+        DialogueSystem]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  <FileName>k__BackingField: 
+  <UngroupedDialogues>k__BackingField:
+  - {fileID: 1978345334276219705}
+  - {fileID: -6863441742615674629}
+  <Characters>k__BackingField:
+  - {fileID: 3410172019426612189}
+--- !u!114 &1978345334276219705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bf238dc5f20ee749b66fe5fb8203234, type: 3}
+  m_Name: DialogueName
+  m_EditorClassIdentifier: 
+  <DialogueName>k__BackingField: DialogueName
+  <Character>k__BackingField: {fileID: 3410172019426612189}
+  <Text>k__BackingField: Dialogue text.
+  <Choices>k__BackingField:
+  - <Text>k__BackingField: Next Dialogue
+    <NextDialogue>k__BackingField: {fileID: -6863441742615674629}
+  <IsStartingDialogue>k__BackingField: 1
+--- !u!114 &3410172019426612189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb460169735dc4c49a931c4a049ec7cf, type: 3}
+  m_Name: name
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: name
+  <Icon>k__BackingField: {fileID: 0}
+  <ID>k__BackingField: 0f254229-0662-4400-a6db-b36fa0ae644f
+--- !u!114 &6733270637569540213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0202a3095b7477a4091d56344f0af6b3, type: 3}
+  m_Name: DialoguesFileNameGraph
+  m_EditorClassIdentifier: 
+  <FileName>k__BackingField: DialoguesFileName
+  <Groups>k__BackingField: []
+  <Nodes>k__BackingField:
+  - <ID>k__BackingField: be151fd1-a8d2-47a0-989b-838860d71ccb
+    <Name>k__BackingField: DialogueName
+    <Text>k__BackingField: Dialogue text.
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 2c155cd4-e8e1-44eb-af11-e9b75ff1daf7
+    <GroupID>k__BackingField: 
+    <StringType>k__BackingField: DialogueSystem.Editor.DSSingleChoiceNode
+    <Position>k__BackingField: {x: 124, y: 379}
+    <CharacterID>k__BackingField: 0f254229-0662-4400-a6db-b36fa0ae644f
+  - <ID>k__BackingField: 2c155cd4-e8e1-44eb-af11-e9b75ff1daf7
+    <Name>k__BackingField: DialogueName1
+    <Text>k__BackingField: Dialogue text.
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: 
+    <StringType>k__BackingField: DialogueSystem.Editor.DSSingleChoiceNode
+    <Position>k__BackingField: {x: 426, y: 379}
+    <CharacterID>k__BackingField: 0f254229-0662-4400-a6db-b36fa0ae644f

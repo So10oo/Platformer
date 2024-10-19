@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DialogueSystem.Realtime
 {
-    public class CharacterData : ScriptableObject
+    public class CharacterDataSO : ScriptableObject
     {
         [field: SerializeField, ReadOnly]
         public string Name { get; private set; }
@@ -16,9 +16,9 @@ namespace DialogueSystem.Realtime
         public string ID { get; private set; }
 
 #if UNITY_EDITOR
-        public static CharacterData CreateInstance(CharacterField characterField)
+        public static CharacterDataSO CreateInstance(CharacterField characterField)
         {
-            CharacterData instance = ScriptableObject.CreateInstance<CharacterData>();
+            CharacterDataSO instance = ScriptableObject.CreateInstance<CharacterDataSO>();
             instance.name = characterField.Name;
             instance.Name = characterField.Name;
             instance.Icon = characterField.Icon;
