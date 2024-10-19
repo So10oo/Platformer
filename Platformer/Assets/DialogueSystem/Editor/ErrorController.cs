@@ -1,18 +1,43 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
-
 
 namespace DialogueSystem.Editor
 {
-    public partial class DSGraphView
+    public class ErrorController
     {
-        private Dictionary<string, DSErrorData<DSNode>> ungroupedNodes = new();
-        private Dictionary<string, DSErrorData<DSGroup>> groups = new();
-        private Dictionary<DSGroup, Dictionary<string, DSErrorData<DSNode>>> groupedNodes = new();
+        private Dictionary<string, DSErrorData<DSNode>> ungroupedNodes;
+        private Dictionary<string, DSErrorData<DSGroup>> groups;
+        private Dictionary<DSGroup, Dictionary<string, DSErrorData<DSNode>>> groupedNodes;
 
-        public GlobalCounterErrors globalCounterErrors = new();
+        public readonly GlobalCounterErrors globalCounterErrors = new();
+
+        public ErrorController()
+        {
+            ungroupedNodes = new();
+            groups = new();
+            groupedNodes = new();
+        }
+
+        public void Subscribe(DSGraphView graph)
+        {
+            graph.elementsAddedToGroup += OnGroupElementsAdded;
+            graph.elementsRemovedFromGroup += OnGroupElementRemoved;
+            graph.OnAddNode += OnAddedNode;
+            graph.OnAddGroup += OnAddedGroup;
+            graph.OnRemovedNode += OnRemovedNode;
+            graph.OnRemovedGroup += OnRemovedGroup;
+        }
+
+        public void Unsubscribe(DSGraphView graph)
+        {
+            graph.elementsAddedToGroup -= OnGroupElementsAdded;
+            graph.elementsRemovedFromGroup -= OnGroupElementRemoved;
+            graph.OnAddNode -= OnAddedNode;
+            graph.OnAddGroup -= OnAddedGroup;
+            graph.OnRemovedNode -= OnRemovedNode;
+            graph.OnRemovedGroup -= OnRemovedGroup;
+        }
 
         #region Dictionary controls
         private void AddUngroupedNodeFromDictionary(DSNode node)
@@ -98,10 +123,10 @@ namespace DialogueSystem.Editor
         #endregion
 
         #region Callbacks
-        private void OnGroupElementsAdded()
+        private void OnGroupElementsAdded(Group group, IEnumerable<GraphElement> elements)
         {
-            elementsAddedToGroup = (group, elements) =>
-            {
+            //elementsAddedToGroup = (group, elements) =>
+            //{
                 foreach (var element in elements)
                 {
                     if (element is DSNode node)
@@ -111,12 +136,12 @@ namespace DialogueSystem.Editor
                         AddGroupedNodeFromDictionary(node, (DSGroup)group);
                     }
                 }
-            };
+            //};
         }
-        private void OnGroupElementRemoved()
+        private void OnGroupElementRemoved(Group group, IEnumerable<GraphElement> elements)
         {
-            elementsRemovedFromGroup = (group, elements) =>
-            {
+            //elementsRemovedFromGroup = (group, elements) =>
+            //{
                 foreach (var element in elements)
                 {
                     if (element is DSNode node)
@@ -126,12 +151,19 @@ namespace DialogueSystem.Editor
                         AddUngroupedNodeFromDictionary(node);
                     }
                 }
-            };
+            //};
         }
-        #endregion
-
-        #region StartEndCallbaksErrorSystem
-        private void OnGroupDeleted(DSGroup group)
+        private void OnAddedNode(DSNode node)
+        {
+            AddUngroupedNodeFromDictionary(node);
+            SubscriberRenameNode(node);
+        }
+        private void OnAddedGroup(DSGroup group)
+        {
+            AddGroupFromDictionary(group);
+            SubscriberRenameGroup(group);
+        }
+        private void OnRemovedGroup(DSGroup group)
         {
             group.OnRename -= OnRenameGroup;
             RemoveGroupFromDictionary(group);
@@ -141,11 +173,9 @@ namespace DialogueSystem.Editor
                 var element = listElementsForGroup[j];
                 if (element is DSNode node)
                     group.RemoveElement(node);
-                else
-                    Debug.Log("Error element is not DSNode");
             }
         }
-        private void OnNodeDeleted(DSNode node)
+        private void OnRemovedNode(DSNode node)
         {
             node.OnRename -= OnRenameNode;
 
@@ -154,6 +184,9 @@ namespace DialogueSystem.Editor
             RemoveUngroupedNodeFromDictionary(node);
             node.DisconnectAllPorts();
         }
+        #endregion
+
+        #region StartEndCallbaksErrorSystem
         private void SubscriberRenameGroup(DSGroup group)
         {
             group.OnRename += OnRenameGroup;
@@ -162,7 +195,6 @@ namespace DialogueSystem.Editor
         {
             node.OnRename += OnRenameNode;
         }
-
         private void OnRenameNode(DSNode node, string oldValue, string newValue)
         {
             if (node.Group == null)
@@ -178,5 +210,13 @@ namespace DialogueSystem.Editor
 
         }
         #endregion
+
+        public void ClearData()
+        {
+            ungroupedNodes.Clear();
+            groups.Clear();
+            groupedNodes.Clear();
+            globalCounterErrors.ResetErrors();
+        }
     }
 }

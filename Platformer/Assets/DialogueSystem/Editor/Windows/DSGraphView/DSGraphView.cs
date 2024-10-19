@@ -2,98 +2,46 @@ using System;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace DialogueSystem.Editor
 {
-    public partial class DSGraphView : GraphView
+    public partial class DSGraphView : DSGraphViewBase
     {
-        private readonly DSEditorWindow editorWindow;
-        private DSMiniMap _miniMap;
-        private DSCharacterBlackboard _blackboard;
+        public ErrorController errorController;
 
-        public event Action<DSNode> OnAddNewDSNode;
-        public event Action<DSGroup> OnAddNewGroup;
-        public event Action<DSNode> OnCreateDSNode;
-        public event Action<DSGroup> OnCreateDSGroup;
+        public event Action<DSNode> OnAddNode;
+        public event Action<DSGroup> OnAddGroup;
+        public event Action<DSNode> OnRemovedNode;
+        public event Action<DSGroup> OnRemovedGroup;
 
-        public DSGraphView(DSEditorWindow dsEditorWindow)
+        public DSGraphView(DSEditorWindow dsEditorWindow) : base(dsEditorWindow)
         {
-            editorWindow = dsEditorWindow;
-
-            AddManipulators();
-            AddGridBackground();
             AddSearchWindow();
-
-            AddMiniMap();
-            AddBlackboard();
-
-            OnGroupElementsAdded();
             OnElementsDeleted();
-            OnGroupElementRemoved();
             OnGraphViewChanged();
 
-            OnAddNewDSNode += AddUngroupedNodeFromDictionary;//подписываемся на событие добавления ноды через SearchWindow(а есть еще варианты?нет...)
-            OnAddNewGroup += AddGroupFromDictionary;//подписываемся на событие добавления групп через SearchWindow
-            OnCreateDSNode += SubscriberRenameNode;
-            OnCreateDSGroup += SubscriberRenameGroup;
-
-            AddStyles();
+            errorController = new ErrorController();
+            errorController.Subscribe(this);
         }
-
-        private void AddBlackboard() => _blackboard = new DSCharacterBlackboard();
-        
-        private void AddMiniMap()
-        {
-            _miniMap = new DSMiniMap();
-            Add(_miniMap);
-        }
-
-        public void ToggleMiniMap() => _miniMap.Toggle();
 
         ~DSGraphView()
         {
-            OnAddNewDSNode -= AddUngroupedNodeFromDictionary;
-            OnAddNewGroup -= AddGroupFromDictionary;
-            OnCreateDSNode -= SubscriberRenameNode;
-            OnCreateDSGroup -= SubscriberRenameGroup;
-        }
-
-        public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
-        {
-            var compatiblePorts = new List<Port>();
-            ports.ForEach(port =>
-            {
-                if (startPort.node == port.node || startPort.direction == port.direction)
-                    return;
-                compatiblePorts.Add(port);
-            });
-            return compatiblePorts;
-        }
-
-        private void AddManipulators()
-        {
-            SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
-            this.AddManipulator(new ContentDragger());
-            this.AddManipulator(new SelectionDragger());
-            this.AddManipulator(new RectangleSelector());
+            errorController.Unsubscribe(this);
         }
 
         #region CreateMetod
-        private DSGroup CreateGroup(string title, Rect position)
+        private DSGroup CreateGroup(string title, Rect position, string id = null)
         {
-            var group = new DSGroup(title, position);
-            OnCreateDSGroup?.Invoke(group);
+            var group = new DSGroup(title, position, id);
             return group;
         }
 
         private DSNode CreateNode(string nodeName, Type nodeType, Vector2 position)
         {
             DSNode node = (DSNode)Activator.CreateInstance(nodeType);
-            node.Initialize(nodeName, position, _blackboard.characters/*characters*/);
+            node.Initialize(nodeName, position, characterBlackboard.characters);
             node.Draw();
             node.OnDisconnectPorts += DeleteElements;
-            OnCreateDSNode?.Invoke(node);
             return node;
         }
 
@@ -103,16 +51,43 @@ namespace DialogueSystem.Editor
             node.Initialize(data, characterFields);
             node.Draw();
             node.OnDisconnectPorts += DeleteElements;
-            OnCreateDSNode?.Invoke(node);
             return node;
         }
+        #endregion
 
+        #region LoadedMetod
+        public DSNode LoadNode(DSNodeSaveData data, List<CharacterField> characterFields)
+        {
+            var node = CreateNode(data, characterFields);
+            AddNode(node);
+            return node;
+        }
+        public DSGroup LoadGroup(string title, Rect position, string id = null)
+        {
+            var group = CreateGroup(title, position, id);
+            AddGroup(group);
+            return group;
+        }
+        #endregion
+
+        #region AddedMetod
+        private void AddNode(DSNode node)
+        {
+            AddElement(node);
+            OnAddNode?.Invoke(node);
+        }
+
+        private void AddGroup(DSGroup group)
+        {
+            AddElement(group);
+            OnAddGroup?.Invoke(group);
+        }
         #endregion
 
         #region Callbacks GraphView
         private void OnElementsDeleted()
         {
-            deleteSelection = (operationName, askUser) =>
+            deleteSelection += (operationName, askUser) =>
             {
                 for (int i = selection.Count - 1; i >= 0;)
                 {
@@ -121,17 +96,17 @@ namespace DialogueSystem.Editor
                     switch (select)
                     {
                         case DSNode node:
-                            OnNodeDeleted(node);
+                            OnRemovedNode?.Invoke(node);
                             node.OnDisconnectPorts -= DeleteElements;
                             goto Deleted;
                         case DSGroup group:
-                            OnGroupDeleted(group);
+                            OnRemovedGroup?.Invoke(group);
                             goto Deleted;
                         case Edge edge:
                             goto Deleted;
                         case BlackboardField blackboardField:
                             var characterField = (CharacterField)blackboardField.userData;
-                            _blackboard.Remove(characterField);
+                            characterBlackboard.Remove(characterField);
                             break;
                         Deleted:
                             if (select is GraphElement graphElement)
@@ -151,7 +126,7 @@ namespace DialogueSystem.Editor
 
         private void OnGraphViewChanged()
         {
-            graphViewChanged = (changes) =>
+            graphViewChanged += (changes) =>
             {
                 if (changes.edgesToCreate != null)
                 {
@@ -176,39 +151,14 @@ namespace DialogueSystem.Editor
                 return changes;
             };
         }
-
         #endregion
 
-        private void AddStyles()
-        {
-            this.AddStyleSheets(
-                PathToStyle.DSGraphViewStyles,
-                PathToStyle.DSNodeStyles
-            );
-        }
-
-        public Vector2 GetLocalMousePosition(Vector2 mousePosition)
-        {
-            Vector2 worldMousePosition = mousePosition;
-            worldMousePosition = editorWindow.rootVisualElement.ChangeCoordinatesTo(editorWindow.rootVisualElement.parent, mousePosition - editorWindow.position.position);
-            return contentViewContainer.WorldToLocal(worldMousePosition);
-        }
 
         public void ClearGraph()
         {
-            graphElements.ForEach(graphElement => RemoveElement(graphElement));
-            groups.Clear();
-            groupedNodes.Clear();
-            ungroupedNodes.Clear();
-            globalCounterErrors.ResetErrors();
-            _blackboard.ClearCharacters();
-        }
-
-        private void AddGridBackground()
-        {
-            var gridBackground = new GridBackground();
-            gridBackground.StretchToParentSize();
-            Insert(0, gridBackground);
+            this.ClearElements();
+            errorController.ClearData();
+            characterBlackboard.ClearCharacters();
         }
     }
 }

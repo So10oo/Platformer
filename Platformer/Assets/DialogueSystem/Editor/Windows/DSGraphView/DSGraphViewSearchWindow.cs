@@ -6,6 +6,8 @@ namespace DialogueSystem.Editor
 {
     public partial class DSGraphView
     {
+        int _count = 0;
+
         private void AddSearchWindow()
         {
             var searchWindow = ScriptableObject.CreateInstance<DSSearchWindow>();
@@ -16,9 +18,8 @@ namespace DialogueSystem.Editor
 
         private void OnSelectedGroup(Vector2 position)
         {
-            DSGroup group = CreateGroup("DialogueGroup", new Rect(GetLocalMousePosition(position), Vector2.zero));
-            AddElement(group);
-            OnAddNewGroup?.Invoke(group);
+            DSGroup group = CreateGroup($"DialogueGroup{_count++}", new Rect(GetLocalMousePosition(position), Vector2.zero));
+            AddGroup(group);
             foreach (GraphElement selectedElement in selection)
                 if (selectedElement is DSNode node)
                     group.AddElement(node);
@@ -26,9 +27,8 @@ namespace DialogueSystem.Editor
 
         private void OnSelectedDSNode(Type type, Vector2 position)
         {
-            DSNode node = CreateNode("DialogueName", type, GetLocalMousePosition(position));
-            AddElement(node);
-            OnAddNewDSNode?.Invoke(node);
+            DSNode node = CreateNode($"DialogueName{_count++}", type, GetLocalMousePosition(position));
+            AddNode(node);
         }
 
     }

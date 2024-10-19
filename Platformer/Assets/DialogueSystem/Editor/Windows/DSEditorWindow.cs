@@ -8,10 +8,12 @@ namespace DialogueSystem.Editor
     public class DSEditorWindow : EditorWindow
     {
         private DSGraphView graphView;
+        private SaveLoadService saveLoadService;
 
         private const string defaultFileName = "DialoguesFileName";
 
         private TextField fileNameTextField;
+        private Button saveButton;
         private Button saveAsButton;
         private Button miniMapButton;
 
@@ -26,6 +28,7 @@ namespace DialogueSystem.Editor
             AddGraphView();
             AddToolbar();
             AddStyles();
+            CreateSaveLoadSystem();
         }
 
         private void AddGraphView()
@@ -33,12 +36,13 @@ namespace DialogueSystem.Editor
             graphView = new DSGraphView(this);
             graphView.StretchToParentSize();
             rootVisualElement.Add(graphView);
-            graphView.globalCounterErrors.StateErrorChange += ActiveSaveButton;
+            graphView.errorController.globalCounterErrors.StateErrorChange += ActiveSaveButton;
         }
 
         private void ActiveSaveButton(bool IsError)
         {
             saveAsButton.SetEnabled(!IsError);
+            saveButton.SetEnabled(!IsError);
         }
 
         private void AddToolbar()
@@ -50,15 +54,17 @@ namespace DialogueSystem.Editor
                 fileNameTextField.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
             });
 
-            saveAsButton = DSElementUtility.CreateButton("SaveAs", SaveAs);
+            saveAsButton = DSElementUtility.CreateButton("Save As", SaveAs);
+
+            saveButton = DSElementUtility.CreateButton("Save", Save);
 
             Button loadButton = DSElementUtility.CreateButton("Load", Load);
-
             Button clearButton = DSElementUtility.CreateButton("Clear", Clear);
             Button resetButton = DSElementUtility.CreateButton("Reset", ResetGraph);
             miniMapButton = DSElementUtility.CreateButton("Minimap", ToggleMiniMap);
 
             toolbar.Add(fileNameTextField);
+            toolbar.Add(saveButton);
             toolbar.Add(saveAsButton);
             toolbar.Add(loadButton);
             toolbar.Add(clearButton);
@@ -73,11 +79,22 @@ namespace DialogueSystem.Editor
             rootVisualElement.AddStyleSheets(PathToStyle.DSVariables);
         }
 
+        private void CreateSaveLoadSystem()
+        {
+            saveLoadService = new();
+            saveLoadService.OnFailedSave += SaveAs;
+        }
+
+        private void Save() => saveLoadService.Save(graphView, fileNameTextField.value);
+        
         private void SaveAs()
         {
             var pathFolder = EditorUtility.OpenFolderPanel("Save", Application.dataPath, "");
-            string relativePath = "Assets" + pathFolder.Substring(Application.dataPath.Length);
-            graphView.Save(relativePath, fileNameTextField.value);
+            if (!string.IsNullOrEmpty(pathFolder))
+            {
+                string relativePath = "Assets" + pathFolder.Substring(Application.dataPath.Length);
+                saveLoadService.SaveAs(graphView, relativePath, fileNameTextField.value);
+            } 
         }
 
         private void Load()
@@ -98,14 +115,17 @@ namespace DialogueSystem.Editor
             }
             ResetGraph();
             fileNameTextField.value = graphData.FileName;
-            graphView.Load(graphData);
+            //graphView.Load(graphData);
+            saveLoadService.Load(relativePath, graphView, graphData);
         }
 
         public void Load(DSGraphSaveDataSO graphData)
         {
             ResetGraph();
             fileNameTextField.value = graphData.FileName;
-            graphView.Load(graphData);
+            var path = AssetDatabase.GetAssetPath(graphData);
+            //Debug.Log(path);
+            saveLoadService.Load(path, graphView, graphData);
         }
 
         private void Clear()
@@ -116,7 +136,6 @@ namespace DialogueSystem.Editor
         private void ResetGraph()
         {
             Clear();
-
             UpdateFileName(defaultFileName);
         }
 

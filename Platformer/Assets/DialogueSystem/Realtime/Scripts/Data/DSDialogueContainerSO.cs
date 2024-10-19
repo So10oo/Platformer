@@ -8,8 +8,7 @@ namespace DialogueSystem.Realtime
 {
     public class DSDialogueContainerSO : SerializedScriptableObject
     {
-        [field: SerializeField, ReadOnly] public string FileName { get; set; }
-        [field: SerializeField, ReadOnly] public /*Serializable*/Dictionary<DSDialogueGroupSO, List<DSDialogueSO>> DialogueGroups { get; set; }
+        [field: SerializeField, ReadOnly] public Dictionary<DSDialogueGroupSO, List<DSDialogueSO>> DialogueGroups { get; set; }
         [field: SerializeField, ReadOnly] public List<DSDialogueSO> UngroupedDialogues { get; set; }
         [field: SerializeField, ReadOnly] public List<CharacterDataSO> Characters { get; set; }
 

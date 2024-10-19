@@ -35,7 +35,7 @@ namespace DialogueSystem.Realtime
             return dialogueChoices;
         }
 
-        public static DSDialogueSO CreateInstance(DSNode node, List<CharacterDataSO> datas)
+        public static DSDialogueSO CreateInstance(DSNode node, Dictionary<string, CharacterDataSO> createdCharacter)
         {
             var instance = ScriptableObject.CreateInstance<DSDialogueSO>();
             instance.name = node.DialogueName;
@@ -43,7 +43,7 @@ namespace DialogueSystem.Realtime
             instance.Text = node.Text;
             instance.Choices = ConvertNodeChoicesToDialogueChoices(node.Choices);
             instance.IsStartingDialogue = node.IsStartingNode();
-            instance.Character = datas.Find(x => x.ID == node.Character.ID);//CharacterData.CreateInstance(node.Character);
+            instance.Character = createdCharacter[node.Character.ID];
             return instance;
         }
 #endif

@@ -12,9 +12,6 @@ namespace DialogueSystem.Realtime
         [field: SerializeField, ReadOnly]
         public Texture2D Icon { get; private set; }
 
-        [field: SerializeField, ReadOnly]
-        public string ID { get; private set; }
-
 #if UNITY_EDITOR
         public static CharacterDataSO CreateInstance(CharacterField characterField)
         {
@@ -22,7 +19,6 @@ namespace DialogueSystem.Realtime
             instance.name = characterField.Name;
             instance.Name = characterField.Name;
             instance.Icon = characterField.Icon;
-            instance.ID = characterField.ID;    
             return instance;
         }
 #endif

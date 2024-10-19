@@ -10,11 +10,11 @@ namespace DialogueSystem.Editor
         public event Action<DSGroup, string, string> OnRename;
         private Color defaultBorderColor;
         private float defaultBorderWidth;
-        public DSGroup(string groupTitle, Rect rect)
+        public DSGroup(string groupTitle, Rect position , string id = null)
         {
-            ID = Guid.NewGuid().ToString();
+            ID = id ?? Guid.NewGuid().ToString();
             title = groupTitle;
-            SetPosition(rect);
+            SetPosition(position);
             defaultBorderColor = contentContainer.style.borderBottomColor.value;
             defaultBorderWidth = contentContainer.style.borderBottomWidth.value;
         }

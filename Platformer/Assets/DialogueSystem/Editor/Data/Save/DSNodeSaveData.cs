@@ -28,7 +28,7 @@ namespace DialogueSystem.Editor
             GroupID = node.Group?.ID;
             StringType = node.GetType().ToString();
             Position = node.GetPosition().position;
-            CharacterID = node.Character.ID;
+            CharacterID = node.Character?.ID;
         }
     }
 }
