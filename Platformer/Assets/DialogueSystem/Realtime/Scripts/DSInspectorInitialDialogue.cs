@@ -16,9 +16,11 @@ namespace DialogueSystem.Realtime
         [SerializeField, ShowIf("@_dialogueContainer!=null")]
         private bool startingDialoguesOnly;
 
-        [ShowInInspector, ShowIf("@_dialogueContainer!=null"), ValueDropdown(nameof(GetDialogue))]
-        public DSDialogueSO FirstDialogue { get; private set; }
-         
+        [field: SerializeField, ShowIf("@_dialogueContainer!=null"), ValueDropdown(nameof(GetDialogue))]
+        public DSDialogueSO FirstDialogue { get; set; }
+
+
+
 #if UNITY_EDITOR
         private ValueDropdownList<DSDialogueSO> GetDialogue()
         {
