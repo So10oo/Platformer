@@ -19,8 +19,6 @@ namespace DialogueSystem.Realtime
         [field: SerializeField, ShowIf("@_dialogueContainer!=null"), ValueDropdown(nameof(GetDialogue))]
         public DSDialogueSO FirstDialogue { get; set; }
 
-
-
 #if UNITY_EDITOR
         private ValueDropdownList<DSDialogueSO> GetDialogue()
         {
