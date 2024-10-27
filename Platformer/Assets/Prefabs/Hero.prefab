@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3923814031402733064}
   - component: {fileID: 6888652609680888743}
   - component: {fileID: 2358413630400343177}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 'CeilingCheck '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f0642e9030d624fbcc85b65615c857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Layer:
+  _layerCheck:
     serializedVersion: 2
     m_Bits: 64
 --- !u!1 &3996713421404791655
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 2555493131827166750}
   - component: {fileID: 60567115683956021}
   - component: {fileID: 2391839063284976233}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,9 +183,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f0642e9030d624fbcc85b65615c857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Layer:
+  _layerCheck:
     serializedVersion: 2
     m_Bits: 64
+--- !u!1 &4816116417985435498
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3928697153622843040}
+  - component: {fileID: 2126462310643306240}
+  m_Layer: 7
+  m_Name: ClimbingCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3928697153622843040
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4816116417985435498}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.35, y: 1.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7920578395222208918}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2126462310643306240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4816116417985435498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f60a5b78fbc97fb4489a51aa06b4743d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _groundCheckLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _distance: 0.6
 --- !u!1 &6827789451291412446
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,6 +267,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 3928697153622843040}
   - {fileID: 3923814031402733064}
   - {fileID: 2555493131827166750}
   - {fileID: 8686643683507230502}
@@ -266,6 +315,7 @@ MonoBehaviour:
   playerSettings: {fileID: 11400000, guid: 3a4f9eb56e23aa847a8f79c6dbd0770c, type: 2}
   _isCeiling: {fileID: 2358413630400343177}
   _isGround: {fileID: 2391839063284976233}
+  _climbingDetectionSystem: {fileID: 2126462310643306240}
   _animator: {fileID: 8686643683497359552}
   _weapon: {fileID: 0}
   _transformWeapon: {fileID: 0}
@@ -315,7 +365,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.95}
-  m_Size: {x: 0.6, y: 1.9}
+  m_Size: {x: 0.5, y: 1.9}
   m_Direction: 0
 --- !u!1001 &8686643683506834848
 PrefabInstance:

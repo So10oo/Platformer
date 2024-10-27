@@ -6,7 +6,7 @@ public abstract class Check : MonoBehaviour
     protected abstract bool CheckObject(Collider2D collision);//обладает ли коллайдер нужными нам свойствами 
     protected abstract bool CheckAllObject();//есть ли в данный момент колайдер с нужными нам свойствами в нашем коллайдере 
 
-    public event Action<bool> ValueChandge;
+    public event Action<bool> ValueChange;
     bool _value;
     public bool Value
     {
@@ -19,15 +19,13 @@ public abstract class Check : MonoBehaviour
             if (_value != value)
             {
                 _value = value;
-                ValueChandge?.Invoke(value);
+                ValueChange?.Invoke(value);
             }
         }
     }
 
-
     protected virtual void EnterHundler(Collider2D collision)
     {
-
         if (CheckObject(collision))
             Value = true;
     }

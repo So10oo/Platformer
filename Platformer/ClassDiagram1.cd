@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AttackableState" Collapsed="true">
+    <Position X="7.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Hero\States\AttackableState .cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseCharacterState" Collapsed="true">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAEAAAAIAAAAACUAAAAIIAACAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Hero\States\BaseCharacterState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ClimbingState" Collapsed="true">
+    <Position X="14" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAEAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Hero\States\ClimbingState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DashState" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAgAAoAAAAAAAAAAAAAAEAAAAIAAAAAAgQQg=</HashCode>
+      <FileName>Assets\Scripts\Hero\States\DashState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FlyingState" Collapsed="true">
+    <Position X="5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAgAAgAAAAAAAAAAAAAAEAAAAIAAAAAAAAAg=</HashCode>
+      <FileName>Assets\Scripts\Hero\States\FlyingState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FreeFallState" Collapsed="true">
+    <Position X="5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAQAAAAAAAAAAABAAAAAAAEAAAAIAAAAAAAAQA=</HashCode>
+      <FileName>Assets\Scripts\Hero\States\FreeFallState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GroundedState" Collapsed="true">
+    <Position X="8.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAACAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Assets\Scripts\Hero\States\GroundedState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JumpingState" Collapsed="true">
+    <Position X="11.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAACAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Assets\Scripts\Hero\States\JumpingState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LockableState" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Hero\States\LockableState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MovementDashPossibleState" Collapsed="true">
+    <Position X="8.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Hero\States\MovementDashPossibleState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MovementPossibleState" Collapsed="true">
+    <Position X="8.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAoAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Hero\States\MovementPossibleState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MovingState" Collapsed="true">
+    <Position X="9.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Hero\States\MovingState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RotatableState" Collapsed="true">
+    <Position X="7.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQAA=</HashCode>
+      <FileName>Assets\Scripts\Hero\States\RotatableState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StandingState" Collapsed="true">
+    <Position X="7.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Hero\States\StandingState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -15,7 +15,16 @@ public abstract class MovementDashPossibleState : MovementPossibleState
             /*stateMachine.*/ChangeState(_this["dash"]);
             return;
         }
+        
     }
 
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        if (_this.climbingHit && (_this.climbingHit.point.x - _this.transform.position.x) * horizontalInput > 0) //проверка находится ли импут и положение точки системы с одной стороны
+        {
+            ChangeState(_this["climbing"]);
+        }
+    }
 }
 

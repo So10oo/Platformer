@@ -20,7 +20,7 @@ public abstract class Interactive : MonoBehaviour, IActionCharacter
     protected virtual void StartMonoBehavior()
     {
         IsPlayerInObject = GetComponent<LayerCheck>();
-        IsPlayerInObject.ValueChandge += IsPlayerInObjectValueChange;
+        IsPlayerInObject.ValueChange += IsPlayerInObjectValueChange;
     }
 
     private void Start()

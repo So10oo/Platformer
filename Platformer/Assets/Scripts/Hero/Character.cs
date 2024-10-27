@@ -9,18 +9,20 @@ public class Character : MonoBehaviour
     [Header("Obstacle")]
     [SerializeField] LayerCheck _isCeiling;
     [SerializeField] LayerCheck _isGround;
+    [SerializeField] ClimbingDetectionSystem _climbingDetectionSystem;
 
     [Header("Animator")]
     [SerializeField] Animator _animator;
 
     StateMachineEvents<Character> stateMachine;
-    DictionaryStates states;
+    DictionaryCharacterStates states;
     InputService inputService;
 
     public RotateView rotateView; 
     public bool isCeiling => _isCeiling.Value;
     public bool isGround => _isGround.Value;
     public Animator animator => _animator;
+    public RaycastHit2D climbingHit => _climbingDetectionSystem.hit;
     public BaseCharacterState this[string key]
     {
         get => states[key];
@@ -33,8 +35,8 @@ public class Character : MonoBehaviour
     void Construct(InputService _inputService, StateMachineEvents<Character> _stateMachine)
     {
         stateMachine = _stateMachine;
-        rotateView = new RotateView(_animator.transform, RotateView.RotateMode.Z);
-        states = new DictionaryStates(this, _inputService, stateMachine);
+        rotateView = new RotateView(/*_animator.*/transform, RotateView.RotateMode.X/*RotateView.RotateMode.Z*/);
+        states = new DictionaryCharacterStates(this, _inputService, stateMachine);
         inputService = _inputService;
     }
 
@@ -51,7 +53,7 @@ public class Character : MonoBehaviour
         stateMachine.WhenAttemptingChangeState += OnChangeLockableState;
         //GetComponent<HealthPoint>().OnDeath += () => gameObject.SetActive(false);
         r = GetComponent<Rigidbody2D>();
-        _isGround.ValueChandge += (b) => _animator.SetBool("IsGrounded", b);
+        _isGround.ValueChange += (b) => _animator.SetBool("IsGrounded", b);
     }
 
     void Start()

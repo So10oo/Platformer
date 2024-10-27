@@ -16,7 +16,6 @@ public class ComponentCheck<T> : MonoBehaviour where T : Component
         T component = collision.gameObject.GetComponent<T>();
         if (component!=null)
             EnterComponent?.Invoke(component);
-         
     }
 
     protected virtual void ExitHundler(Collider2D collision)

@@ -1,5 +1,4 @@
-﻿
-    public class PlayerCheck : ComponentCheck<Character>
+﻿    public class PlayerCheck : ComponentCheck<Character>
     {
         
     }

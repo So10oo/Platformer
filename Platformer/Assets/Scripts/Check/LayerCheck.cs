@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class LayerCheck : Check
 {
-    [SerializeField] LayerMask Layer;
+    [SerializeField] LayerMask _layerCheck;
     protected Collider2D colliderCheck;
     protected ContactFilter2D contactFilter;
 
@@ -10,7 +10,7 @@ public class LayerCheck : Check
     {
         colliderCheck = GetComponent<Collider2D>();
         contactFilter = new ContactFilter2D();
-        contactFilter.SetLayerMask(Layer);
+        contactFilter.SetLayerMask(_layerCheck);
     }
 
     Collider2D[] result = new Collider2D[1];
@@ -22,7 +22,7 @@ public class LayerCheck : Check
 
     protected override bool CheckObject(Collider2D collision)
     {
-        return (Layer.value & (1 << collision.gameObject.layer)) != 0;
+        return (_layerCheck.value & (1 << collision.gameObject.layer)) != 0;
     }
 
 }

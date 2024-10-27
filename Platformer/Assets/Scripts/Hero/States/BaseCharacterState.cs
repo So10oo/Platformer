@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 
 public abstract class BaseCharacterState : State<Character>
@@ -9,7 +10,6 @@ public abstract class BaseCharacterState : State<Character>
     protected InputService inputService;
     protected Rigidbody2D rb;
     protected PlayerSettings settings;
-
 
     public BaseCharacterState(Character character, StateMachine<Character> stateMachine, InputService inputService) : base(character, stateMachine)
     {

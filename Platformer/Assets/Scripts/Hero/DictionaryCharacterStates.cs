@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class DictionaryStates : Dictionary<string, BaseCharacterState>
+public class DictionaryCharacterStates : Dictionary<string, BaseCharacterState>
 {
     Character _character;
     InputService _inputService;
@@ -16,7 +16,7 @@ public class DictionaryStates : Dictionary<string, BaseCharacterState>
         set { base[key] = value; }
     }
 
-    public DictionaryStates(Character character, InputService inputService, StateMachine<Character> stateMachine)
+    public DictionaryCharacterStates(Character character, InputService inputService, StateMachine<Character> stateMachine)
     {
         _inputService = inputService;
         _stateMachine = stateMachine;
@@ -25,6 +25,7 @@ public class DictionaryStates : Dictionary<string, BaseCharacterState>
         Add("jumping", new JumpingState(_character, _stateMachine, _inputService));
         Add("freeFall", new FreeFallState(_character, _stateMachine, _inputService));
         Add("moving", new MovingState(_character, _stateMachine, _inputService));
+        Add("climbing", new ClimbingState(_character, _stateMachine, _inputService));
     }
 }
 
