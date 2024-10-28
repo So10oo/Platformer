@@ -6,7 +6,6 @@ public class DashState : LockableState
 {
     RotateView rotateView;
     float gravityScale;
-    float _timeToEnter;
     float direction;
     float dashTime;
 
@@ -20,7 +19,6 @@ public class DashState : LockableState
         base.Enter();
         gravityScale = rb.gravityScale;
         rb.gravityScale = 0;
-        _timeToEnter = 0;
         rb.SetVelocityY(0);
         direction = rotateView.GetRotate();//character.gameObject.transform.localScale.x;
         dashTime = settings.dashSpeedCurve.keys.Last().time;
@@ -29,8 +27,7 @@ public class DashState : LockableState
     public override bool LogicUpdate()
     {
         base.LogicUpdate();
-        _timeToEnter += Time.deltaTime;
-        if (_timeToEnter >= dashTime)
+        if (timeToEnter >= dashTime)
         {
             ChangeState(_this["freeFall"]);
             return true;
@@ -41,7 +38,7 @@ public class DashState : LockableState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        var currentDashSpeed = direction * settings.dashSpeedCurve.Evaluate(_timeToEnter);
+        var currentDashSpeed = direction * settings.dashSpeedCurve.Evaluate(timeToEnter);
         rb.SetVelocityX(currentDashSpeed);
     }
 

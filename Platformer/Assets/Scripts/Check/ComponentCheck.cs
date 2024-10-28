@@ -7,18 +7,18 @@ public class ComponentCheck<T> : MonoBehaviour where T : Component
 
     public event Action<T> ExitComponent;
     
-    private void OnTriggerEnter2D(Collider2D collision) => EnterHundler(collision);
+    private void OnTriggerEnter2D(Collider2D collision) => EnterHandler(collision);
 
-    private void OnTriggerExit2D(Collider2D collision) => ExitHundler(collision);
+    private void OnTriggerExit2D(Collider2D collision) => ExitHandler(collision);
 
-    protected virtual void EnterHundler(Collider2D collision)
+    protected virtual void EnterHandler(Collider2D collision)
     {
         T component = collision.gameObject.GetComponent<T>();
         if (component!=null)
             EnterComponent?.Invoke(component);
     }
 
-    protected virtual void ExitHundler(Collider2D collision)
+    protected virtual void ExitHandler(Collider2D collision)
     {
         T component = collision.gameObject.GetComponent<T>();
         if (component!=null)

@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class JumpingState : MovementDashPossibleState
@@ -24,17 +25,32 @@ public class JumpingState : MovementDashPossibleState
     public override bool LogicUpdate()
     {
         base.LogicUpdate();
-        if (rb.velocity.y <= 0)
+        if (rb.velocity.y <= 0 || _this.isCeiling)
         {
-            ChangeState(_this["freeFall"]);//баг возникает при нажатии деша в данном состоянии
+            ChangeState(_this["freeFall"]);
             return true;
         }
-        else if (_this.isCeiling)
+
+        if (!jumpKey)
         {
-            stateMachine.ChangeState(_this["freeFall"]);
-            return true;    
+            var forse = rb.velocity.y / 3f;
+            rb.AddForce(new Vector2(0, -forse), ForceMode2D.Impulse);
+            ChangeState(_this["freeFall"]);
+            return true;
         }
+
         return false;
+    }
+
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        if (jumpKey)
+        {
+            var force = settings.curveForceJump.Evaluate(timeToEnter) - rb.velocity.y;
+            rb.AddForce(new Vector2(0, force), ForceMode2D.Impulse);
+        }
+        
     }
 
 }

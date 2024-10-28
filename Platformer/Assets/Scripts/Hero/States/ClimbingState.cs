@@ -4,7 +4,6 @@ public class ClimbingState : BaseCharacterState, ITrackingDelayedJump
 {
     float timeExit;
     Vector2 targetPoint;
-    float timeToEnter;
     float saveGravityScale;
     float distantClimbing;
     float targetHorizontalInput;
@@ -19,7 +18,6 @@ public class ClimbingState : BaseCharacterState, ITrackingDelayedJump
     public override void Enter()
     {
         base.Enter();
-        timeToEnter = 0;
         targetPoint = _this.climbingHit.point;
 
         targetHorizontalInput = inputService.GamePlay.Move.ReadValue<Vector2>().x;
@@ -69,10 +67,8 @@ public class ClimbingState : BaseCharacterState, ITrackingDelayedJump
                 ChangeState(_this["moving"]);
         }
         else
-        {
             ChangeState(_this["freeFall"]);
-        }
-        timeToEnter += Time.fixedDeltaTime;
+        
     }
 }
 

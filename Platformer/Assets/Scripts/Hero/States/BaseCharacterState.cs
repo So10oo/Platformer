@@ -10,7 +10,8 @@ public abstract class BaseCharacterState : State<Character>
     protected InputService inputService;
     protected Rigidbody2D rb;
     protected PlayerSettings settings;
-
+    
+    protected float timeToEnter { get; private set; }
     public BaseCharacterState(Character character, StateMachine<Character> stateMachine, InputService inputService) : base(character, stateMachine)
     {
         this.inputService = inputService;
@@ -20,9 +21,16 @@ public abstract class BaseCharacterState : State<Character>
 
     public override void Enter()
     {
+        timeToEnter = 0;
         OnEnter?.Invoke();
     }
-     
+
+    public override bool LogicUpdate()
+    {
+        timeToEnter += Time.deltaTime;
+        return false;
+    }
+
     public override void Exit() 
     {
         OnExit?.Invoke();

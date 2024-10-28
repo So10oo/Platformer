@@ -11,6 +11,7 @@ public class PlayerSettings : ScriptableObject
 
     [field: Header("Jump")]
     [field: SerializeField] public float forceJump { private set; get; } = 17;
+    [field: SerializeField] public AnimationCurve curveForceJump { private set; get; }
     [field: SerializeField] public float timeDelayedPressin { private set; get; } = 0.1f;
     [field: SerializeField] public float delayedJumpTime { private set; get; } = 0.12f;
 
