@@ -12,7 +12,7 @@ public class Bullet : ElementPool
     {
         StopCoroutine(_life);
         if (healthPoint != null)
-            healthPoint.Value -= dmaging.Value;
+            healthPoint.CurrentValue -= dmaging.Value;
         this.Release();
     }
 

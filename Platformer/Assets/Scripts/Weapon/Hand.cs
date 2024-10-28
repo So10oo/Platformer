@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 
 public class Hand : CoolDownWeapon
 {
     [SerializeField] HealthPointCheck _hitCheck;
 
-    Damaging dmaging = new Damaging(1);
+    Damaging _damaging = new Damaging(5/*, new List<IHealthEffect>() { new BleedingEffect(100, 0.1f) }*/);
 
     public Animator anim;
 
@@ -22,10 +23,10 @@ public class Hand : CoolDownWeapon
         _hitCheck.EnterComponent += HitCheck;
     }
 
-    private void HitCheck(HealthPoint healthPoint)
+    private void HitCheck(IHealth healthPoint)
     {
         if (healthPoint != null)
-            healthPoint.Value -= dmaging.Value;
+            healthPoint.TakeDamage(_damaging);
     }
 
     private void OnDestroy()

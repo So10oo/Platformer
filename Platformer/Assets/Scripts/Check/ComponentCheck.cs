@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class ComponentCheck<T> : MonoBehaviour where T : Component
 {
-    public Action<T> EnterComponent;
+    public event Action<T> EnterComponent;
 
-    public Action<T> ExitComponent;
+    public event Action<T> ExitComponent;
     
     private void OnTriggerEnter2D(Collider2D collision) => EnterHundler(collision);
 
