@@ -1,5 +1,4 @@
-﻿
-public abstract class MovementDashPossibleState : MovementPossibleState
+﻿public abstract class MovementDashPossibleState : MovementPossibleState
 {
 
     protected MovementDashPossibleState(Character character, StateMachine<Character> stateMachine, InputService inputService) : base(character, stateMachine, inputService)
@@ -7,24 +6,23 @@ public abstract class MovementDashPossibleState : MovementPossibleState
         
     }
 
-    public override void LogicUpdate()
+    public override bool LogicUpdate()
     {
         base.LogicUpdate();
         if (inputService.GamePlay.Dash.IsPressed()) 
         {
-            /*stateMachine.*/ChangeState(_this["dash"]);
-            return;
+            ChangeState(_this["dash"]);
+            return true;
         }
-        
-    }
-
-    public override void FixedUpdate()
-    {
-        base.FixedUpdate();
-        if (_this.climbingHit && (_this.climbingHit.point.x - _this.transform.position.x) * horizontalInput > 0) //проверка находится ли импут и положение точки системы с одной стороны
+        //проверка находится ли импут и положение точки системы с одной стороны
+        if (_this.climbingHit && (_this.climbingHit.point.x - _this.transform.position.x) * horizontalInput > 0) 
         {
             ChangeState(_this["climbing"]);
+            return true;
         }
+        return false;
     }
+
+
 }
 

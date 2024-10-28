@@ -18,9 +18,9 @@ public abstract class State<TypeCharacter>
 
     }
 
-    public virtual void LogicUpdate()
+    public virtual bool LogicUpdate()
     {
-
+        return false;
     }
 
     public virtual void FixedUpdate()

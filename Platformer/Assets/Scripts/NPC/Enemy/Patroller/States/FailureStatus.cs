@@ -16,14 +16,16 @@ public class FailureStatus : AttackedStatus
         speechWindow.text = ":C";
     }
 
-    public override void LogicUpdate()
+    public override bool LogicUpdate()
     {
         base.LogicUpdate();
         _timeToEnter += Time.deltaTime;
         if (_timeToEnter > patrollerSettings.timeFailureStatus)  
         {
             stateMachine.ChangeState(_this.patrolling);
+            return true;
         }
+        return false;
     }
 
 }

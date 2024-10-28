@@ -4,10 +4,11 @@ Shader "Cainos/Customizable Pixel Character/Transparent"
 {
 	Properties
 	{
-		_MainTex ("Sprite Texture", 2D) = "white" {}
+		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 		_Color ("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
 		[PerRendererData] _AlphaTex ("External Alpha", 2D) = "white" {}
+		_BaseTex("Base Texture", 2D) = "white" {}
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 
 	}
@@ -62,7 +63,8 @@ Shader "Cainos/Customizable Pixel Character/Transparent"
 			uniform float _EnableExternalAlpha;
 			uniform sampler2D _MainTex;
 			uniform sampler2D _AlphaTex;
-			uniform float4 _MainTex_ST;
+			uniform sampler2D _BaseTex;
+			uniform float4 _BaseTex_ST;
 
 			
 			v2f vert( appdata_t IN  )
@@ -102,8 +104,8 @@ Shader "Cainos/Customizable Pixel Character/Transparent"
 				UNITY_SETUP_INSTANCE_ID( IN );
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( IN );
 
-				float2 uv_MainTex = IN.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 tex2DNode7 = tex2D( _MainTex, uv_MainTex );
+				float2 uv_BaseTex = IN.texcoord.xy * _BaseTex_ST.xy + _BaseTex_ST.zw;
+				float4 tex2DNode7 = tex2D( _BaseTex, uv_BaseTex );
 				clip( tex2DNode7.a - 0.01);
 				
 				fixed4 c = tex2DNode7;
@@ -119,13 +121,11 @@ Shader "Cainos/Customizable Pixel Character/Transparent"
 }
 /*ASEBEGIN
 Version=19102
-Node;AmplifyShaderEditor.SamplerNode;7;-799.3727,97.01271;Inherit;True;Property;_TextureSample0;Texture Sample 0;1;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;10;-90.79111,76.53799;Float;False;True;-1;2;ASEMaterialInspector;0;10;Cainos/Customizable Pixel Character/Transparent;0f8ba0101102bb14ebf021ddadce9b49;True;SubShader 0 Pass 0;0;0;SubShader 0 Pass 0;2;False;True;3;1;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;True;True;1;False;;False;False;True;5;Queue=Transparent=Queue=0;IgnoreProjector=True;RenderType=Transparent=RenderType;PreviewType=Plane;CanUseSpriteAtlas=True;False;False;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;0;;0;0;Standard;0;0;1;True;False;;False;0
 Node;AmplifyShaderEditor.ClipNode;8;-428.0016,129.5363;Inherit;False;3;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;2;FLOAT;0.01;False;1;COLOR;0
-Node;AmplifyShaderEditor.TemplateShaderPropertyNode;12;-1001.18,106.9944;Inherit;False;0;0;_MainTex;Shader;False;0;5;SAMPLER2D;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-WireConnection;7;0;12;0
+Node;AmplifyShaderEditor.SamplerNode;7;-799.3727,97.01271;Inherit;True;Property;_BaseTex;Base Texture;0;0;Create;False;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 WireConnection;10;0;8;0
 WireConnection;8;0;7;0
 WireConnection;8;1;7;4
 ASEEND*/
-//CHKSM=C995304DDB80CA82C519401F6C64E079BC82EBB2
+//CHKSM=C1C41DAA2B0637BFC9D2844CDECE25897DCCB35B

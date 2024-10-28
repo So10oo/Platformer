@@ -18,11 +18,6 @@ public abstract class BaseCharacterState : State<Character>
         settings = character.playerSettings;
     }
 
-    public override void LateUpdate()
-    {
-        base.LateUpdate();
-    }
-
     public override void Enter()
     {
         OnEnter?.Invoke();

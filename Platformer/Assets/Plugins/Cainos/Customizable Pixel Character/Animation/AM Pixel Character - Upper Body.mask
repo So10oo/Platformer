@@ -11,6 +11,8 @@ AvatarMask:
   m_Elements:
   - m_Path: 
     m_Weight: 1
+  - m_Path: Back
+    m_Weight: 0
   - m_Path: Body
     m_Weight: 0
   - m_Path: Cloth
@@ -20,6 +22,10 @@ AvatarMask:
   - m_Path: Eye
     m_Weight: 0
   - m_Path: Eye Base
+    m_Weight: 0
+  - m_Path: Eye Closed
+    m_Weight: 0
+  - m_Path: Facewear
     m_Weight: 0
   - m_Path: Hair
     m_Weight: 0
@@ -45,6 +51,8 @@ AvatarMask:
     m_Weight: 0
   - m_Path: Rig /Rig Pelvis/Rig LThigh/Rig LCalf/Rig LFoot
     m_Weight: 0
+  - m_Path: Rig /Rig Pelvis/Rig MSkirt
+    m_Weight: 0
   - m_Path: Rig /Rig Pelvis/Rig RThigh
     m_Weight: 0
   - m_Path: Rig /Rig Pelvis/Rig RThigh/Rig RCalf
@@ -61,6 +69,9 @@ AvatarMask:
     m_Weight: 1
   - m_Path: Rig /Rig Pelvis/Rig Spine1/Rig Spine2/Rig Ribcage/Rig LUpperarm/Rig LForearm
     m_Weight: 1
+  - m_Path: Rig /Rig Pelvis/Rig Spine1/Rig Spine2/Rig Ribcage/Rig LUpperarm/Rig LForearm/Rig
+      LHand
+    m_Weight: 1
   - m_Path: Rig /Rig Pelvis/Rig Spine1/Rig Spine2/Rig Ribcage/Rig Neck
     m_Weight: 1
   - m_Path: Rig /Rig Pelvis/Rig Spine1/Rig Spine2/Rig Ribcage/Rig Neck/Rig Head
@@ -70,11 +81,16 @@ AvatarMask:
   - m_Path: Rig /Rig Pelvis/Rig Spine1/Rig Spine2/Rig Ribcage/Rig RUpperarm/Rig RForearm
     m_Weight: 1
   - m_Path: Rig /Rig Pelvis/Rig Spine1/Rig Spine2/Rig Ribcage/Rig RUpperarm/Rig RForearm/Rig
+      RHand
+    m_Weight: 1
+  - m_Path: Rig /Rig Pelvis/Rig Spine1/Rig Spine2/Rig Ribcage/Rig RUpperarm/Rig RForearm/Rig
       Weapon
     m_Weight: 1
   - m_Path: Rig /Rig RPlatform
     m_Weight: 0
   - m_Path: Shoes
+    m_Weight: 0
+  - m_Path: Shoes Front
     m_Weight: 0
   - m_Path: Skirt
     m_Weight: 0

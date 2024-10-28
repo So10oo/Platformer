@@ -6,7 +6,8 @@ public class ClimbingDetectionSystem : MonoBehaviour
     [SerializeField] LayerMask _groundCheckLayerMask;
     [SerializeField] float _distance;
   
-    public RaycastHit2D hit;
+    RaycastHit2D _hit;
+    public RaycastHit2D hit => _hit;
 
     private void Start()
     {
@@ -15,7 +16,7 @@ public class ClimbingDetectionSystem : MonoBehaviour
 
     IEnumerator Reycast()
     {
-        var time = new WaitForSeconds(0.1f);
+        var time = /*new WaitForFixedUpdate();*/ new WaitForSeconds(0.1f);
         while (true)
         {
             yield return time;
@@ -26,32 +27,23 @@ public class ClimbingDetectionSystem : MonoBehaviour
 
     private void UpadateRaycastHit(Vector2 origin, Vector2 direction, float distance)
     {
-        RaycastHit2D raycastHit = new RaycastHit2D()
-        {
-            point = origin + direction * distance
-        };
-
-        RaycastHit2D[] hits = Physics2D.RaycastAll(origin, direction, distance, _groundCheckLayerMask);
         var hit = Physics2D.Raycast(origin, direction, distance, _groundCheckLayerMask);
         if (hit.point != origin)
-            this.hit = hit;
+            this._hit = hit;
         else
-            this.hit = default;
-        
+            this._hit = default;
     }
 
     #region Debug
-    //Vector2 origin;
     private void OnDrawGizmos()
     {
-        Debug.Log("OnDrawGizmos");
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, 0.1f);
-        
-        if (hit)
+
+        if (_hit)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(hit.point, 0.1f);
+            Gizmos.DrawWireSphere(_hit.point, 0.1f);
         }
 
         Gizmos.color = Color.white;

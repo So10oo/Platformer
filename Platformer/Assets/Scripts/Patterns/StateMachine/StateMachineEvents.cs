@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public class StateMachineEvents<TypeObject> : StateMachine<TypeObject>
 {
@@ -11,6 +12,7 @@ public class StateMachineEvents<TypeObject> : StateMachine<TypeObject>
         if (_return || newState is null)
             return;
 
+        //Debug.Log($"{CurrentState}->{newState}");
         base.ChangeState(newState);
 
         OnChangeState?.Invoke(PreviousState, CurrentState);

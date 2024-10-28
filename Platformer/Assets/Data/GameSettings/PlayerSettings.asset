@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a27538756f7a64dac58e1d845d532e, type: 3}
+  m_Name: PlayerSettings
+  m_EditorClassIdentifier: 
+  <maxSpeedX>k__BackingField: 8
+  <reverseAcceleration>k__BackingField: 50
+  <directAcceleration>k__BackingField: 4
+  <startDirectAcceleration>k__BackingField: 20
+  <forceJump>k__BackingField: 17
+  <timeDelayedPressin>k__BackingField: 0.1
+  <delayedJumpTime>k__BackingField: 0.12
+  <dashSpeedCurve>k__BackingField:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 39.822052
+      inSlope: -120.91639
+      outSlope: -120.91639
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.24643658
+      value: 10.023831
+      inSlope: -120.91639
+      outSlope: -120.91639
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  <delayedDash>k__BackingField: 0.2
+  <horizontalFlyingSpeed>k__BackingField: 10
+  <verticalFlyingSpeed>k__BackingField: 10
+  <gravityScaleDown>k__BackingField: 5
+  <gravityScaleUp>k__BackingField: 4
+  <maxSpeedY>k__BackingField: 20

@@ -10,10 +10,11 @@ public abstract class RotatableState : BaseCharacterState
         rotateView = character.rotateView;
     }
 
-    public override void LogicUpdate()
+    public override bool LogicUpdate()
     {
         base.LogicUpdate();
         rotateView.ViewData(horizontalInput);
+        return false;
     }
 }
 

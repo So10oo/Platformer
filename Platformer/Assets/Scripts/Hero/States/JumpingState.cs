@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 
 public class JumpingState : MovementDashPossibleState
@@ -22,13 +21,20 @@ public class JumpingState : MovementDashPossibleState
         jumpKey = inputService.GamePlay.Jump.IsPressed();
     }
 
-    public override void LogicUpdate()
+    public override bool LogicUpdate()
     {
         base.LogicUpdate();
         if (rb.velocity.y <= 0)
+        {
             ChangeState(_this["freeFall"]);//баг возникает при нажатии деша в данном состоянии
+            return true;
+        }
         else if (_this.isCeiling)
+        {
             stateMachine.ChangeState(_this["freeFall"]);
+            return true;    
+        }
+        return false;
     }
 
 }

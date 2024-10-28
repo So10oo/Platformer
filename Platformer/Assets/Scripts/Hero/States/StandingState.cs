@@ -6,12 +6,14 @@ public class StandingState : GroundedState
     {
     }
 
-    public override void LogicUpdate()
+    public override bool LogicUpdate()
     {
         base.LogicUpdate();
         if (Mathf.Abs(rb.velocity.x) >= 0.1)
         {
             stateMachine.ChangeState(_this["moving"]);
+            return true;
         }
+        return false;
     }
 }

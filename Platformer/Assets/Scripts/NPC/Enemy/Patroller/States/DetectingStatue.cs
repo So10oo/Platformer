@@ -17,14 +17,16 @@ public class DetectingStatue : AttackedStatus
         speechWindow.text = "нашел!";
     }
 
-    public override void LogicUpdate()
+    public override bool LogicUpdate()
     {
         base.LogicUpdate();
         _timeToEnter += Time.deltaTime;
         if (_timeToEnter > patrollerSettings.timeDetectingStatue) 
         {
-            /*stateMachine.*/ChangeState(_this.pursuing);
+            ChangeState(_this.pursuing);
+            return true;
         }
+        return false;   
     }
 }
 

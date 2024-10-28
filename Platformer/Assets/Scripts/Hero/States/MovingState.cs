@@ -6,19 +6,14 @@ public class MovingState : GroundedState
     {
     }
 
-    public override void LogicUpdate()
+    public override bool LogicUpdate()
     {
         base.LogicUpdate();
         if (Mathf.Abs(rb.velocity.x) <= 0.1)
         {
             stateMachine.ChangeState(_this["standing"]);
+            return true;
         }
-    }
-
-    public override void FixedUpdate()
-    {
-        base.FixedUpdate();
-        _this.animator.SetFloat("MovingBlend", Mathf.Abs(rb.velocity.x) / settings.maxSpeedX);
-        _this.animator.SetFloat("SpeedVertical", rb.velocity.y);
+        return false;
     }
 }

@@ -4,12 +4,13 @@ Shader "Cainos/Customizable Pixel Character/Hair"
 {
 	Properties
 	{
-		_MainTex ("Sprite Texture", 2D) = "white" {}
+		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 		_Color ("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
 		[PerRendererData] _AlphaTex ("External Alpha", 2D) = "white" {}
 		_SkinShadeTex("Skin Shade Tex", 2D) = "white" {}
 		_RampTex("Ramp Tex", 2D) = "white" {}
+		_HairValueTex("Hair Value Texture", 2D) = "white" {}
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 
 	}
@@ -64,7 +65,8 @@ Shader "Cainos/Customizable Pixel Character/Hair"
 			uniform float _EnableExternalAlpha;
 			uniform sampler2D _MainTex;
 			uniform sampler2D _AlphaTex;
-			uniform float4 _MainTex_ST;
+			uniform sampler2D _HairValueTex;
+			uniform float4 _HairValueTex_ST;
 			uniform sampler2D _RampTex;
 			uniform sampler2D _SkinShadeTex;
 			uniform float4 _SkinShadeTex_ST;
@@ -107,8 +109,8 @@ Shader "Cainos/Customizable Pixel Character/Hair"
 				UNITY_SETUP_INSTANCE_ID( IN );
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( IN );
 
-				float2 uv_MainTex = IN.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 tex2DNode7 = tex2D( _MainTex, uv_MainTex );
+				float2 uv_HairValueTex = IN.texcoord.xy * _HairValueTex_ST.xy + _HairValueTex_ST.zw;
+				float4 tex2DNode7 = tex2D( _HairValueTex, uv_HairValueTex );
 				clip( tex2DNode7.a - 0.01);
 				float4 ShadowColor32 = tex2DNode7;
 				float grayscale11 = Luminance(tex2DNode7.rgb);
@@ -157,29 +159,28 @@ Node;AmplifyShaderEditor.RegisterLocalVarNode;31;-729.8909,23.474;Inherit;False;
 Node;AmplifyShaderEditor.ClipNode;8;-1313.934,-276.2669;Inherit;False;3;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;2;FLOAT;0.01;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;32;-943.7798,-343.4242;Inherit;False;ShadowColor;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.LerpOp;33;-258.6688,230.3995;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;37;-35.14762,233.7735;Float;False;True;-1;2;ASEMaterialInspector;0;10;Cainos/Customizable Pixel Character/Hair;0f8ba0101102bb14ebf021ddadce9b49;True;SubShader 0 Pass 0;0;0;SubShader 0 Pass 0;2;False;True;3;1;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;True;True;1;False;;False;False;True;5;Queue=Transparent=Queue=0;IgnoreProjector=True;RenderType=Transparent=RenderType;PreviewType=Plane;CanUseSpriteAtlas=True;False;False;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;0;;0;0;Standard;0;0;1;True;False;;False;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;22;-843.0235,768.4109;Inherit;False;HairColor;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.GetLocalVarNode;34;-477.6458,166.0914;Inherit;False;32;ShadowColor;1;0;OBJECT;;False;1;COLOR;0
-Node;AmplifyShaderEditor.GetLocalVarNode;23;-463.7112,254.6777;Inherit;False;22;HairColor;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;35;-465.8622,343.4253;Inherit;False;31;IsShadow;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;24;-1043.458,773.3892;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;17;-1920.117,668.2694;Inherit;False;13;Greyscale;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TexturePropertyNode;9;-1834.182,452.1387;Inherit;True;Property;_RampTex;Ramp Tex;1;0;Create;True;0;0;0;False;0;False;0c92460b57c27fb4f91184df01e542e8;0c92460b57c27fb4f91184df01e542e8;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
 Node;AmplifyShaderEditor.DynamicAppendNode;16;-1677.227,655.5414;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.ColorNode;19;-1298.99,787.0502;Inherit;False;Constant;_SkinShadeColor;Skin Shade Color;3;0;Create;True;0;0;0;False;0;False;0.68,0.52,0.4,1;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TFHCGrayscale;11;-940.365,-214.2864;Inherit;False;0;1;0;FLOAT3;0,0,0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;7;-1716.354,-280.5356;Inherit;True;Property;_TextureSample0;Texture Sample 0;1;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RegisterLocalVarNode;13;-207.7692,-235.7793;Inherit;False;Greyscale;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.StaticSwitch;67;-1397.147,1057.513;Inherit;False;Property;_LinearColorSpace1;Linear Color Space;3;0;Create;True;0;0;0;False;0;False;0;1;1;False;UNITY_COLORSPACE_GAMMA;Toggle;2;Key0;Key1;Fetch;False;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SamplerNode;25;-2102.057,1044.506;Inherit;True;Property;_TextureSample2;Texture Sample 2;3;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TexturePropertyNode;18;-2400.302,1038.701;Inherit;True;Property;_SkinShadeTex;Skin Shade Tex;0;0;Create;True;0;0;0;False;0;False;1d1c6d7c787373a4f97be7b727b770e2;1d1c6d7c787373a4f97be7b727b770e2;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
 Node;AmplifyShaderEditor.LuminanceNode;65;-1807.391,1055.245;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.StaticSwitch;49;-498.7641,-235.7103;Inherit;False;Property;_LinearColorSpace;Linear Color Space;3;0;Create;True;0;0;0;False;0;False;0;1;1;False;UNITY_COLORSPACE_GAMMA;Toggle;2;Key0;Key1;Fetch;False;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LinearToGammaNode;68;-1590.49,1027.808;Inherit;False;1;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.PowerNode;70;-697.1916,-270.7003;Inherit;False;False;2;0;FLOAT;0;False;1;FLOAT;0.32;False;1;FLOAT;0
 Node;AmplifyShaderEditor.Compare;28;-1096.836,-56.51617;Inherit;False;4;4;0;FLOAT;0;False;1;FLOAT;0.01;False;2;FLOAT;1;False;3;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.Compare;29;-1101.395,101.9487;Inherit;False;4;4;0;FLOAT;0;False;1;FLOAT;0.01;False;2;FLOAT;1;False;3;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateShaderPropertyNode;71;-1930.063,-277.4152;Inherit;False;0;0;_MainTex;Shader;False;0;5;SAMPLER2D;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TexturePropertyNode;18;-2400.302,1038.701;Inherit;True;Property;_SkinShadeTex;Skin Shade Tex;0;0;Create;True;0;0;0;False;0;False;1d1c6d7c787373a4f97be7b727b770e2;1d1c6d7c787373a4f97be7b727b770e2;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.TexturePropertyNode;9;-1834.182,452.1387;Inherit;True;Property;_RampTex;Ramp Tex;1;0;Create;True;0;0;0;False;0;False;0c92460b57c27fb4f91184df01e542e8;0c92460b57c27fb4f91184df01e542e8;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.GetLocalVarNode;23;-463.7112,254.6777;Inherit;False;22;HairColor;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;34;-477.6458,166.0914;Inherit;False;32;ShadowColor;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;13;-213.1568,-235.7793;Inherit;False;Greyscale;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;73;-38.13931,232.2776;Float;False;True;-1;2;ASEMaterialInspector;0;10;Cainos/Customizable Pixel Character/Hair;0f8ba0101102bb14ebf021ddadce9b49;True;SubShader 0 Pass 0;0;0;SubShader 0 Pass 0;2;False;True;3;1;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;True;True;1;False;;False;False;True;5;Queue=Transparent=Queue=0;IgnoreProjector=True;RenderType=Transparent=RenderType;PreviewType=Plane;CanUseSpriteAtlas=True;False;False;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;0;;0;0;Standard;0;0;1;True;False;;False;0
+Node;AmplifyShaderEditor.SamplerNode;7;-1716.354,-280.5356;Inherit;True;Property;_HairValueTex;Hair Value Texture;2;0;Create;False;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 WireConnection;15;0;9;0
 WireConnection;15;1;16;0
 WireConnection;26;0;7;1
@@ -195,7 +196,6 @@ WireConnection;32;0;8;0
 WireConnection;33;0;34;0
 WireConnection;33;1;23;0
 WireConnection;33;2;35;0
-WireConnection;37;0;33;0
 WireConnection;22;0;24;0
 WireConnection;24;0;15;0
 WireConnection;24;1;19;0
@@ -203,8 +203,6 @@ WireConnection;24;2;67;0
 WireConnection;16;0;17;0
 WireConnection;16;1;17;0
 WireConnection;11;0;8;0
-WireConnection;7;0;71;0
-WireConnection;13;0;49;0
 WireConnection;67;1;68;0
 WireConnection;67;0;65;0
 WireConnection;25;0;18;0
@@ -215,5 +213,7 @@ WireConnection;68;0;65;0
 WireConnection;70;0;11;0
 WireConnection;28;0;26;0
 WireConnection;29;0;27;0
+WireConnection;13;0;49;0
+WireConnection;73;0;33;0
 ASEEND*/
-//CHKSM=AE2D79010662DD1D5441BA23706F6D212504C447
+//CHKSM=4C37185CDF43C0D8BE17B2131B023882FC7EEB0D

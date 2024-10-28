@@ -1,57 +1,78 @@
 ﻿using UnityEngine;
 
-public class ClimbingState : BaseCharacterState
+public class ClimbingState : BaseCharacterState, ITrackingDelayedJump
 {
-    float EnterTime = 1f;
+    float timeExit;
     Vector2 targetPoint;
     float timeToEnter;
-    float horizontalInput;
     float saveGravityScale;
     float distantClimbing;
+    float targetHorizontalInput;
+
+    public (bool, float) DelayedPressing { get; set; }
 
     public ClimbingState(Character character, StateMachine<Character> stateMachine, InputService inputService) : base(character, stateMachine, inputService)
     {
     }
+
 
     public override void Enter()
     {
         base.Enter();
         timeToEnter = 0;
         targetPoint = _this.climbingHit.point;
-        rb.velocity = Vector2.zero;
-        horizontalInput = inputService.GamePlay.Move.ReadValue<Vector2>().x;
-        var dx  = _this.transform.position.x - targetPoint.x;
-        var dy = _this.transform.position.y - targetPoint.y;
-        distantClimbing = Mathf.Abs(dx) + Mathf.Abs(dy);//Vector2.Distance(_this.transform.position, targetPoint) ;
+
+        targetHorizontalInput = inputService.GamePlay.Move.ReadValue<Vector2>().x;
+
+        var dx = _this.gameObject.transform.position.x - targetPoint.x;
+        var dy = _this.gameObject.transform.position.y - targetPoint.y;
+        distantClimbing = Mathf.Abs(dx) + Mathf.Abs(dy);
+        timeExit = distantClimbing / 2f;
+
+        this.SetDelayedJump(true);
+
         saveGravityScale = rb.gravityScale;
         rb.gravityScale = 0;
+        rb.velocity = Vector2.zero;
+
+        var ledgeHeight = (_this.climbingHit.point).y - _this.transform.position.y;
+        _this.animator.SetFloat("LedgeHeight", ledgeHeight - 0.3f);
+        _this.animator.SetBool("IsClimbingLedge", true);
     }
 
     public override void Exit()
     {
-        rb.gravityScale = saveGravityScale;
         base.Exit();
+        rb.gravityScale = saveGravityScale;
+        _this.animator.SetBool("IsClimbingLedge", false);
+    }
+
+    public override void HandleInput()
+    {
+        base.HandleInput();
+        if (inputService.GamePlay.Jump.WasPressedThisFrame())
+            this.SetDelayedJump(true);
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        horizontalInput = inputService.GamePlay.Move.ReadValue<Vector2>().x;
-        if (horizontalInput != 0)
+        var horizontalInput = inputService.GamePlay.Move.ReadValue<Vector2>().x;
+        if (horizontalInput == targetHorizontalInput || timeToEnter > (timeExit / 2f))   
         {
             if (targetPoint.y - _this.transform.position.y > 0)
-                rb.position += new Vector2(0, distantClimbing / EnterTime) * Time.fixedDeltaTime;
+                rb.position += new Vector2(0, distantClimbing / timeExit) * Time.fixedDeltaTime;
             else
-                rb.position += new Vector2(horizontalInput * distantClimbing / EnterTime, 0) * Time.fixedDeltaTime;
+                rb.position += new Vector2(targetHorizontalInput * distantClimbing / timeExit, 0) * Time.fixedDeltaTime;
 
-            if (timeToEnter > EnterTime)
-                ChangeState(_this["moving"]); //("moving");
-            timeToEnter += Time.fixedDeltaTime;
+            if (timeToEnter > timeExit)
+                ChangeState(_this["moving"]);
         }
         else
         {
             ChangeState(_this["freeFall"]);
         }
+        timeToEnter += Time.fixedDeltaTime;
     }
 }
 

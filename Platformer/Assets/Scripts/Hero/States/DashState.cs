@@ -26,14 +26,16 @@ public class DashState : LockableState
         dashTime = settings.dashSpeedCurve.keys.Last().time;
     }
 
-    public override void LogicUpdate()
+    public override bool LogicUpdate()
     {
         base.LogicUpdate();
         _timeToEnter += Time.deltaTime;
         if (_timeToEnter >= dashTime)
         {
             ChangeState(_this["freeFall"]);
+            return true;
         }
+        return false;
     }
 
     public override void FixedUpdate()

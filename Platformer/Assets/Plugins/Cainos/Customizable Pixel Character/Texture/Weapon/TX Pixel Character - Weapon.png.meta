@@ -93,7 +93,7 @@ TextureImporter:
       213: 21300058
     second: TX Pixel Character - Weapon - Katana
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -110,11 +110,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -153,6 +154,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -164,6 +167,7 @@ TextureImporter:
     crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -176,6 +180,7 @@ TextureImporter:
     crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -188,6 +193,7 @@ TextureImporter:
     crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -200,6 +206,59 @@ TextureImporter:
     crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: tvOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -545,7 +604,7 @@ TextureImporter:
       name: TX Pixel Character - Weapon - Quill
       rect:
         serializedVersion: 2
-        x: 56
+        x: 64
         y: 243
         width: 17
         height: 6
@@ -566,7 +625,7 @@ TextureImporter:
       name: TX Pixel Character - Weapon - Flying Broom
       rect:
         serializedVersion: 2
-        x: 40
+        x: 64
         y: 224
         width: 59
         height: 13
@@ -587,7 +646,7 @@ TextureImporter:
       name: TX Pixel Character - Weapon - Broom
       rect:
         serializedVersion: 2
-        x: 48
+        x: 64
         y: 210
         width: 49
         height: 11
@@ -608,7 +667,7 @@ TextureImporter:
       name: TX Pixel Character - Weapon - School Bag
       rect:
         serializedVersion: 2
-        x: 48
+        x: 64
         y: 192
         width: 17
         height: 16
@@ -629,7 +688,7 @@ TextureImporter:
       name: TX Pixel Character - Weapon - Bow
       rect:
         serializedVersion: 2
-        x: 48
+        x: 64
         y: 178
         width: 35
         height: 10
@@ -650,7 +709,7 @@ TextureImporter:
       name: TX Pixel Character - Weapon - Tree Branch
       rect:
         serializedVersion: 2
-        x: 48
+        x: 64
         y: 150
         width: 37
         height: 20
@@ -671,7 +730,7 @@ TextureImporter:
       name: TX Pixel Character - Weapon - Fish
       rect:
         serializedVersion: 2
-        x: 48
+        x: 64
         y: 132
         width: 42
         height: 11
@@ -692,7 +751,7 @@ TextureImporter:
       name: TX Pixel Character - Weapon - Short Sword
       rect:
         serializedVersion: 2
-        x: 49
+        x: 65
         y: 113
         width: 31
         height: 13
@@ -713,7 +772,7 @@ TextureImporter:
       name: TX Pixel Character - Weapon - Umbrella
       rect:
         serializedVersion: 2
-        x: 48
+        x: 64
         y: 100
         width: 40
         height: 7
@@ -734,7 +793,7 @@ TextureImporter:
       name: TX Pixel Character - Weapon - Battle Axe
       rect:
         serializedVersion: 2
-        x: 49
+        x: 65
         y: 82
         width: 31
         height: 10
@@ -755,7 +814,7 @@ TextureImporter:
       name: TX Pixel Character - Weapon - Pirate Sword
       rect:
         serializedVersion: 2
-        x: 48
+        x: 64
         y: 66
         width: 35
         height: 10
@@ -776,7 +835,7 @@ TextureImporter:
       name: TX Pixel Character - Weapon - Spear
       rect:
         serializedVersion: 2
-        x: 50
+        x: 64
         y: 54
         width: 61
         height: 5
@@ -797,7 +856,7 @@ TextureImporter:
       name: TX Pixel Character - Weapon - Heavy Sword
       rect:
         serializedVersion: 2
-        x: 48
+        x: 64
         y: 35
         width: 46
         height: 9
@@ -818,12 +877,12 @@ TextureImporter:
       name: TX Pixel Character - Weapon - Katana
       rect:
         serializedVersion: 2
-        x: 50
+        x: 64
         y: 20
         width: 41
         height: 7
       alignment: 9
-      pivot: {x: 0.19565442, y: 0.5}
+      pivot: {x: 0.19512194, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -831,6 +890,279 @@ TextureImporter:
       bones: []
       spriteID: ecd5ca89e992f7447b3fc36a9895dff4
       internalID: 21300058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Pixel Character - Weapon - Gladius
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 6
+        width: 30
+        height: 7
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9c4b12bbafc20d408a58e7b2c913118
+      internalID: 2005369757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Pixel Character - Weapon - Plague Doctor Cane
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 243
+        width: 51
+        height: 9
+      alignment: 9
+      pivot: {x: 0.39215687, y: 0.44444445}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e79bf4db8cc73994daa48692f2793a8d
+      internalID: -203126128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Pixel Character - Weapon - Jian
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 230
+        width: 37
+        height: 7
+      alignment: 9
+      pivot: {x: 0.24324325, y: 0.42857146}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08188a8f88ec53f47bc3d1d1e8d53c10
+      internalID: 1733550941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Pixel Character - Weapon - Dagger
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 214
+        width: 19
+        height: 7
+      alignment: 9
+      pivot: {x: 0.2631579, y: 0.42857146}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d278547d537d734dbd9ea5e43a14f6d
+      internalID: -1048597357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Pixel Character - Weapon - Assassin Dagger
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 198
+        width: 22
+        height: 7
+      alignment: 9
+      pivot: {x: 0.22727273, y: 0.42857146}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecd0d18855814324193d88b322d07b63
+      internalID: -1085705732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Pixel Character - Weapon - Harpoon
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 178
+        width: 55
+        height: 11
+      alignment: 9
+      pivot: {x: 0.36363634, y: 0.45454547}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3a222a7b527d8c4eaede6583d1ea1ba
+      internalID: -709920168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Pixel Character - Weapon - Long Bow
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 161
+        width: 51
+        height: 10
+      alignment: 9
+      pivot: {x: 0.4509804, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5d87f14d0db0434bb7b722f2af48d4f
+      internalID: -1817107030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Pixel Character - Weapon - Priest Staff
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 143
+        width: 56
+        height: 13
+      alignment: 9
+      pivot: {x: 0.4107143, y: 0.53846157}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37f919e287c800e4b98ff3526ae720ff
+      internalID: 33424830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Pixel Character - Weapon - Sickle
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 103
+        width: 36
+        height: 20
+      alignment: 9
+      pivot: {x: 0.3888889, y: 0.75}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61af2482d4e46f0418a981e923ac40f4
+      internalID: 1711321484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Pixel Character - Weapon - War Hammer
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 128
+        width: 35
+        height: 13
+      alignment: 9
+      pivot: {x: 0.34285715, y: 0.4615385}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 387998df401676141a64add41ffc1b1b
+      internalID: -1044115361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Pixel Character - Weapon - Magic Staff 01
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 83
+        width: 49
+        height: 10
+      alignment: 9
+      pivot: {x: 0.3877551, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6aedff78971bf1240aea200f67e1f375
+      internalID: -932558215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Pixel Character - Weapon - Magic Staff 02
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 68
+        width: 49
+        height: 7
+      alignment: 9
+      pivot: {x: 0.3877551, y: 0.42857146}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6dd498f857a68424d8dafa0857201c40
+      internalID: -1766754481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Pixel Character - Weapon - Shuriken
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 48
+        width: 11
+        height: 11
+      alignment: 9
+      pivot: {x: 0.45454547, y: 0.6363636}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21e9f0f598eb1c4459f819c1596cac03
+      internalID: 1030694015
       vertices: []
       indices: 
       edges: []
@@ -846,39 +1178,52 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      TX Pixel Character - Weapon - Knife: 21300008
-      TX Pixel Character - Weapon - Umbrella: 21300048
-      TX Pixel Character - Weapon - Pickaxe: 21300014
-      TX Pixel Character - Weapon - Fish: 21300044
-      TX Pixel Character - Weapon - Ruby Staff: 21300026
-      TX Pixel Character - Weapon - Silver Sword: 21300004
-      TX Pixel Character - Weapon - Battle Axe: 21300050
-      TX Pixel Character - Weapon - Magic Wand: 21300018
-      TX Pixel Character - Weapon - Topaz Staff: 21300028
+      TX Pixel Character - Weapon - Arrow 01: -422481050
+      TX Pixel Character - Weapon - Assassin Dagger: -1085705732
       TX Pixel Character - Weapon - Axe: 21300010
-      TX Pixel Character - Weapon - Pirate Sword: 21300052
-      TX Pixel Character - Weapon - Broom: 21300036
-      TX Pixel Character - Weapon - Short Sword: 21300046
-      TX Pixel Character - Weapon - Hammer: 21300012
-      TX Pixel Character - Weapon - Wooden Sword: 21300002
-      TX Pixel Character - Weapon - Wooden Staff: 21300020
-      TX Pixel Character - Weapon - Golden Sword: 21300006
-      TX Pixel Character - Weapon - Shovel: 21300016
-      TX Pixel Character - Weapon - Sapphire Staff: 21300022
-      TX Pixel Character - Weapon - Quill: 21300032
-      TX Pixel Character - Weapon - Fork: 21300030
-      TX Pixel Character - Weapon - Tree Branch: 21300042
-      TX Pixel Character - Weapon - School Bag: 21300038
-      TX Pixel Character - Weapon - Flying Broom: 21300034
+      TX Pixel Character - Weapon - Battle Axe: 21300050
       TX Pixel Character - Weapon - Bow: 21300040
-      TX Pixel Character - Weapon - Heavy Sword: 21300056
+      TX Pixel Character - Weapon - Broom: 21300036
+      TX Pixel Character - Weapon - Dagger: -1048597357
       TX Pixel Character - Weapon - Emerald Staff: 21300024
+      TX Pixel Character - Weapon - Fish: 21300044
+      TX Pixel Character - Weapon - Flying Broom: 21300034
+      TX Pixel Character - Weapon - Fork: 21300030
+      TX Pixel Character - Weapon - Gladius: 2005369757
+      TX Pixel Character - Weapon - Golden Sword: 21300006
+      TX Pixel Character - Weapon - Hammer: 21300012
+      TX Pixel Character - Weapon - Harpoon: -709920168
+      TX Pixel Character - Weapon - Heavy Sword: 21300056
       TX Pixel Character - Weapon - Iron Sword: 21300000
+      TX Pixel Character - Weapon - Jian: 1733550941
       TX Pixel Character - Weapon - Katana: 21300058
+      TX Pixel Character - Weapon - Knife: 21300008
+      TX Pixel Character - Weapon - Long Bow: -1817107030
+      TX Pixel Character - Weapon - Magic Staff 01: -932558215
+      TX Pixel Character - Weapon - Magic Staff 02: -1766754481
+      TX Pixel Character - Weapon - Magic Wand: 21300018
+      TX Pixel Character - Weapon - Pickaxe: 21300014
+      TX Pixel Character - Weapon - Pirate Sword: 21300052
+      TX Pixel Character - Weapon - Plague Doctor Cane: -203126128
+      TX Pixel Character - Weapon - Priest Staff: 33424830
+      TX Pixel Character - Weapon - Quill: 21300032
+      TX Pixel Character - Weapon - Ruby Staff: 21300026
+      TX Pixel Character - Weapon - Sapphire Staff: 21300022
+      TX Pixel Character - Weapon - School Bag: 21300038
+      TX Pixel Character - Weapon - Short Sword: 21300046
+      TX Pixel Character - Weapon - Shovel: 21300016
+      TX Pixel Character - Weapon - Shuriken: 1030694015
+      TX Pixel Character - Weapon - Sickle: 1711321484
+      TX Pixel Character - Weapon - Silver Sword: 21300004
       TX Pixel Character - Weapon - Spear: 21300054
-  spritePackingTag: 
+      TX Pixel Character - Weapon - Topaz Staff: 21300028
+      TX Pixel Character - Weapon - Tree Branch: 21300042
+      TX Pixel Character - Weapon - Umbrella: 21300048
+      TX Pixel Character - Weapon - War Hammer: -1044115361
+      TX Pixel Character - Weapon - Wooden Staff: 21300020
+      TX Pixel Character - Weapon - Wooden Sword: 21300002
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

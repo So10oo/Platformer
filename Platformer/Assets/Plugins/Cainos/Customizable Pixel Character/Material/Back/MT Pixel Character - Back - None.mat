@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MT Pixel Character - Back - None
+  m_Name: MT Pixel Character - Back - NONE
   m_Shader: {fileID: 4800000, guid: 602ac66cf94b0ac41b528edfc8ee0be4, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []

@@ -1,5 +1,20 @@
 Customizable Pixel Character
 
+2.2.0
+	-Add dodging mechanism.
+	-Several bugs fixed.
+
+2.1.1
+	-Some minor bugs fixed.
+
+2.1.0
+	-Character animation event handling improved.
+	-Several bugs fixed.
+
+2.0.0
+	-Add 30 new character presets.
+	-Character controller greatly improved with auto stair, ladder climb, ledge climb, dash, one-way platform mechanism and more.
+
 1.4.0
 	-Update included [Pixel Art Platformer - Village Props] asset pack to 2.2.0.
 

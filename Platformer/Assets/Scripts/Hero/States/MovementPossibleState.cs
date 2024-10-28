@@ -23,8 +23,8 @@ public abstract class MovementPossibleState : AttackableState
     {
         base.FixedUpdate();
         Move();
-        _this.animator.SetFloat("MovingBlend", Mathf.Abs(rb.velocity.x) / 12.0f);
-        _this.animator.SetFloat("SpeedVertical", rb.velocity.y);
+        //_this.animator.SetFloat("MoveBlend", Mathf.Abs(rb.velocity.x) * 3f / settings.maxSpeedX);
+        _this.animator.SetFloat("VelocityY", rb.velocity.y);
     }
 
     private void Move()
