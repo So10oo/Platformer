@@ -17,17 +17,15 @@ public class Conversation : Interactive
         _firstDialogue = GetComponent<DSInspectorInitialDialogue>().FirstDialogue;
     }
 
-    public override void Interaction()
+    protected override void Interaction()
     {
         _progressDialog.StartDialog(_firstDialogue);
     }
 
-    protected override void View()
+    protected override void IsPlayerInZoneValueChange(bool isPlayerInZone)
     {
-        if (IsPlayerInObject.Value)
-            _textMeshPro.text = "Interactive";
-        else
-            _textMeshPro.text = "";
+        base.IsPlayerInZoneValueChange(isPlayerInZone);
+        _textMeshPro.text = isPlayerInZone ? "Interactive" : "";
     }
 }
 

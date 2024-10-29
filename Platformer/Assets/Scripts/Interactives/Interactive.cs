@@ -1,49 +1,43 @@
 ﻿using UnityEngine;
 using Zenject;
 
-public abstract class Interactive : MonoBehaviour, IActionCharacter
+public abstract class Interactive : MonoBehaviour
 {
-    protected LayerCheck IsPlayerInObject;
-
+    protected LayerCheck playerCheck;
     protected Character character;
-    protected StateMachineEvents<Character> stateMachine;
-    protected InputService inputService;
+
+    ActionCharacterEvents _interactive;
 
     [Inject]
-    void Construct(Character character, InputService inputService, StateMachineEvents<Character> stateMachine)
+    void Construct(Character character)
     {
         this.character = character;
-        this.inputService = inputService;
-        this.stateMachine = stateMachine;
     }
+
+    private void Start() => StartMonoBehavior();
 
     protected virtual void StartMonoBehavior()
     {
-        IsPlayerInObject = GetComponent<LayerCheck>();
-        IsPlayerInObject.ValueChange += IsPlayerInObjectValueChange;
+        playerCheck = GetComponent<LayerCheck>();
+        playerCheck.ValueChange += IsPlayerInZoneValueChange;
+        _interactive = new ActionCharacterEvents(Interaction);
+        _interactive.beforeAction += BeforeInteraction;
+        _interactive.afterAction += AfterInteraction;
     }
 
-    private void Start()
+    protected virtual void IsPlayerInZoneValueChange(bool isPlayerInZone) => character.action = isPlayerInZone ? _interactive : null;
+    
+    protected abstract void Interaction();
+
+    public virtual void BeforeInteraction()
     {
-        StartMonoBehavior();
+
     }
 
-    protected virtual void IsPlayerInObjectValueChange(bool obj)
+    public virtual void AfterInteraction()
     {
-        if (obj)
-        {
-            character.action = this;
-        }
-        else
-        {
-            character.action = null;
-        }
-        View();
+
     }
-
-    protected abstract void View();
-
-
-    public abstract void Interaction();
 }
 
+ 

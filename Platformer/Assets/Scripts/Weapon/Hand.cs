@@ -1,20 +1,17 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 
 public class Hand : CoolDownWeapon
 {
     [SerializeField] HealthPointCheck _hitCheck;
+    [SerializeField] Animator _animator;
 
     Damaging _damaging = new Damaging(5/*, new List<IHealthEffect>() { new BleedingEffect(100, 0.1f) }*/);
-
-    public Animator anim;
 
     public override void Attack()
     {
         if (BeforeAttack())
             return;
-        anim.SetTrigger("Attack");
+        _animator.SetTrigger("Attack");
     }
 
     public override void OnStart()

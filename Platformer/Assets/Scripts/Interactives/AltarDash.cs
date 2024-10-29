@@ -1,25 +1,34 @@
 using TMPro;
 using UnityEngine;
+using Zenject;
 
-public class AltarDash : Interactive
+public class AltarDash : SingleInteractive
 {
-    [SerializeField] TextMeshPro _mes;
+    [SerializeField] TextMeshPro _message;
+    [SerializeField] GameObject _glow;
+    DashState _dashState;
 
-    public override void Interaction()
+    [Inject]
+    void Construct(InputService inputService, StateMachineEvents<Character> stateMachine)
     {
-        if (character["dash"] == null)
-        {
-            character["dash"] = new DashState(character, stateMachine, inputService);//выдаем способность персонажу 
-            character.action = null;//запрещаем интерактировать с этим местом
-            View();
-        } 
+        _dashState = new DashState(character, stateMachine, inputService);
     }
 
-    protected override void View()
+    protected override void Interaction()
     {
-        if (IsPlayerInObject.Value && character["dash"] == null)
-            _mes.text = "Get dash";
-        else
-            _mes.text = "";
+        character["dash"] = _dashState;//выдаем способность персонажу 
+    }
+
+    public override void AfterInteraction()
+    {
+        base.AfterInteraction();
+        Destroy(_message.gameObject);
+        Destroy(_glow);
+    }
+
+    protected override void IsPlayerInZoneValueChange(bool isPlayerInZone)
+    {
+        base.IsPlayerInZoneValueChange(isPlayerInZone);
+        _message.text = isPlayerInZone ? "Get dash" : "";
     }
 }

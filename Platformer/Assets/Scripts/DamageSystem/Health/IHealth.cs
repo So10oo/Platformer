@@ -18,6 +18,7 @@ public interface IHealth : IDeathEvent
 
     public void SetEffects(List<IHealthEffect> effects)
     {
+        if (effects == null) return; 
         foreach (var effect in effects)
             effect.SetEffect(this);
     }
