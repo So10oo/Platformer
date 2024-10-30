@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 public class DetectingStatue : AttackedStatus
 {
     public DetectingStatue(Patroller patroller, StateMachine<Patroller> stateMachine, PatrollerSettings patrollerSettings,RotateView rotateView) : base(patroller, stateMachine, patrollerSettings, rotateView)

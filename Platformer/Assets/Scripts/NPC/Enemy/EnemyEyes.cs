@@ -5,10 +5,10 @@ using Zenject;
 
 public class EnemyEyes : MonoBehaviour
 {
+    [SerializeField] LayerMask _trackedLayers;
+
     float _viewingRange;
     float _viewingAngle;
-
-    [SerializeField] LayerMask _trackedLayers;
 
     public Action<bool> isVisibleChange;
     bool _isVisible;
@@ -30,7 +30,7 @@ public class EnemyEyes : MonoBehaviour
     Transform _targetTransform;
     Rigidbody2D _targetRigidbody;
     ContactFilter2D _contactFilter;
-    public Vector3 targetPosition => _targetTransform.position;
+    public Vector3 targetPosition => /*_targetTransform*/_targetRigidbody.position;
 
     [Inject]
     void Construct(Character character)
@@ -45,11 +45,8 @@ public class EnemyEyes : MonoBehaviour
         _contactFilter.SetLayerMask(_trackedLayers);
     }
 
-    private void Start()
-    {
-        StartCoroutine(Look());
-    }
-
+    private void Start() => StartCoroutine(Look());
+    
     IEnumerator Look()
     {
         var time = new WaitForSeconds(0.1f);
@@ -64,7 +61,7 @@ public class EnemyEyes : MonoBehaviour
             Debug.DrawRay(transform.position, new Vector3(Mathf.Cos(_viewingAngle), -Mathf.Sin(_viewingAngle)) * dir.x, Color.green, 0.1f);
             Debug.DrawRay(transform.position, (targetPosition - transform.position).normalized * _viewingRange, Color.red, 0.1f);
 
-            if (Vector2.Angle(dir,targetPosition - transform.position)<_viewingAngle*Mathf.Rad2Deg)
+            if (Vector2.Angle(dir, targetPosition - transform.position) < _viewingAngle * Mathf.Rad2Deg) 
             {
                 Physics2D.Raycast(transform.position, (targetPosition - transform.position).normalized, _contactFilter, raycastHit, _viewingRange);
             }

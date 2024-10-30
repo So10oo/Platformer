@@ -2,26 +2,26 @@
 
 public class Hand : CoolDownWeapon
 {
-    //[SerializeField] HealthPointCheck _hitCheck;
-    //[SerializeField] Animator _animator;
-
     [SerializeField] LayerMask _layerMask;
 
-    [SerializeField] Transform _handArea;
+    Damaging _damaging;
 
-    Damaging _damaging = new Damaging(5/*, new List<IHealthEffect>() { new BleedingEffect(5f, 1f) }*/);
-
+    protected override void OnStartMonoBehaviour()
+    {
+        base.OnStartMonoBehaviour();
+        _damaging = new Damaging(5, new RepulsiveEffect(15f, transform.parent));
+    }
     public override void DealingDamage()
     {
         if (BeforeDealingDamage())
             return;
-        //_animator.SetTrigger("Attack");
         TakeDamage();
     }
 
     private void TakeDamage()
     {
-        var collider = Physics2D.OverlapBox(_handArea.position, _handArea.localScale, 0, _layerMask);
+        var collider = Physics2D.OverlapBox(transform.position, transform.localScale, 0, _layerMask);
+        //collider?.attachedRigidbody.AddForce(new Vector2(7, 0), ForceMode2D.Impulse);
         collider?.gameObject.GetComponent<IHealth>()?.TakeDamage(_damaging);
     }
 

@@ -20,4 +20,4 @@ MonoBehaviour:
     m_Bits: 128
   _pursuingSpeed: 6
   _timeFailureStatus: 1
-  _timeDetectingStatue: 0.2
+  _timeDetectingStatue: 0.5

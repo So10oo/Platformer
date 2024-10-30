@@ -9,5 +9,15 @@ public class Damaging : IDamaging
         Value  = damage;
         Effects = effects;
     }
+    public Damaging(int damage, IHealthEffect effect)
+    {
+        Value = damage;
+        Effects = new List<IHealthEffect>() { effect };
+    }
+    public Damaging(int damage)
+    {
+        Value = damage;
+    }
+
 }
 
