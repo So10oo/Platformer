@@ -15,8 +15,8 @@ public class PatrollingStatus : AttackedStatus
         _this.Eyes.isVisibleChange += VisibleChange;
         _this.Eyes.SetViewingDate(5, Mathf.PI / 4);
         _isLeftDirectionMovement = _this.transform.localScale.x < 0 ? true : false;
-
-        _this.speechWindow.text = "и где же он...";
+        _this.animator.SetFloat("MovingBlend", 0.5f);
+        _this.speechWindow.text = "Патрулирование";
     }
 
     public override void Exit()
@@ -25,22 +25,20 @@ public class PatrollingStatus : AttackedStatus
         _this.Eyes.isVisibleChange -= VisibleChange;
     }
 
-    void VisibleChange(bool b)
+    void VisibleChange(bool isVisible)
     {
-        if (b)
-        {
+        if (isVisible)
             stateMachine.ChangeState(_this.detectingStatue);
-        }
     }
 
     public override void FixedUpdate()
     {
-        base.LogicUpdate();
+        base.FixedUpdate();
         if (!_this.GroundArea.Value)
             _isLeftDirectionMovement = !_isLeftDirectionMovement;
 
         float dir = _isLeftDirectionMovement ? -1 : 1;
-        var x = _this.transform.position.x + dir * patrollerSettings.patrollingSpeed * Time.deltaTime;
+        var x = _this.transform.position.x + dir * patrollerSettings.patrollingSpeed * Time.fixedDeltaTime;
         SetAndRotateX(x);
     }
 

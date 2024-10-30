@@ -13,8 +13,8 @@ public class DetectingStatue : AttackedStatus
     {
         base.Enter();   
         _timeToEnter = 0;
-
-        speechWindow.text = "нашел!";
+        _this.animator.SetFloat("MovingBlend", 0f);
+        speechWindow.text = "Найден";
     }
 
     public override bool LogicUpdate()

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Sword : CoolDownWeapon
@@ -7,17 +6,17 @@ public class Sword : CoolDownWeapon
     [SerializeField] float _attackTime;
 
     float _currentAttackTime;
-    Collider2D bladeCollider; 
-    public override void OnStart()
+    Collider2D bladeCollider;
+    protected override void OnStartMonoBehaviour()
     {
-        base.OnStart();
+        base.OnStartMonoBehaviour();
         bladeCollider = GetComponent<Collider2D>();
         bladeCollider.enabled = false;
     }
 
-    public override void Attack()
+    public override void DealingDamage()
     {
-        if (BeforeAttack())
+        if (BeforeDealingDamage())
             return;
         StartCoroutine(Stroke());
     }

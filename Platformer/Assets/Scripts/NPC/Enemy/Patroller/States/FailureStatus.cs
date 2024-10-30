@@ -12,8 +12,8 @@ public class FailureStatus : AttackedStatus
     {
         base.Enter();
         _timeToEnter = 0;
-
-        speechWindow.text = ":C";
+        _this.animator.SetFloat("MovingBlend", 0f);
+        speechWindow.text = "Потерян";
     }
 
     public override bool LogicUpdate()

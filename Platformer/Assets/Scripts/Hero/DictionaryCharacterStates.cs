@@ -8,11 +8,7 @@ public class DictionaryCharacterStates : Dictionary<string, BaseCharacterState>
 
     public new BaseCharacterState this[string key]
     {
-        get
-        {
-            BaseCharacterState t;
-            return base.TryGetValue(key, out t) ? t : null;
-        }
+        get => base.TryGetValue(key, out var state) ? state : null;
         set { base[key] = value; }
     }
 

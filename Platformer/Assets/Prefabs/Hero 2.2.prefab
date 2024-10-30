@@ -613,7 +613,7 @@ GameObject:
   - component: {fileID: 5028795377138924650}
   - component: {fileID: 6321563779982751832}
   - component: {fileID: 4750171833014889190}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: 'CeilingCheck '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -774,7 +774,7 @@ MonoBehaviour:
   _groundCheckLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  _distance: 1.8
+  _distance: 1.5
 --- !u!1 &2964685215590684959
 GameObject:
   m_ObjectHideFlags: 0
@@ -2023,7 +2023,7 @@ GameObject:
   - component: {fileID: 8516226233582886554}
   - component: {fileID: 80458746630276908}
   - component: {fileID: 5217890064304445959}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}

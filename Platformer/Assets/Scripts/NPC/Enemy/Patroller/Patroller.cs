@@ -16,6 +16,10 @@ public class Patroller : Enemy
     [SerializeField] WeaponSlot _weaponSlot;
     public WeaponSlot WeaponSlot => _weaponSlot;
 
+    [SerializeField] Animator _animator;
+
+    public Animator animator => _animator;
+
     StateMachine<Patroller> _stateMachine;
     public PursuingStatus pursuing;
     public PatrollingStatus patrolling;

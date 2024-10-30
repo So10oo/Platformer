@@ -18,7 +18,7 @@ public class Character : MonoBehaviour
     DictionaryCharacterStates states;
     InputService inputService;
 
-    public RotateView rotateView; 
+    public RotateView rotateView { get; private set; }
     public bool isCeiling => _isCeiling.Value;
     public bool isGround => _isGround.Value;
     public Animator animator => _animator;
@@ -35,7 +35,7 @@ public class Character : MonoBehaviour
     void Construct(InputService _inputService, StateMachineEvents<Character> _stateMachine)
     {
         stateMachine = _stateMachine;
-        rotateView = new RotateView(/*_animator.*/transform, RotateView.RotateMode.X/*RotateView.RotateMode.Z*/);
+        rotateView = new RotateView(transform, RotateView.RotateMode.X);
         states = new DictionaryCharacterStates(this, _inputService, stateMachine);
         inputService = _inputService;
     }
@@ -105,7 +105,7 @@ public class Character : MonoBehaviour
 
     public void Attack()
     {
-        _weapon?.Attack();
+        _weapon?.DealingDamage();
     }
     #endregion
 

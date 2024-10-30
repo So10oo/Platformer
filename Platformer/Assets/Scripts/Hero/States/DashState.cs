@@ -32,6 +32,14 @@ public class DashState : LockableState
             ChangeState(_this["freeFall"]);
             return true;
         }
+        //проверка находится ли импут и положение точки системы с одной стороны
+        if (_this.climbingHit 
+            && (_this.climbingHit.point.x - _this.transform.position.x) * direction > 0 
+            && inputService.GamePlay.Move.ReadValue<Vector2>().x * direction > 0) 
+        {
+            ChangeState(_this["climbing"]);
+            return true;
+        }
         return false;
     }
 

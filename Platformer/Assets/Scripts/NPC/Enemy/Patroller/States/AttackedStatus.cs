@@ -18,13 +18,14 @@ public abstract class AttackedStatus : MovePatrollerStatus//атакуемый
     public override void Exit()
     {
         base.Exit();
-        _healthPoint.OnHealthChange += OnHealthChange;
+        _healthPoint.OnHealthChange -= OnHealthChange;
     }
 
 
     private void OnHealthChange(int prHp, int newHp)
     {
-        stateMachine.ChangeState(_this.pursuing);
+        if (!_this.pursuing.isActiveState)
+            stateMachine.ChangeState(_this.pursuing);
     }
 
 }

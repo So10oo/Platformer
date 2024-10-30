@@ -2,39 +2,39 @@ using UnityEngine;
 
 public abstract class CoolDownWeapon : Weapon
 {
-    [SerializeField] float _timeCoolDown;
+    [SerializeField] float _timeCooldown;
 
-    public bool isCoolDown { get; private set; }
+    public bool isCooldown { get; private set; }
 
-    public override void OnStart()
+    protected override void OnStartMonoBehaviour()
     {
-        base.OnStart();
-        OnUpdate += CoolDownWeaponOnUpdate;
-        OnAttack += CoolDownWeaponOnAttack;
+        base.OnStartMonoBehaviour();
+        OnDealingDamage += CooldownWeaponDealingDamage;
     }
 
-    float _currentTimeCoolDown;
-    private void CoolDownWeaponOnAttack()
+    float _currentTimeCooldown;
+    private void CooldownWeaponDealingDamage()
     {
-        isCoolDown = true;
-        _currentTimeCoolDown = 0;
+        isCooldown = true;
+        _currentTimeCooldown = 0;
     }
 
-    private void CoolDownWeaponOnUpdate()
+    protected override void OnUpdateMonoBehaviour()
     {
-        if (isCoolDown)
+        base.OnUpdateMonoBehaviour();
+        if (isCooldown)
         {
-            _currentTimeCoolDown += Time.deltaTime;
-            if (_currentTimeCoolDown > _timeCoolDown)
-                isCoolDown = false;
+            _currentTimeCooldown += Time.deltaTime;
+            if (_currentTimeCooldown > _timeCooldown)
+                isCooldown = false;
         }
     }
-
-    public bool BeforeAttack()
+ 
+    protected bool BeforeDealingDamage()
     {
-        if (!isCoolDown)
+        if (!isCooldown)
         {
-            base.Attack();
+            base.DealingDamage();
             return false;
         }
         else

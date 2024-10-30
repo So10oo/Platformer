@@ -14,7 +14,6 @@ public class ClimbingState : BaseCharacterState, ITrackingDelayedJump
     {
     }
 
-
     public override void Enter()
     {
         base.Enter();
@@ -27,7 +26,7 @@ public class ClimbingState : BaseCharacterState, ITrackingDelayedJump
         distantClimbing = Mathf.Abs(dx) + Mathf.Abs(dy);
         timeExit = distantClimbing / 2f;
 
-        this.SetDelayedJump(true);
+        this.SetDelayedJump(false);
 
         saveGravityScale = rb.gravityScale;
         rb.gravityScale = 0;

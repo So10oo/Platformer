@@ -3,25 +3,16 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour, IWeapon
 {
-    public event Action OnAttack;
-    public event Action OnUpdate;
+    public event Action OnDealingDamage;
 
-    public virtual void Attack()
-    {
-        OnAttack?.Invoke();
-    }
+    public virtual void DealingDamage() => OnDealingDamage?.Invoke();
 
-    public virtual void OnStart()
-    {
-    }
+    protected virtual void OnStartMonoBehaviour() { }
 
-    private void Start()
-    {
-        OnStart();
-    }
+    protected virtual void OnUpdateMonoBehaviour() { }
 
-    private void Update()
-    {
-        OnUpdate?.Invoke();
-    }
+    private void Start() => OnStartMonoBehaviour();
+
+    private void Update() => OnUpdateMonoBehaviour();
+    
 }
