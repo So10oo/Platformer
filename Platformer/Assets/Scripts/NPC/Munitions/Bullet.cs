@@ -1,3 +1,4 @@
+using CustomCheck;
 using System.Collections;
 using UnityEngine;
 
@@ -6,26 +7,28 @@ public class Bullet : ElementPool
     [SerializeField] float _lifeTime;
     [SerializeField] HealthPointCheck _hitCheck;
 
-    Damaging dmaging = new Damaging(1);
+    Damaging _damaging = new Damaging(1);
 
-    private void HitCheck(HealthPoint healthPoint)
+    private void HitCheck(IHealth healthPoint)
     {
         StopCoroutine(_life);
         if (healthPoint != null)
-            healthPoint.CurrentValue -= dmaging.Value;
+            healthPoint.TakeDamage(_damaging);
         this.Release();
     }
 
     Coroutine _life;
     void OnEnable()
     {
-        _hitCheck.EnterComponent += HitCheck;
+        //_hitCheck.EnterComponent += HitCheck;
+        _hitCheck.SubscribeEnter(HitCheck);
         _life = StartCoroutine(Life());
     }
 
     private void OnDisable()
     {
-        _hitCheck.EnterComponent -= HitCheck;
+        _hitCheck.UnsubscribeEnter(HitCheck);
+        //_hitCheck.EnterComponent -= HitCheck;
     }
 
     IEnumerator Life()

@@ -34,7 +34,7 @@ public class PatrollingStatus : AttackedStatus
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (!_this.GroundArea.Value)
+        if (!_this.GroundArea.InLayer)
             _isLeftDirectionMovement = !_isLeftDirectionMovement;
 
         float dir = _isLeftDirectionMovement ? -1 : 1;

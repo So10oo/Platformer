@@ -22,7 +22,7 @@ public class AnimationInitialize : MonoBehaviour
     {
         animator = gameObject.GetComponent<Animator>();//Animator.SetTrigger
 
-        _isGround.ValueChange += (b) => animator.SetBool("IsGrounded", b);
+        _isGround.InLayerChange += (b) => animator.SetBool("IsGrounded", b);
 
     }
 

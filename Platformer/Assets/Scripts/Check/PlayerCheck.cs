@@ -1,4 +1,6 @@
-﻿    public class PlayerCheck : ComponentCheck<Character>
-    {
-        
-    }
+﻿using CustomCheck;
+
+public class PlayerCheck : ComponentCheck<Character>
+{
+
+}

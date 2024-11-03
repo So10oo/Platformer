@@ -21,7 +21,7 @@ public class PursuingStatus : AttackedStatus
     public override bool LogicUpdate()
     {
         base.LogicUpdate();
-        _canMove = _this.GroundArea.Value;
+        _canMove = _this.GroundArea.InLayer;
 
         if (!eyes.isVisible)
         {

@@ -19,8 +19,8 @@ public class Character : MonoBehaviour
     InputService inputService;
 
     public RotateView rotateView { get; private set; }
-    public bool isCeiling => _isCeiling.Value;
-    public bool isGround => _isGround.Value;
+    public bool isCeiling => _isCeiling.InLayer;
+    public bool isGround => _isGround.InLayer;
     public Animator animator => _animator;
     public RaycastHit2D climbingHit => _climbingDetectionSystem.hit;
     public BaseCharacterState this[string key]
@@ -53,7 +53,7 @@ public class Character : MonoBehaviour
         stateMachine.WhenAttemptingChangeState += OnChangeLockableState;
         //GetComponent<HealthPoint>().OnDeath += () => gameObject.SetActive(false);
         r = GetComponent<Rigidbody2D>();
-        _isGround.ValueChange += (b) => _animator.SetBool("IsGrounded", b);
+        _isGround.InLayerChange += (b) => _animator.SetBool("IsGrounded", b);
     }
 
     void Start()

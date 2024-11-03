@@ -22,7 +22,7 @@ public class Cannon : MonoBehaviour
 
     void Awake()
     {
-        _playerCheck.ValueChange += PlayerInZoneValueChange;
+        _playerCheck.InLayerChange += PlayerInZoneValueChange;
         _pool = new Pool(_bullet);
     }
 

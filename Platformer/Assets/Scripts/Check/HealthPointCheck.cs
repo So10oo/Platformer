@@ -1,4 +1,6 @@
-﻿public class HealthPointCheck : ComponentCheck<HealthPoint>
+﻿using CustomCheck;
+
+public class HealthPointCheck : ComponentCheck<IHealth>
 {
 }
 

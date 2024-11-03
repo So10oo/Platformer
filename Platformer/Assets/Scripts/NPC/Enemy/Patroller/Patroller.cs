@@ -7,6 +7,8 @@ public class Patroller : Enemy
 
     public SpeechWindow speechWindow;
 
+    [SerializeField] LayerCheck _playerCheck;
+
     [SerializeField] EnemyEyes _eyes;
     public EnemyEyes Eyes => _eyes;
 
@@ -49,5 +51,7 @@ public class Patroller : Enemy
     {
         _stateMachine.CurrentState.FixedUpdate();
     }
+
+
 }
 

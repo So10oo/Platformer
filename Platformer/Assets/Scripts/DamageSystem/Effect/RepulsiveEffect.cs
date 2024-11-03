@@ -2,10 +2,10 @@
 
 public class RepulsiveEffect : IHealthEffect
 {
-    float _force;
+    Vector2 _force;
     Transform _drummer;
 
-    public RepulsiveEffect(float force,Transform drummer)
+    public RepulsiveEffect(Vector2 force,Transform drummer)
     {
         this._force = force;
         this._drummer = drummer;
@@ -16,7 +16,7 @@ public class RepulsiveEffect : IHealthEffect
         if (health is MonoBehaviour mono && mono.GetComponent<Rigidbody2D>() is Rigidbody2D rb)
         {
             var dir = Mathf.Sign(rb.position.x - _drummer.position.x);
-            rb.AddForce(dir * new Vector2(_force, 0), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(dir, 1) * _force, ForceMode2D.Impulse);
         }
     }
 }

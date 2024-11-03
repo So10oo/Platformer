@@ -18,7 +18,7 @@ public class AltarWings : Interactive
 
     protected void View()
     {
-        bool isView = playerCheck.Value && !_flying.isActiveState;
+        bool isView = playerCheck.InLayer && !_flying.isActiveState;
         _message.text = isView ? "Press F" : "";
     }
 

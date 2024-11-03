@@ -19,7 +19,7 @@ public abstract class Interactive : MonoBehaviour
     protected virtual void StartMonoBehavior()
     {
         playerCheck = GetComponent<LayerCheck>();
-        playerCheck.ValueChange += IsPlayerInZoneValueChange;
+        playerCheck.InLayerChange += IsPlayerInZoneValueChange;
         _interactive = new ActionCharacterEvents(Interaction);
         _interactive.beforeAction += BeforeInteraction;
         _interactive.afterAction += AfterInteraction;

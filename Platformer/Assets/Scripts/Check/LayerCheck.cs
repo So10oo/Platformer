@@ -1,28 +1,54 @@
+using System;
 using UnityEngine;
 
-public class LayerCheck : Check
+public class LayerCheck : MonoBehaviour
 {
     [SerializeField] LayerMask _layerCheck;
-    protected Collider2D colliderCheck;
-    protected ContactFilter2D contactFilter;
 
-    protected override void AwakeHundler()
+    public int CountCollision
     {
-        colliderCheck = GetComponent<Collider2D>();
-        contactFilter = new ContactFilter2D();
-        contactFilter.SetLayerMask(_layerCheck);
+        get { return _countCollision; }
+        private set
+        {
+            if (_countCollision != value)
+            {
+                _countCollision = value;
+                InLayer = value != 0;
+                CountCollisionChange?.Invoke(_countCollision);
+            }
+        }
+    }
+    public event Action<int> CountCollisionChange;
+    int _countCollision;
+
+    public bool InLayer
+    {
+        get
+        {
+            return _inLayer;
+        }
+        private set
+        {
+            if (_inLayer != value)
+            {
+                _inLayer = value;
+                InLayerChange?.Invoke(value);
+            }
+        }
+    }//InLayer
+    public event Action<bool> InLayerChange;//InLayerChange
+    bool _inLayer;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if ((_layerCheck.value & (1 << collision.gameObject.layer)) != 0)
+            CountCollision++;
     }
 
-    Collider2D[] result = new Collider2D[1];
-
-    protected override bool CheckAllObject()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        return colliderCheck.OverlapCollider(contactFilter, result) > 0;
-    }
-
-    protected override bool CheckObject(Collider2D collision)
-    {
-        return (_layerCheck.value & (1 << collision.gameObject.layer)) != 0;
+        if ((_layerCheck.value & (1 << collision.gameObject.layer)) != 0)
+            CountCollision--;
     }
 
 }

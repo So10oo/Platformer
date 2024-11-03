@@ -9,7 +9,7 @@ public class Hand : CoolDownWeapon
     protected override void OnStartMonoBehaviour()
     {
         base.OnStartMonoBehaviour();
-        _damaging = new Damaging(5, new RepulsiveEffect(15f, transform.parent));
+        _damaging = new Damaging(5, new RepulsiveEffect(new Vector2(15,10), transform.parent));
     }
     public override void DealingDamage()
     {
@@ -23,6 +23,11 @@ public class Hand : CoolDownWeapon
         var collider = Physics2D.OverlapBox(transform.position, transform.localScale, 0, _layerMask);
         //collider?.attachedRigidbody.AddForce(new Vector2(7, 0), ForceMode2D.Impulse);
         collider?.gameObject.GetComponent<IHealth>()?.TakeDamage(_damaging);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawCube(transform.position, transform.localScale);
     }
 
 }
