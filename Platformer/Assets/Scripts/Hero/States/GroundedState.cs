@@ -11,8 +11,8 @@ public abstract class GroundedState : MovementDashPossibleState
     {
         base.Enter();
         if (stateMachine.PreviousState is ITrackingDelayedJump state
-            && state.DelayedPressing.Item1
-            && Mathf.Abs(state.DelayedPressing.Item2 - Time.time) < _this.playerSettings.timeDelayedPressin)
+            && state.isPressed
+            && state.timeElapsed < _this.playerSettings.timeDelayedPressin)
         {
             stateMachine.ChangeState(_this["jumping"]);
         }

@@ -6,36 +6,47 @@ public class Bullet : ElementPool
 {
     [SerializeField] float _lifeTime;
     [SerializeField] HealthPointCheck _hitCheck;
+    [SerializeField] LayerCheck _layerCheck;
 
     Damaging _damaging = new Damaging(1);
 
     private void HitCheck(IHealth healthPoint)
     {
-        StopCoroutine(_life);
+         
         if (healthPoint != null)
             healthPoint.TakeDamage(_damaging);
+        StopCoroutine(_life);
         this.Release();
+    }
+    private void GroundedCollision(bool obj)
+    {
+        if (obj)
+        {
+            StopCoroutine(_life);
+            this.Release();
+        }
     }
 
     Coroutine _life;
+    IEnumerator Life()
+    {
+        yield return new WaitForSeconds(_lifeTime);
+        this.Release();
+    }
+
     void OnEnable()
     {
-        //_hitCheck.EnterComponent += HitCheck;
+        _layerCheck.InLayerChange += GroundedCollision;
         _hitCheck.SubscribeEnter(HitCheck);
         _life = StartCoroutine(Life());
     }
 
     private void OnDisable()
     {
+        _layerCheck.InLayerChange -= GroundedCollision;
         _hitCheck.UnsubscribeEnter(HitCheck);
-        //_hitCheck.EnterComponent -= HitCheck;
     }
-
-    IEnumerator Life()
-    {
-        yield return new WaitForSeconds(_lifeTime);
-        this.Release();
-    }
+ 
 
  
 

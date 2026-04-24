@@ -3,13 +3,11 @@ using UnityEngine;
 
 namespace CustomCheck
 {
-    public interface IComponentCheckExit<T> 
+    public interface IComponentCheckExit<T>
     {
-        protected abstract Action<T> ExitComponent {  get; set; }
+        protected Action<T> ExitComponent { get; set; }
 
-        private void OnTriggerExit2D(Collider2D collision) => ExitHandler(collision);
-
-         void ExitHandler(Collider2D collision)
+        public void ExitHandler(Collider2D collision)
         {
             T component = collision.gameObject.GetComponent<T>();
             if (component != null)

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class AttackableState : RotatableState
+﻿public class AttackableState : RotatableState
 {
     public AttackableState(Character character, StateMachine<Character> stateMachine, InputService inputService) : base(character, stateMachine, inputService)
     {

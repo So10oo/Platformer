@@ -5,7 +5,7 @@ namespace CustomCheck
 {
     public interface IComponentCheckEnter<T>
     {
-        protected abstract Action<T> EnterComponent { get; set; }
+        protected Action<T> EnterComponent { get; set; }
 
         public void EnterHandler(Collider2D collision)
         {

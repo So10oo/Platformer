@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public abstract class RotatableState : BaseCharacterState
+﻿public abstract class RotatableState : BaseCharacterState
 {
     protected float horizontalInput;
     private RotateView rotateView;

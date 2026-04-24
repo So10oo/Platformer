@@ -1,14 +1,15 @@
+using CustomCheck;
 using System;
 using UnityEngine;
 
-public class LayerCheck : MonoBehaviour
+public class LayerCheck : MonoBehaviour , ILayerCheck
 {
     [SerializeField] LayerMask _layerCheck;
 
     public int CountCollision
     {
         get { return _countCollision; }
-        private set
+        protected set
         {
             if (_countCollision != value)
             {
@@ -27,7 +28,7 @@ public class LayerCheck : MonoBehaviour
         {
             return _inLayer;
         }
-        private set
+        protected set
         {
             if (_inLayer != value)
             {
@@ -35,8 +36,8 @@ public class LayerCheck : MonoBehaviour
                 InLayerChange?.Invoke(value);
             }
         }
-    }//InLayer
-    public event Action<bool> InLayerChange;//InLayerChange
+    }
+    public event Action<bool> InLayerChange;
     bool _inLayer;
 
     private void OnTriggerEnter2D(Collider2D collision)

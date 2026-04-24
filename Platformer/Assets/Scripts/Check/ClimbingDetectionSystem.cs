@@ -16,7 +16,7 @@ public class ClimbingDetectionSystem : MonoBehaviour
 
     IEnumerator Reycast()
     {
-        var time = /*new WaitForFixedUpdate();*/ new WaitForSeconds(0.1f);
+        var time = new WaitForFixedUpdate(); /*new WaitForSeconds(0.1f);*/
         while (true)
         {
             yield return time;

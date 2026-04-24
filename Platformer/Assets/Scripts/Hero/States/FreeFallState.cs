@@ -5,8 +5,6 @@ public class FreeFallState : MovementDashPossibleState, ITrackingDelayedJump
     float _timeToEnter;
     float _gravity;
 
-    public (bool, float) DelayedPressing { get; set; }
-
     public FreeFallState(Character character, StateMachine<Character> stateMachine, InputService inputService) : base(character, stateMachine, inputService)
     {
     }
