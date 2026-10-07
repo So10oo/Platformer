@@ -1,39 +1,20 @@
-# Contributing & documentation maintenance
+# Документация рядом с кодом
 
-This project keeps documentation **inside the repo**. The rule is simple:
+Если меняется поведение системы — в том же изменении обновляется соответствующая страница в `docs/`.
 
-> If you change behavior/architecture, you update docs in the same PR.
+## Что трогать
 
-## What to update when you change code
+| Изменение | Страницы |
+|-----------|----------|
+| Новый модуль / поток сцены | [Architecture.md](Architecture.md), оглавление [README.md](README.md) |
+| Биндинги Zenject | [DI-Zenject.md](DI-Zenject.md) |
+| Пакеты, версия Unity | [TechStack.md](TechStack.md), [Runbook.md](Runbook.md) |
+| Мувмент, ввод, состояния героя | [Gameplay/Movement.md](Gameplay/Movement.md) |
+| Диалоги | [Gameplay/Dialogue.md](Gameplay/Dialogue.md) |
+| HP / эффекты | [Gameplay/HealthAndDamage.md](Gameplay/HealthAndDamage.md) |
+| Оружие | [Gameplay/Weapons.md](Gameplay/Weapons.md) |
+| Враги | [Gameplay/Enemies.md](Gameplay/Enemies.md) |
+| Интерактивы / Check | [Gameplay/Interactives.md](Gameplay/Interactives.md) |
+| Инвентарь | [Gameplay/Inventory.md](Gameplay/Inventory.md) |
 
-### If you add/change a system
-
-- Update `docs/Architecture.md` (module list + flow)
-- Update `docs/TechStack.md` if packages/plugins changed
-- Add/extend a system doc under `docs/` (create a new page if needed)
-
-### If you change DI / Zenject bindings
-
-- Update `docs/DI-Zenject.md`
-- If the binding affects lifecycle (creation/disposal), explicitly document it
-
-### If you change hero movement or inputs
-
-- Update `docs/Gameplay/HeroStateMachine.md`
-- Update `docs/Runbook.md` if run/build steps or debug toggles changed
-
-## ADR (Architecture Decision Records)
-
-When you make a design decision that will matter in a month, record it:
-
-- Create a new file: `docs/ADR/NNNN-short-title.md`
-- Use the template in `docs/ADR/0000-template.md`
-- Keep it short: context, decision, consequences
-
-## “Docs are stale” checklist (triage)
-
-If someone reports docs are outdated:
-
-- Identify the code location that diverged
-- Update the relevant doc page(s)
-- Add an ADR if the change was a deliberate design shift
+Решение, которое через месяц будет неочевидно — короткий файл в [ADR/](ADR/) по шаблону `ADR/0000-template.md`.

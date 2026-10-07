@@ -1,20 +1,25 @@
 # Platformer
 
-Unity 2D platformer project (Unity **2022.3.62f1 LTS**).
+2D-платформер на Unity **2022.3.62f1 LTS** (URP).
 
-## Quick start
+## Как запустить
 
-- Install Unity **2022.3.62f1** in Unity Hub
-- Open project folder: `Platformer/`
-- Open scene: `Assets/Scenes/Game.unity`
-- Press **Play**
+1. В Unity Hub открой папку `Platformer/` (корень Unity-проекта).
+2. Сцена: `Assets/Scenes/Game.unity`.
+3. Play.
 
-## Documentation
+Управление (клавиатура + мышь):
 
-- `docs/README.md` — documentation index (start here)
-- `docs/Architecture.md` — high-level architecture and module overview
-- `docs/Runbook.md` — run/build/troubleshooting
-- `docs/Gameplay/HeroStateMachine.md` — hero controller & state machine
-- `docs/DI-Zenject.md` — composition root and DI rules
-- `docs/Contributing.md` — how to keep docs up-to-date (includes checklists)
-- `docs/ADR/` — architecture decision records (lightweight decisions log)
+| Действие | Клавиша |
+|----------|---------|
+| Движение | WASD |
+| Прыжок | Space |
+| Рывок (dash) | Left Shift |
+| Взаимодействие | F |
+| Атака | ЛКМ |
+
+Зацеп за уступ (climbing) срабатывает сам, если луч `ClimbingDetectionSystem` видит площадку впереди по направлению движения.
+
+## Документация
+
+Начни с [`docs/README.md`](docs/README.md).

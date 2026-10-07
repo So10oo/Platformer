@@ -1,58 +1,75 @@
-# Architecture (high-level)
+# Архитектура
 
-## What this project is
+2D-платформер: герой на FSM, интерактивы, патрульные, пушка, графовый редактор диалогов, черновик сетки инвентаря.
 
-- **Unity 2D platformer** implemented in **C#**.
-- Engine version: **Unity 2022.3.62f1 (LTS)**.
-- Main build/play scene: `Platformer/Assets/Scenes/Game.unity`.
+## Стек
 
-## Repository layout
+Кратко: Unity **2022.3.62f1**, URP 2D, Input System, Zenject, Odin Inspector, TextMesh Pro, Cainos. Подробности — [TechStack.md](TechStack.md).
 
-- `README.md` — entry point, links to documentation.
-- `Platformer/` — Unity project root
-  - `Assets/` — gameplay code, scenes, prefabs, art, plugins
-  - `Packages/manifest.json` — Unity packages used by the project
-  - `ProjectSettings/` — Unity project configuration (including editor + build settings)
-- `docs/` — documentation (this folder)
+Корень Unity-проекта — `Platformer/`. Геймплей: `Platformer/Assets/Scripts/`. Диалоги вынесены в `Assets/DialogueSystem/`. Инвентарь — `Assets/InventorySystem/` (пока не вплетён в сцену `Game`).
 
-## Key modules (code)
+## Сцены
 
-All scripts are under `Platformer/Assets/Scripts/`.
+- `Assets/Scenes/Game.unity` — основная.
+- `Assets/Scenes/Menu.unity`, `test.unity` — меню и песочница.
 
-- **Composition root / DI**
-  - `MonoInstallers/Installer.cs` — scene-level installer (Zenject) that binds services and creates/binds the hero.
-  - `MonoInstallers/PlayerInstaller.cs` — alternate installer (currently overlaps with `Installer.cs`).
-- **Hero**
-  - `Hero/Character.cs` — central MonoBehaviour orchestrating the hero state machine + Unity lifecycle hooks.
-  - `Hero/DictionaryCharacterStates.cs` — registers hero states by string key.
-  - `Hero/States/*` — state machine states (Standing/Moving/Jumping/FreeFall/Climbing/Dash/...).
-- **Input**
-  - `InputService/InputService.cs` — source-generated wrapper for Unity Input System actions (WASD/Jump/Dash/Interact/Attack).
-- **Damage/Health**
-  - `DamageSystem/Health/HealthPoint.cs` — basic health implementation with OnDeath / OnHealthChange.
-  - `DamageSystem/Damaging/*` — damage payload (value + effects).
-- **Weapons**
-  - `Weapon/Weapon.cs` — base weapon behavior; hero calls `Weapon.DealingDamage()`.
-- **Patterns**
-  - `Patterns/StateMachine/*` — generic state machine primitives.
-  - `Patterns/Pool/*`, `Patterns/Factory/*` — pooling and factory helpers.
+## Композиция
 
-## Runtime architecture (flow)
+Точка сборки `Game` — `MonoInstallers/Installer.cs`. Подробности биндингов — [DI-Zenject.md](DI-Zenject.md).
 
-- Scene boots → Zenject **installer** binds services → hero is instantiated/bound
-- `Character.Start()` initializes the state machine at `freeFall`
-- Each frame:
-  - `Update()` → `CurrentState.HandleInput()` then `CurrentState.LogicUpdate()`
-  - `FixedUpdate()` → `CurrentState.FixedUpdate()`
-  - `LateUpdate()` → `CurrentState.LateUpdate()`
-- Input system is enabled/disabled with hero GameObject enable state (`OnEnable/OnDisable`).
+```
+Installer
+  ├── InputService
+  ├── StateMachineEvents<Character>
+  ├── Character (prefab → StartPoint)
+  ├── HealthPointView  ←  HealthPoint.OnHealthChange
+  ├── DialogPanel
+  └── IFactory / FactoryWithDiContainer
+```
 
-## Known architectural pressure points (current)
+`PlayerInstaller` — второй инсталлер с пересекающимися биндингами (герой уже на сцене). На `Game` используется `Installer`.
 
-These are documented so future changes can target them deliberately:
+## Каркас геймплея
 
-- **State registry uses strings** (`"freeFall"`, `"moving"`...) which is fragile.
-- **States are new’ed manually** in `DictionaryCharacterStates` (limited DI for state dependencies).
-- **Installer mixes composition + runtime wiring** (e.g., subscribing UI to health change).
+Своя FSM, не Animator Controller как источник логики.
 
-For improvement ideas, see `docs/Contributing.md` (Architecture checklists) and add decisions to `docs/ADR/`.
+- `Patterns/StateMachine/State<T>` — Enter / HandleInput / LogicUpdate (`bool`: переход уже случился) / FixedUpdate / LateUpdate / Exit.
+- `StateMachine<T>` — current/previous, `ChangeState`.
+- `StateMachineEvents<T>` — `WhenAttemptingChangeState` (можно отменить вход) и `OnChangeState`.
+
+Герой крутит FSM из `Character`. Старт — `freeFall`. Патрульный держит свою `StateMachine<Patroller>` внутри `Patroller`.
+
+## Модули
+
+| Модуль | Где | Заметка |
+|--------|-----|---------|
+| Герой | `Hero/` | `Character` + `DictionaryCharacterStates` |
+| Ввод | `InputService/` | Generated Input System, карта `GamePlay` |
+| Урон | `DamageSystem/` | `IHealth` / `IDamaging` / `IHealthEffect` |
+| Оружие | `Weapon/` | Контракт `DealingDamage()` |
+| Враги | `NPC/` | Patroller, Cannon |
+| Диалоги | `DialogueSystem/` + `CustomDialogSystem/` | Редактор + UI |
+| Интерактивы | `Interactives/` | F в зоне `LayerCheck` |
+| Check | `Check/` | `LayerCheck`, `ComponentCheck<T>` |
+| Инвентарь | `InventorySystem/` | Сетка 4×4, тестовый `EntryPoint` |
+| View | `Views/` | HP-бар, поворот, таблички |
+| Паттерны | `Patterns/` | FSM, Pool, Factory |
+
+## Ввод
+
+Карта `GamePlay` (`InputService.inputactions`): Move (WASD), Jump (Space), Dash (Left Shift), Interactive (F), Attack (ЛКМ). Схема Keyboard+Mouse. Asset включается/выключается с `Character.OnEnable/OnDisable`.
+
+## Физика и взгляд
+
+Герой — `Rigidbody2D`. Горизонталь: impulse + торможение. Поворот — `RotateView` по оси X (знак `localScale.x`).
+
+Камера: `Hero/Follow.cs` (Lerp в LateUpdate). Пакет Cinemachine в проекте есть, игровой follow на нём не сидит.
+
+## Префабы
+
+- `Prefabs/Hero.prefab`
+- `Prefabs/Weapon/` — Sword, MagicStaff, MagicBall
+- `Prefabs/NPC/Cannon/`
+- `Prefabs/UI/ButtonChoices.prefab`
+
+На герое в Play — IMGUI: имя состояния, velocity, ось Move.X.

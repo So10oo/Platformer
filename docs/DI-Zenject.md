@@ -1,40 +1,36 @@
 # DI / Zenject
 
-## Goals
+Сцена собирается через Extenject. Зависимости в компоненты приходят `[Inject] void Construct(...)`.
 
-- Keep Unity scene/prefab wiring minimal and explicit
-- Centralize runtime object graph creation in installers
-- Make “who creates what” easy to find
+## Composition root
 
-## Current composition root(s)
+| Инсталлер | Роль |
+|-----------|------|
+| `MonoInstallers/Installer.cs` | Сцена `Game`: спавн героя, сервисы, UI |
+| `MonoInstallers/PlayerInstaller.cs` | Альтернатива: биндит уже лежащий на сцене `Character`. Пересекается с `Installer` |
 
-Scripts:
+На основной сцене нужен один из них. Сейчас канон — `Installer`.
 
-- `Platformer/Assets/Scripts/MonoInstallers/Installer.cs`
-- `Platformer/Assets/Scripts/MonoInstallers/PlayerInstaller.cs` (overlaps with `Installer.cs`)
+## Что биндит `Installer`
 
-### Installer responsibilities (today)
+1. `InputService` — `new InputService()`, `AsSingle()`.
+2. `StateMachineEvents<Character>` — общая FSM героя, `AsSingle()`.
+3. Префаб героя инстанцируется в `StartPoint`, биндится `Character`.
+4. `HealthPoint` героя подписывается на `HealthPointView.ViewData(next / MaxValue)`.
+5. `DialogPanel` со сцены — `AsSingle()`.
+6. `FactoryWithDiContainer` как `IFactory` (маркер Zenject, не проектный `IFactory<T>`).
 
-`Installer.cs` currently:
+`FactoryWithDiContainer.Create<T>` — обёртка над `DiContainer.InstantiatePrefabForComponent`.
 
-- binds `InputService` as a singleton instance
-- binds `StateMachineEvents<Character>` as a singleton instance
-- instantiates `HeroPrefab` at `StartPoint`
-- binds the created `Character` instance
-- binds UI view instances (e.g. `HealthPointView`, `DialogPanel`)
-- does a piece of runtime wiring (UI subscribing to `HealthPoint` change)
+## Кто ещё инжектится
 
-## Guidelines (to keep DI maintainable)
+| Потребитель | Что просит |
+|-------------|------------|
+| `Character` | `InputService`, `StateMachineEvents<Character>` |
+| `DialogPanel` | `Character`, `StateMachineEvents<Character>` |
+| `Conversation` | `DialogPanel` (+ из `Construct` Interactive — `Character`) |
+| `AltarDash` / `AltarWings` | `InputService`, `StateMachineEvents<Character>` |
+| `EnemyEyes`, `Cannon`, `Follow` | `Character` (цель / follow) |
+| `Interactive` | `Character` |
 
-- Prefer **one** scene installer per scene (avoid overlapping installers with similar bindings).
-- Bind “pure services” as interfaces (`IInputService`, `IFactory`, etc.) to reduce coupling.
-- Avoid putting gameplay logic into installers (installers should wire dependencies, not implement mechanics).
-- If an object implements `IDisposable`, decide explicitly who disposes it and when.
-
-## When adding a new system
-
-Add/extend docs in the same PR:
-
-- Update `docs/Architecture.md` module list
-- Add a short section to `docs/DI-Zenject.md` describing bindings and lifecycle
-- If you made a structural decision, add an ADR entry in `docs/ADR/`
+Инсталлер не должен содержать игровую логику. Сейчас исключение — подписка HP → UI прямо в `InstallerHero()`.

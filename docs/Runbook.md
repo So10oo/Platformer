@@ -1,46 +1,30 @@
-# Runbook (run / build / troubleshoot)
+# Запуск и сборка
 
-## Requirements
+## Требования
 
 - Unity Hub
-- Unity Editor: **2022.3.62f1**
+- Unity Editor **2022.3.62f1** (как в `ProjectSettings/ProjectVersion.txt`)
 
-## Open and run (Editor)
+## Play
 
-- Open project folder: `E:/GitHub/Platformer/Platformer`
-- Open scene: `Assets/Scenes/Game.unity`
-- Press **Play**
+1. Открыть папку `Platformer/` (не корень git, если открываешь именно Unity-проект).
+2. Сцена `Assets/Scenes/Game.unity`.
+3. На сцене должен быть Zenject `SceneContext` + `Installer` с заполненными ссылками: StartPoint, HeroPrefab, HealthPointView, DialogPanel.
 
-## Build
+## Сборка
 
-- Unity: **File → Build Settings**
-- Ensure scene list contains `Assets/Scenes/Game.unity`
-- Choose platform → **Build**
+File → Build Settings: в списке сцен есть `Game.unity` → платформа → Build.
 
-## Common issues
+## Типичные поломки
 
-### Wrong Unity version
+**Не та версия Unity.** Ставь ту, что в `ProjectVersion.txt`.
 
-Symptoms: import errors, broken packages, unexpected compilation issues.
+**Сломался ввод.** `InputService.cs` генерируется из `InputService.inputactions`. Не править `.cs` руками: reimport ассета или regenerate в окне Input System.
 
-Fix: install the version from `Platformer/ProjectSettings/ProjectVersion.txt` and reopen the project.
+**Сцена не стартует.** Нет инсталлера, пустые ссылки, или на сцене одновременно `Installer` и `PlayerInstaller` с одними и теми же биндингами.
 
-### Input actions broken
+**Диалог не открывается.** На NPC нужен `DSInspectorInitialDialogue` с выбранным `FirstDialogue` и `Conversation`. `DialogPanel` должен быть забинжен в инсталлере.
 
-`InputService/InputService.cs` is auto-generated from `Assets/Scripts/InputService/InputService.inputactions`.
+**Dash не работает.** Способность появляется только после `AltarDash`. Пока `character["dash"] == null`, Shift игнорируется.
 
-Fix:
-- Reimport the `.inputactions` asset
-- Or regenerate via Input System editor UI
-- Avoid manual edits in the generated `.cs` file (they will be overwritten)
-
-### Scene does not start correctly
-
-Verify:
-- Scene is `Assets/Scenes/Game.unity`
-- A Zenject installer exists in the scene and has references assigned (hero prefab, start point, UI views)
-
-## Debug builds
-
-If the project has runtime debug UI (e.g., `OnGUI` state display), prefer enabling it only in:
-- `UNITY_EDITOR` or `DEVELOPMENT_BUILD`
+IMGUI состояния героя рисуется всегда в Play. Для билдов имеет смысл обернуть в `UNITY_EDITOR` / `DEVELOPMENT_BUILD`.
